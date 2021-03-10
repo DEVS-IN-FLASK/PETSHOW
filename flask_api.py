@@ -1,11 +1,7 @@
 # pip freeze > requeriments.txt
 import os
-from flask import Flask
-
-
 from flask import Flask, request, jsonify, session, g, redirect, url_for, \
      abort, render_template, flash
-
 from flask_restful import Resource, Api
 from sqlalchemy import create_engine
 from json import dumps
@@ -27,13 +23,19 @@ app.config.from_object(__name__)
 
 @app.route('/')
 def index():
-    msg = 'Tela principal'
+    msg = 'Bem vindo(a) ao PETSHOW!'
     return render_template('index.html', msg=msg)
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
+    error = None
+    if request.method == 'POST':
+        if request.form['usuario'] != 'admin' or request.form['senha'] != 'admin':
+            error = 'Credenciais inválidas. Por favor, digite novamente seu usuário e senha e tente mais uma vez.'
+        else:
+            return redirect(url_for('index'))
     msg = "Faça seu login aqui"
-    return render_template('login.html', msg=msg)
+    return render_template('clientes.html', error=error)
 
 @app.route('/clientes')
 def cliente():
