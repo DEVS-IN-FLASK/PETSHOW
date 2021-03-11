@@ -35,16 +35,15 @@ def login():
         else:
             return redirect(url_for('index'))
     msg = "Faça seu login aqui"
-    return render_template('clientes.html', error=error)
+    return render_template('clientes.html', error=error, msg=msg)
+
+@app.route('/cadastro')
+def teste():
+    return render_template('cadastro_cliente_pet.html')
 
 @app.route('/clientes')
 def cliente():
     msg = "Tela dos dados Cliente"
-    return render_template('clientes.html', msg=msg)
-
-@app.route('/pets')
-def pet():
-    msg = "Tela dos dados pets"
     return render_template('clientes.html', msg=msg)
 
 @app.route('/produtos')
@@ -60,4 +59,4 @@ def usuários():
 if __name__ == '__main__':
     # port = int(os.environ.get("PORT", 5000))
     # app.run(host='0.0.0.0', port=port)
-    app.run(host='localhost', port=5000)
+    app.run(host='localhost', port=5000, debug=True)
