@@ -1,10 +1,17 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    {{ super() }} - Produto
+    {{ super() }} - Produtos
 {% endblock title %}
 
 
 {% block main %}
     <h2>{{msg}}</h2>
+    <form action="/produtos" method="POST">
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <a href="/produtos/delete/<id>"><i class="fas fa-trash"></i></a>
+
+    <a href="/produtos/buscar/<id>"><i class="fas fa-pencil-alt"></i></a>
 {% endblock main %}
