@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel='stylesheet' type='text/css' href='../static/css/styleCustomerRegistration.css' media="">
+    <title>Cadastre-se</title>
+</head>
+<body>
+
+
+    <div class='header'>
+
+        <div class='logo'>  <img style="width: 5%;" src="/static/images/logo.PNG"> </div>
+        <div class='menu'>
+            Sobre a loja | Produtos | Contato
+        </div>
+
+    </div>
+    
+    <div class="topo">
+        <h1 id='titulo' >Cadastro do Cliente e Pet</h1>
+        <p id='subtitulo' >Insira as informações do cliente</p>
+        <br>
+    </div>
+    <form class="formulario" action="/cadastro-cliente-pet" method="POST">
+        <fieldset class='grupo1'>
+            <p><strong>Dados do cliente</strong></p>
+            <BR>
+            <div class='campo'>
+                <label for='nome'><strong>Nome Completo</strong></label>              
+                <input type='text' name='nome' id='nome' required>
+            </div>
+
+            <div class='campo'>
+                <label for='email'><strong>E-mail</strong></label>
+                <input type='email' name='email' id='email' required>
+            </div>
+
+            <div class='campo'>
+                <label for='cpf'><strong>CPF</strong></label>
+                <input type='text' name='cpf' id='cpf' required>
+            </div>
+
+            <div class='campo'>
+                <label for='rg'><strong>RG</strong></label>
+                <input type='text' name='rg' id='rg'>
+            </div>
+
+            <div class='campo'>
+                <label for='phone'><strong>Telefone</strong></label>
+                <input type='text' name='phone' id='phone' required>
+            </div>
+
+        </fieldset>
+
+        <fieldset class='grupo2'>
+            <p><strong>Endereço</strong></p>
+            <br>
+            <div class='campo'>
+                <label for='cep'><strong>CEP</strong></label>
+                <input type='text' name='cep' id='cep' required>
+            </div>
+
+            <div class='campo'>
+                <label for='rua'><strong>Rua</strong></label>
+                <input type='text' name='rua' id='rua' required>
+            </div>
+
+            <div class='campo'>
+                <label for='numero'><strong>Número</strong></label>
+                <input type='number' name='numero' id='numero' required>
+            </div>
+
+            <div class='campo'>
+                <label for='complemento'><strong>Complemento</strong></label>
+                <input type='text' name='complemento' id='complemento'>
+            </div>
+
+            <div class='campo'>
+                <label for='cidade'><strong>Cidade</strong></label>
+                <input type='text' name='cidade' id='cidade' required>
+            </div>
+
+            <div class='campo'>
+                <label for='UF'><strong>UF</strong></label>
+                <select id="UF" required>
+                    <option selected disabled value="">Selecione</option>
+                    <option>AC</option>
+                    <option>AL</option>
+                    <option>AP</option>
+                    <option>AM</option>
+                    <option>BA</option>
+                    <option>CE</option>
+                    <option>DF</option>
+                    <option>ES</option>
+                    <option>GO</option>
+                    <option>MA</option>
+                    <option>MT</option>
+                    <option>MS</option>
+                    <option>MG</option>
+                    <option>PA</option>
+                    <option>PB</option>
+                    <option>PR</option>
+                    <option>PE</option>
+                    <option>PI</option>
+                    <option>RJ</option>
+                    <option>RN</option>
+                    <option>RS</option>
+                    <option>RO</option>
+                    <option>RR</option>
+                    <option>SC</option>
+                    <option>SP</option>
+                    <option>SE</option>
+                    <option>TO</option>
+                </select>
+            </div>
+
+            <div class='campo'>
+                <label for='referencia'><strong>Ponto de Referência</strong></label>
+                <input type='text' name='referencia' id='referencia'>
+            </div>
+
+        </fieldset>
+
+        <fieldset class='grupo3'>
+            <p><strong>Dados do PET</strong></p>
+            <br>
+            <div class='campo'>
+                <label for='nome'><strong>Nome</strong></label>
+                <input type='text' name='nome' id='nome' required>
+            </div>
+
+            <div class='campo'>
+                <label><strong>Espécie</strong></label>
+                <label for='dog'>
+                    <input type='radio' name='especie' id='dog' >Cachorro
+                </label>
+                <label for='cat'>
+                    <input type='radio' name='especie' id='cat'>Gato
+                </label>                
+            </div>
+
+            <div class='campo'>
+                <label><strong>Porte</strong></label>
+                <label for='mini'>
+                    <input type='radio' name='porte' id='mini'>Miniatura
+                </label>
+                <label for='small'>
+                    <input type='radio' name='porte' id='small'>Pequeno
+                </label>
+                <label for='medium'>
+                    <input type='radio' name='porte' id='medium'>Médio
+                </label> 
+                <label for='large'>
+                    <input type='radio' name='porte' id='large'>Grande
+                </label>
+                <label for='huge'>
+                    <input type='radio' name='porte' id='huge'>Muito Grande
+                </label>  
+            </div>
+
+            <div class='campo'>
+                <label for='raça'><strong>Raça</strong></label>
+                <input type='text' name='raça' id='raça'>
+            </div>
+
+            <div class='campo'>
+                <label><strong>Gênero</strong></label>
+                <label for='female'>
+                    <input type='radio' name='genero' id='female'>Fêmea
+                </label>
+                <label for='male'>
+                    <input type='radio' name='genero' id='male'>Macho
+                </label>  
+            </div>
+
+        </fieldset>
+        <button class='button' type='submit'><strong>Salvar</strong></button>
+    </form>
+</body>
+</html>
