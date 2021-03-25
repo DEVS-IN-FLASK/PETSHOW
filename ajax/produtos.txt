@@ -1,0 +1,33 @@
+{
+  "data": [
+  
+      [
+        4568, 
+        "Fanatasia Pirata", 
+        85.00, 
+        45, 
+        125.25, 
+        10, 
+        "987658882", 
+        "<a href='../img/fantasiaPirata.jpeg' data-lightbox='image-1' data-title='My caption'>Ver Imagem</a>",
+        "Verão",
+        "P",
+        "Gato",
+        "Fanci Pet"
+      ], 
+      [
+        654, 
+        "Blusa Brasil", 
+        28.00, 
+        50, 
+        42.00, 
+        15, 
+        "987652683", 
+        "<a href='../img/blusaBrasil.jpg' data-lightbox='image-1' data-title='My caption'>Ver Imagem</a>",
+        "Verão",
+        "P",
+        "Cachorro",
+        "Torcida Animal"
+      ]
+  ]
+}
