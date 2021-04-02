@@ -7,37 +7,89 @@
 
 {% block main %}
     <form action="/produtos" method="POST">
+        <label for="nome">Nome </label>
+        <input type="text" name="nome" id="nome">
+        <br>
+        <label for="foto">Foto </label>
+        <input type="text" name="foto" id="foto">
+        <br>
+        <label for="nome">Descrição </label>
+        <input type="text" name="descricao" id="descricao">
+        <br>
+        <label for="preco_custo">Preço custo </label>
+        <input type="number" name="preco_custo" id="preco_custo">
+        <br>
+        <label for="preco_venda">Preço venda </label>
+        <input type="number" name="preco_venda" id="preco_venda">
+        <br>
+        <label for="modelo">Modelo </label>
+        <input type="text" name="modelo" id="modelo">
+        <br>
+        <label for="cod_barras">Cód. de barras </label>
+        <input type="number" name="cod_barras" id="cod_barras">
+        <br>
+        <label for="porcentagem">Porcentagem</label>
+        <input type="number" name="porcentagem" id="porcentagem">
+        <br>
+        <label for="quantidade">Quantidade</label>
+        <input type="number" name="quantidade" id="quantidade">
+        <br>
+        <label for="tamanho_id">Tamanho:</label>
+        <select name="tamanho_id" id="tamanho_id">
+          {% for tamanho in tamanhos %}
+            <option value="{{tamanho.id}}">{{tamanho.tamanho}}</option>
+          {% endfor %}
+        </select>
+        <br>
+        <label for="marca_id">Marca:</label>
+        <select name="marca_id" id="marca_id">
+          {% for marca in marcas %}
+            <option value="{{marca.id}}">{{marca.marca}}</option>
+          {% endfor %}
+        </select>
+        <br>
+        <label for="animal_id">Animal:</label>
+        <select name="animal_id" id="animal_id">
+          {% for animal in animais %}
+            <option value="{{animal.id}}">{{animal.animal}}</option>
+          {% endfor %}
+        </select>
+        <!--Colocar o id do usuário que está logado-->
+        <input type="hidden" value="3" name="usuario_id" id="usuario_id">
+        <br>
         <button type="submit">Cadastrar</button>
     </form>
 
     <h2>Produtos</h2>
 
-    <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Descrição</th>
-            <th scope="col">Modelo</th>
-            <th scope="col">Nome</th>
-            <th scope="col">Preço custo</th>
-            <th scope="col">Preço venda</th>
-            <th scope="col">Quantidade</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for produto in produtos %}
-          <tr>
-            <th>{{produto.descricao}}</th>
-            <td>{{produto.modelo}}</td>
-            <td>{{produto.nome}}</td>
-            <td>{{produto.preco_custo}}</td>
-            <td>{{produto.preco_venda}}</td>
-            <td>{{produto.quantidade}}</td>
-          </tr>
-        </tbody>
-        {% endfor %}
-    </table>
-
-    <a href="/produtos/delete/<id>"><i class="fas fa-trash"></i></a>
-
-    <a href="/produtos/buscar/<id>"><i class="fas fa-pencil-alt"></i></a>
+    <div class="container">
+      <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Imagem</th>
+              <th scope="col">Descrição</th>
+              <th scope="col">Modelo</th>
+              <th scope="col">Nome</th>
+              <th scope="col">Preço custo</th>
+              <th scope="col">Preço venda</th>
+              <th scope="col">Quantidade</th>
+              <th scope="col"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for produto in produtos %}
+            <tr>
+              <td><img src="{{produto.foto}}" style="width: 50px; height: 50px"></td>
+              <td>{{produto.descricao}}</td>
+              <td>{{produto.modelo}}</td>
+              <td>{{produto.nome}}</td>
+              <td>{{produto.preco_custo}}</td>
+              <td>{{produto.preco_venda}}</td>
+              <td>{{produto.quantidade}}</td>
+              <td><a href="/produtos/delete/{{produto.id}}"><i class="fas fa-trash" style="color: red"></i></a> <a href="/produtos/buscar/{{produto.id}}"><i class="fas fa-pencil-alt"></i></a></td>
+            </tr>
+          </tbody>
+          {% endfor %}
+      </table>
+    </div>
 {% endblock main %}

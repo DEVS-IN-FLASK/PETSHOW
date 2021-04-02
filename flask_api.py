@@ -21,6 +21,7 @@ PASSWORD = 'default'
 # criar nossa pequena aplicação :)
 app = Flask(__name__)
 app.config.from_object(__name__)
+urlApi = "http://petshow-api.herokuapp.com"
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -44,18 +45,38 @@ def login():
 @app.route('/produtos/delete/<id>', methods=["GET"])
 def produtos(id = None):
     if(id == None and request.method == "POST"):
-        produtos = "Cadastrar um produto"
-        return render_template('produtos.html', produtos=produtos)
+        body = {
+            "nome": request.form["nome"],
+            "descricao": request.form["descricao"],
+            "foto": request.form["foto"],
+            "preco_custo": float(request.form["preco_custo"]),
+            "preco_venda": float(request.form["preco_venda"]),
+            "modelo": request.form["modelo"],
+            "cod_barras": int(request.form["cod_barras"]),
+            "porcentagem": float(request.form["porcentagem"]),
+            "quantidade": int(request.form["quantidade"]),
+            "tamanho_id": int(request.form["tamanho_id"]),
+            "marca_id": int(request.form["marca_id"]),
+            "animal_id": int(request.form["animal_id"] )
+        }
+
+        notificacao = cadastrar(urlApi + "/produtos/", body)
+
+        print(notificacao)
+
+        return redirect(url_for("produtos"))
     elif(id != None and request.method == "GET"):
-        produtos = "Deletar um produto"
-        # @redirect("/produtos")
-        return render_template('produtos.html', produtos=produtos)
+        notificacao = deletar(urlApi + "/produtos/" + id + "/remover/")
+        return redirect(url_for("produtos"))
     elif(id != None):
         produtos = "Editar um produto"
         # @redirect("/produtos")
         return render_template('produtos.html', produtos=produtos)
     else:
-        return render_template('produtos.html', produtos=listar("http://petshow-api.herokuapp.com/produtos/"))
+        tamanhos = listar(urlApi + "/produtos/tamanhos/")
+        marcas = listar(urlApi + "/produtos/marcas/")
+        animais = listar(urlApi + "/produtos/animais/")
+        return render_template('produtos.html', produtos=listar(urlApi + "/produtos/"), tamanhos=tamanhos, marcas=marcas, animais=animais)
 
 
 # Recebe o id, busca no banco, renderiza na página em questão. No HTML, fazemos a lógica para mostrar no formulário.
@@ -142,10 +163,14 @@ def clientes(id = None):
         msg = "Clientes"
         return render_template('cadastro_cliente_pet.html', msg=msg)
 
-
 def listar(url):
     return requests.get(url).json()
 
+def deletar(url):
+    return requests.delete(url).json()
+
+def cadastrar(url, body):
+    return requests.post(url, data = dumps(body), headers={'content-type': 'application/json'}).json()
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
