@@ -5,6 +5,7 @@ from flask import Flask, request, jsonify, session, g, redirect, url_for, \
 from flask_restful import Resource, Api
 from sqlalchemy import create_engine
 from json import dumps
+import requests
 
 
 # configuração
@@ -36,16 +37,6 @@ def login():
     return render_template('login.html', error=error, msg1=msg1, msg2=msg2)
 
 
-@app.route('/estoque', methods=['GET'])
-@app.route('/estoque/<nome>', methods=['GET'])
-def estoque(nome = None):
-    if(nome != None):
-        msg = nome
-        return render_template('estoque.html', msg=msg)
-    msg = "Estoque"
-    return render_template('estoque.html', msg=msg)
-
-
 # Se entrar nessa rota, sem ID, por formulário, ele irá cadastrar
 @app.route('/produtos', methods=["GET", 'POST'])
 # Ao enviar um ID, pelo formulário, existente, fazemos o editar. Buscamos e editamos.
@@ -53,19 +44,18 @@ def estoque(nome = None):
 @app.route('/produtos/delete/<id>', methods=["GET"])
 def produtos(id = None):
     if(id == None and request.method == "POST"):
-        msg = "Cadastrar um produto"
-        return render_template('produtos.html', msg=msg)
+        produtos = "Cadastrar um produto"
+        return render_template('produtos.html', produtos=produtos)
     elif(id != None and request.method == "GET"):
-        msg = "Deletar um produto"
+        produtos = "Deletar um produto"
         # @redirect("/produtos")
-        return render_template('produtos.html', msg=msg)
+        return render_template('produtos.html', produtos=produtos)
     elif(id != None):
-        msg = "Editar um produto"
+        produtos = "Editar um produto"
         # @redirect("/produtos")
-        return render_template('produtos.html', msg=msg)
+        return render_template('produtos.html', produtos=produtos)
     else:
-        msg = "Produtos"
-        return render_template('produtos.html', msg=msg)
+        return render_template('produtos.html', produtos=listar("http://petshow-api.herokuapp.com/produtos/"))
 
 
 # Recebe o id, busca no banco, renderiza na página em questão. No HTML, fazemos a lógica para mostrar no formulário.
@@ -153,7 +143,11 @@ def clientes(id = None):
         return render_template('cadastro_cliente_pet.html', msg=msg)
 
 
+def listar(url):
+    return requests.get(url).json()
+
+
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=port, debug=True)
     # app.run(host='localhost', port=5000, debug=True)

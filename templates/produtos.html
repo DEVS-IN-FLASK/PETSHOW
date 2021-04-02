@@ -6,10 +6,36 @@
 
 
 {% block main %}
-    <h2>{{msg}}</h2>
     <form action="/produtos" method="POST">
         <button type="submit">Cadastrar</button>
     </form>
+
+    <h2>Produtos</h2>
+
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Descrição</th>
+            <th scope="col">Modelo</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Preço custo</th>
+            <th scope="col">Preço venda</th>
+            <th scope="col">Quantidade</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for produto in produtos %}
+          <tr>
+            <th>{{produto.descricao}}</th>
+            <td>{{produto.modelo}}</td>
+            <td>{{produto.nome}}</td>
+            <td>{{produto.preco_custo}}</td>
+            <td>{{produto.preco_venda}}</td>
+            <td>{{produto.quantidade}}</td>
+          </tr>
+        </tbody>
+        {% endfor %}
+    </table>
 
     <a href="/produtos/delete/<id>"><i class="fas fa-trash"></i></a>
 
