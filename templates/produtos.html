@@ -6,56 +6,70 @@
 
 
 {% block main %}
-    <form action="/produtos" method="POST">
+    <form {% if not produto.id %} action="/produtos" {% elif produto.id != None %} action="/produtos/edit/{{produto.id}}" {% endif %} method="POST">
+        <input type="hidden" value="{{produto.id}}">
         <label for="nome">Nome </label>
-        <input type="text" name="nome" id="nome">
-        <br>
-        <label for="foto">Foto </label>
-        <input type="text" name="foto" id="foto">
+        <input type="text" name="nome" id="nome" value="{{produto.nome}}">
         <br>
         <label for="nome">Descrição </label>
-        <input type="text" name="descricao" id="descricao">
-        <br>
-        <label for="preco_custo">Preço custo </label>
-        <input type="number" name="preco_custo" id="preco_custo">
-        <br>
-        <label for="preco_venda">Preço venda </label>
-        <input type="number" name="preco_venda" id="preco_venda">
+        <input type="text" name="descricao" id="descricao" value="{{produto.descricao}}">
         <br>
         <label for="modelo">Modelo </label>
-        <input type="text" name="modelo" id="modelo">
+        <input type="text" name="modelo" id="modelo" value="{{produto.modelo}}">
         <br>
         <label for="cod_barras">Cód. de barras </label>
-        <input type="number" name="cod_barras" id="cod_barras">
+        <input type="number" name="cod_barras" id="cod_barras" value="{{produto.cod_barras}}">
         <br>
         <label for="porcentagem">Porcentagem</label>
-        <input type="number" name="porcentagem" id="porcentagem">
+        <input type="number" name="porcentagem" id="porcentagem" value="{{produto.porcentagem}}">
+        <br>
+        <label for="preco_custo">Preço custo </label>
+        <input type="number" name="preco_custo" id="preco_custo" value="{{produto.preco_custo}}">
+        <br>
+        <label for="preco_venda">Preço venda </label>
+        <input type="number" name="preco_venda" id="preco_venda" value="{{produto.preco_venda}}">
         <br>
         <label for="quantidade">Quantidade</label>
-        <input type="number" name="quantidade" id="quantidade">
+        <input type="number" name="quantidade" id="quantidade" value="{{produto.quantidade}}">
         <br>
-        <label for="tamanho_id">Tamanho:</label>
-        <select name="tamanho_id" id="tamanho_id">
-          {% for tamanho in tamanhos %}
-            <option value="{{tamanho.id}}">{{tamanho.tamanho}}</option>
-          {% endfor %}
-        </select>
+        <label for="foto">Foto </label>
+        <input type="text" name="foto" id="foto" value="{{produto.foto}}">
         <br>
         <label for="marca_id">Marca:</label>
         <select name="marca_id" id="marca_id">
           {% for marca in marcas %}
-            <option value="{{marca.id}}">{{marca.marca}}</option>
+            {% if marca.id == produto.marca_id %}
+              <option value="{{marca.id}}" selected>{{marca.marca}}</option>
+            {% endif %}
+            {% if marca.id != produto.marca_id %}
+              <option value="{{marca.id}}">{{marca.marca}}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+        <br>
+        <label for="tamanho_id">Tamanho:</label>
+        <select name="tamanho_id" id="tamanho_id" >
+          {% for tamanho in tamanhos %}
+            {% if tamanho.id == produto.tamanho_id %}
+              <option value="{{tamanho.id}}" selected>{{tamanho.tamanho}}</option>
+            {% endif %}
+            {% if tamanho.id != produto.tamanho_id %}
+              <option value="{{tamanho.id}}">{{tamanho.tamanho}}</option>
+            {% endif %}
           {% endfor %}
         </select>
         <br>
         <label for="animal_id">Animal:</label>
         <select name="animal_id" id="animal_id">
           {% for animal in animais %}
-            <option value="{{animal.id}}">{{animal.animal}}</option>
+            {% if animal.id == produto.animal_id %}
+              <option value="{{animal.id}}" selected>{{animal.animal}}</option>
+            {% endif %}
+            {% if animal.id != produto.animal_id %}
+              <option value="{{animal.id}}">{{animal.animal}}</option>
+            {% endif %}
           {% endfor %}
         </select>
-        <!--Colocar o id do usuário que está logado-->
-        <input type="hidden" value="3" name="usuario_id" id="usuario_id">
         <br>
         <button type="submit">Cadastrar</button>
     </form>

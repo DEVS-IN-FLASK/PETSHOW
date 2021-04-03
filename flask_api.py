@@ -1,14 +1,11 @@
-# pip freeze > requeriments.txt
 import os
+import requests
 from flask import Flask, request, jsonify, session, g, redirect, url_for, \
      abort, render_template, flash
 from flask_restful import Resource, Api
 from sqlalchemy import create_engine
 from json import dumps
-import requests
 
-
-# configuração
 
 '''
 DATABASE = './tmp/flaskr.db'
@@ -18,7 +15,7 @@ USERNAME = 'admin'
 PASSWORD = 'default'
 '''
 
-# criar nossa pequena aplicação :)
+
 app = Flask(__name__)
 app.config.from_object(__name__)
 urlApi = "http://petshow-api.herokuapp.com"
@@ -32,15 +29,12 @@ def login():
         if request.form['usuario'] != 'admin' or request.form['senha'] != 'admin':
             error = 'Credenciais inválidas. Por favor, digite novamente seu usuário e senha e tente mais uma vez.'
         else:
-            return redirect(url_for('estoque'))
-    msg1 = 'Bem vindo(a) ao PETSHOW!'
-    msg2 = "Faça seu login aqui"
+            return redirect(url_for('produtos'))
     return render_template('login.html', error=error, msg1=msg1, msg2=msg2)
 
 
-# Se entrar nessa rota, sem ID, por formulário, ele irá cadastrar
+#faltando mensagens
 @app.route('/produtos', methods=["GET", 'POST'])
-# Ao enviar um ID, pelo formulário, existente, fazemos o editar. Buscamos e editamos.
 @app.route('/produtos/edit/<id>', methods=["POST"])
 @app.route('/produtos/delete/<id>', methods=["GET"])
 def produtos(id = None):
@@ -48,42 +42,61 @@ def produtos(id = None):
         body = {
             "nome": request.form["nome"],
             "descricao": request.form["descricao"],
-            "foto": request.form["foto"],
-            "preco_custo": float(request.form["preco_custo"]),
-            "preco_venda": float(request.form["preco_venda"]),
             "modelo": request.form["modelo"],
             "cod_barras": int(request.form["cod_barras"]),
             "porcentagem": float(request.form["porcentagem"]),
+            "preco_custo": float(request.form["preco_custo"]),
+            "preco_venda": float(request.form["preco_venda"]),
             "quantidade": int(request.form["quantidade"]),
-            "tamanho_id": int(request.form["tamanho_id"]),
+            "foto": request.form["foto"],
             "marca_id": int(request.form["marca_id"]),
+            "tamanho_id": int(request.form["tamanho_id"]),
             "animal_id": int(request.form["animal_id"] )
         }
 
-        notificacao = cadastrar(urlApi + "/produtos/", body)
-
-        print(notificacao)
+        mensagem = cadastrar(urlApi + "/produtos/", body)
 
         return redirect(url_for("produtos"))
     elif(id != None and request.method == "GET"):
-        notificacao = deletar(urlApi + "/produtos/" + id + "/remover/")
+        mensagem = deletar(urlApi + "/produtos/" + id + "/remover/")
+
         return redirect(url_for("produtos"))
     elif(id != None):
-        produtos = "Editar um produto"
-        # @redirect("/produtos")
-        return render_template('produtos.html', produtos=produtos)
+        body = {
+            "nome": request.form["nome"],
+            "descricao": request.form["descricao"],
+            "modelo": request.form["modelo"],
+            "cod_barras": int(request.form["cod_barras"]),
+            "porcentagem": float(request.form["porcentagem"]),
+            "preco_custo": float(request.form["preco_custo"]),
+            "preco_venda": float(request.form["preco_venda"]),
+            "quantidade": int(request.form["quantidade"]),
+            "foto": request.form["foto"],
+            "marca_id": int(request.form["marca_id"]),
+            "tamanho_id": int(request.form["tamanho_id"]),
+            "animal_id": int(request.form["animal_id"] )
+        }
+
+        mensagem = editar(urlApi + "/produtos/" + id + "/alterar/", body)
+
+        return redirect(url_for("produtos"))
     else:
-        tamanhos = listar(urlApi + "/produtos/tamanhos/")
+        produtos = listar(urlApi + "/produtos/")
+
+        produto = None
+        if request.args.get("editar"):
+            produto = [p for p in produtos if int(p["id"]) == int(request.args.get("editar"))][0]
+
         marcas = listar(urlApi + "/produtos/marcas/")
+        tamanhos = listar(urlApi + "/produtos/tamanhos/")
         animais = listar(urlApi + "/produtos/animais/")
-        return render_template('produtos.html', produtos=listar(urlApi + "/produtos/"), tamanhos=tamanhos, marcas=marcas, animais=animais)
+
+        return render_template('produtos.html', produtos=produtos, tamanhos=tamanhos, marcas=marcas, animais=animais, produto=produto)
 
 
-# Recebe o id, busca no banco, renderiza na página em questão. No HTML, fazemos a lógica para mostrar no formulário.
 @app.route('/produtos/buscar/<id>')
 def buscar_produto(id):
-    msg = "Produto por id"
-    return render_template('produtos.html', msg=msg)
+    return redirect(url_for('produtos', editar=id))
 
 
 @app.route('/pedidos', methods=["GET", 'POST'])
@@ -171,6 +184,9 @@ def deletar(url):
 
 def cadastrar(url, body):
     return requests.post(url, data = dumps(body), headers={'content-type': 'application/json'}).json()
+
+def editar(url, body):
+    return requests.put(url, data = dumps(body), headers={'content-type': 'application/json'}).json()
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
