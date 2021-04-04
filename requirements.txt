@@ -8,3 +8,5 @@ Werkzeug==0.14.1
 sqlalchemy==1.3.23
 # setuptools==45
 requests==2.25.1
+flask_bootstrap
+Flask-WTF

@@ -6,7 +6,10 @@ from flask_restful import Resource, Api
 from sqlalchemy import create_engine
 from json import dumps
 import requests
-
+from flask_bootstrap import Bootstrap
+from flask_wtf import Form
+from wtforms import StringField, PasswordField, BooleanField
+from wtforms.validators import InputRequired, Email, Length
 
 # configuração
 
@@ -20,22 +23,25 @@ PASSWORD = 'default'
 
 # criar nossa pequena aplicação :)
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'default'
 app.config.from_object(__name__)
 urlApi = "http://petshow-api.herokuapp.com"
+Bootstrap(app)
+
+
+class LoginForm(Form):
+    username = StringField('Usuário', validators=[InputRequired(), Length(min=4, max=15)])
+    password = PasswordField('Senha', validators=[InputRequired(), Length(min=4, max=15)])
+    remember = BooleanField('Me mantenha conectado')
 
 
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    error = None
-    if request.method == 'POST':
-        if request.form['usuario'] != 'admin' or request.form['senha'] != 'admin':
-            error = 'Credenciais inválidas. Por favor, digite novamente seu usuário e senha e tente mais uma vez.'
-        else:
-            return redirect(url_for('estoque'))
-    msg1 = 'Bem vindo(a) ao PETSHOW!'
-    msg2 = "Faça seu login aqui"
-    return render_template('login.html', error=error, msg1=msg1, msg2=msg2)
+    form = LoginForm()
+    if form.validate_on_submit():
+        return '<h1>' + form.username.data + ' ' + form.password.data
+    return render_template('produtos.html', form=form)
 
 
 # Se entrar nessa rota, sem ID, por formulário, ele irá cadastrar
