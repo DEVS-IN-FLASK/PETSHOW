@@ -21,16 +21,23 @@ app.config.from_object(__name__)
 urlApi = "http://petshow-api.herokuapp.com"
 
 
+#faltando teste e mensagens
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    error = None
     if request.method == 'POST':
-        if request.form['usuario'] != 'admin' or request.form['senha'] != 'admin':
-            error = 'Credenciais inválidas. Por favor, digite novamente seu usuário e senha e tente mais uma vez.'
-        else:
-            return redirect(url_for('produtos'))
-    return render_template('login.html', error=error, msg1=msg1, msg2=msg2)
+        body = {
+            "login": request.form["login"],
+            "senha": request.form["senha"]
+        }
+        
+        mensagem = cadastrar(urlApi + "/usuarios/autenticar", body)
+
+        if mensagem.erro:
+            return render_template('login.html', mensagem=mensagem)
+        elif mensagem.sucesso:
+            return redirect(url_for("produtos"))
+    return render_template('login.html')
 
 
 #faltando mensagens
@@ -164,17 +171,36 @@ def usuarios(id = None):
 @app.route('/clientes-pet/delete/<id>', methods=["GET"])
 def clientes(id = None):
     if(id == None and request.method == "POST"):
-        msg = "Cadastrar um cliente"
-        return render_template('cadastro_cliente_pet.html', msg=msg)
+        body = {
+            "endereco": {
+                "rua": request.form["rua"],
+                "numero": request.form["numero"],
+                "bairro": request.form["bairro"],
+                "cep": request.form["cep"],
+                "cidade": request.form["cidade"],
+                "uf": request.form["uf"]
+            },
+            "nome": request.form["nome"],
+            "email": request.form["email"],
+            "cpf": request.form["cpf"],
+            "telefones": {
+                "telefone": request.form["telefone"]
+            }
+        }
+        
+        mensagem = cadastrar(urlApi + "/clientes", body)
+
+        print(mensagem)
+        print(body)
+
+        return render_template('cadastro_cliente_pet.html')
     elif(id != None and request.method == "GET"):
-        msg = "Deletar um cliente"
-        return render_template('cadastro_cliente_pet.html', msg=msg)
+        return render_template('cadastro_cliente_pet.html')
     elif(id != None):
-        msg = "Editar um cliente"
-        return render_template('cadastro_cliente_pet.html', msg=msg)
+        return render_template('cadastro_cliente_pet.html')
     else:
-        msg = "Clientes"
-        return render_template('cadastro_cliente_pet.html', msg=msg)
+        return render_template('cadastro_cliente_pet.html')
+
 
 def listar(url):
     return requests.get(url).json()
@@ -187,6 +213,7 @@ def cadastrar(url, body):
 
 def editar(url, body):
     return requests.put(url, data = dumps(body), headers={'content-type': 'application/json'}).json()
+
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
