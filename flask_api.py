@@ -30,7 +30,7 @@ def login():
             "login": request.form["login"],
             "senha": request.form["senha"]
         }
-        
+        # nao deu, pois nao esta post
         mensagem = cadastrar(urlApi + "/usuarios/autenticar", body)
 
         if mensagem.erro:
