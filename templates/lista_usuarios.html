@@ -1,0 +1,64 @@
+
+{% include 'partials/header.html' %}
+
+{% with tipo='Usuário' %}
+{% with rota='usuario' %}
+{% with user='User' %}
+{% include 'partials/sidebar.html'%}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+
+            <!-- Tela Listar Usuários começa aqui -->
+            <div class="container">
+                <!-- Table row -->
+                <div class="row">
+                    <div class="col-12 table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Login</th>
+                                    <th>Nome</th>
+                                    <th>Tipo</th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for usuario in usuarios %}
+                                <tr>
+                                    <td>{{ usuario.id }}</td>
+                                    <td>{{ usuario.login }}</td>
+                                    <td>{{ usuario.nome }}</td>
+                                    <td>{{ usuario.tipo }}</td>
+                                    <td>
+                                        <form method="POST" action="{{ url_for('remover_usuario', login=usuario.login) }}">
+                                            <button class="btn bg-danger">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </form>
+                                        
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-warning" href="{{ url_for('alterar_tipo', login=usuario.login) }}">
+                                            <i class="fa fa-compass"></i>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a class="btn btn-warning" href="{{ url_for('alterar_senha', login=usuario.login) }}">
+                                            <i class="fa fa-user-secret"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+
+            {% include 'partials/footer.html' %}

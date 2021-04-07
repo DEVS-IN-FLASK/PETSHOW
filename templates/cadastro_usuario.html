@@ -1,0 +1,58 @@
+
+{% include 'partials/header.html' %}
+
+{% with tipo='Usuário' %}
+{% with rota='usuario' %}
+{% with user='User' %}
+{% include 'partials/sidebar.html'%}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+
+            <!-- Tela Novo Usuário começa aqui -->
+            <div class="container">
+                <div class="col-md-6">
+                    {% if usuario %}
+                        {% if tipo %}
+                            {% if tipo == 'senha' %}
+                            <form method="POST" action="{{ url_for('alterar_senha', login=usuario.login) }}">
+                            {% elif tipo == 'tipo' %}
+                            <form method="POST" action="{{ url_for('alterar_tipo', login=usuario.login) }}">
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+                    <form method="POST" action="{{ url_for('usuarios') }}">
+                    {% endif %}
+                        <div class="mb-3">
+                            <label for="nome">Nome:</label>
+                            <input type="text" class="form-control" id="nome" {% if not usuario %}name="nome"{% endif %} placeholder="Digite o nome" value="{% if usuario %}{{ usuario.nome }}{% endif %}" {% if usuario %}{{'readonly'}}{% endif %}>
+                        </div>
+                        <div class="mb-3">
+                            <label for="login">Login:</label>
+                            <input type="text" class="form-control" name="login" id="login" placeholder="Digite o login" value="{% if usuario %}{{ usuario.login }}{% endif %}" {% if usuario %}{{'readonly'}}{% endif %}>
+                        </div>
+                        {% if tipo != 'tipo' %}
+                        <div class="mb-3">
+                            <label for="senha">Senha:</label>
+                            <input type="password" class="form-control" name="senha" id="senha" placeholder="Digite a senha" value="">
+                        </div>
+                        {% endif %}
+                        {% if tipo != 'senha' %}
+                        <div class="mb-3">
+                            <label for="tipo">Tipo:</labe11l>
+                            <select name="tipo" id="tipo" class="form-select">
+                                <option value="funcionario" {% if usuario %}{{'selected' if usuario.tipo == 'funcionario'}}{% endif %}>Funcionário</option>
+                                <option value="gerente" {% if usuario %}{{'selected' if usuario.tipo == 'gerente'}}{% endif %}>Gerente</option>
+                            </select>
+                        </div>
+                        {% endif %}
+                        {% if usuario %}
+                        <button type="submit" class="btn btn-primary">Alterar</button>
+                        {% else %}
+                        <button type="submit" class="btn btn-primary">Cadastrar</button>
+                        {% endif %}
+                    </form>
+                </div>
+            </div>
+        
+        {% include 'partials/footer.html' %}
