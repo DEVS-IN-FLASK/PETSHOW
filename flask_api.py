@@ -5,10 +5,7 @@ from flask import Flask, request, jsonify, session, g, redirect, url_for, \
 from flask_restful import Resource, Api
 from sqlalchemy import create_engine
 from json import dumps
-from flask_bootstrap import Bootstrap
-from flask_wtf import Form
-from wtforms import StringField, PasswordField, BooleanField
-from wtforms.validators import InputRequired, Email, Length
+
 
 
 '''
