@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Novo Produto</title>
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="../static/css/fontawesome_all.min.css">
+    <!-- IonIcons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="../static/css/adminlte.min.css">
+</head>
+
+<body>
+    <!-- Tela Novo Produto começa aqui -->
+    <div class="container">
+        <div class="card card-success ">
+            <div class="card-header">
+                <h3 class="card-title">Novo Produto</h3>
+            </div>
+            <form action="http://127.0.0.1:5000/produtos/" method="post">
+                <div class="card-body">
+                    <div class="row info-panel">
+                        <div class="col-2">
+                            <div class="col-12">
+                                <a href="" data-toggle="lightbox" data-title="sample 1 - white" data-gallery="gallery">
+                                    <img src="https://via.placeholder.com/300/FFFFFF?text=Foto" class="img-fluid mb-2 border rounded-circle" alt="white sample">
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-10">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label for="userId">Identificador</label>
+                                            <input id="userId" type="text" class="form-control" name="foto" placeholder="Id Produto">
+                                        </div>
+                                    </div>
+                                    <div class="col-9">
+                                        <div class="form-group">
+                                            <label for="description">Nome do Produto</label>
+                                            <input id="description" type="text" name="description" class="form-control" placeholder="Descrição">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-5">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="preco_custo" placeholder="Preço de Custo">
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="porcentagem" placeholder="%">
+                                        </div>
+                                    </div>
+                                    <div class="col-5">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="preco_venda" placeholder="Preço de Venda">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="quantidade" placeholder="Qtd">
+                                        </div>
+                                    </div>
+                                    <div class="col-9">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="cod_barras" placeholder="Cód Barras">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-8">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="modelo" placeholder="Modelo">
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="tamanho" placeholder="Tamanho">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="tipo" placeholder="Tipo">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <input type="text" class="form-control" name="marca" placeholder="Marca">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-danger float-left">Cancelar</button>
+                    <button type="submit" class="btn btn-success float-right">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+    <!-- /.card-body -->
+
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/js/adminlte.min.js"></script>
+</body></html>
