@@ -42,7 +42,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         return '<h1>' + form.username.data + ' ' + form.password.data
-    return render_template('    .html', form=form)
+    return render_template('produtos.html', form=form)
 
     if mensagem.erro:
             return render_template('login.html', mensagem=mensagem)
