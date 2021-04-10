@@ -24,6 +24,7 @@ PASSWORD = 'default'
 
 app = Flask(__name__)
 app.config.from_object(__name__)
+app.config['SECRET_KEY'] = 'default'
 urlApi = "http://petshow-api.herokuapp.com"
 Bootstrap(app)
 
