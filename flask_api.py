@@ -5,6 +5,10 @@ from flask import Flask, request, jsonify, session, g, redirect, url_for, \
 from flask_restful import Resource, Api
 from sqlalchemy import create_engine
 from json import dumps
+from flask_bootstrap import Bootstrap
+from flask_wtf import Form
+from wtforms import StringField, PasswordField, BooleanField
+from wtforms.validators import InputRequired, Email, Length
 
 
 '''
@@ -30,9 +34,9 @@ def login():
         return '<h1>' + form.username.data + ' ' + form.password.data
     return render_template('produtos.html', form=form)
 
-        if mensagem.erro:
+    if mensagem.erro:
             return render_template('login.html', mensagem=mensagem)
-        elif mensagem.sucesso:
+    elif mensagem.sucesso:
             return redirect(url_for("produtos"))
     return render_template('login.html')
 
@@ -214,5 +218,5 @@ def editar(url, body):
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
-    # app.run(host='localhost', port=5000, debug=True)
+    #app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(host='localhost', port=5000, debug=True)
