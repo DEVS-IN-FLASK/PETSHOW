@@ -36,4 +36,7 @@ WTForms==2.3.3
 =======
 flask_bootstrap
 Flask-WTF
+<<<<<<< HEAD
+>>>>>>> parent of befecd9 (rota usuarios, patch, put, partial, bibs no static)
+=======
 >>>>>>> parent of befecd9 (rota usuarios, patch, put, partial, bibs no static)
