@@ -1,109 +1,84 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
 
-{% block title %}
-    {{ super() }} - Produtos
-{% endblock title %}
+<html lang="pt-br">
 
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
+    <title>Novo Produto</title>
+</head>
 
-{% block main %}
-    <form {% if not produto.id %} action="/produtos" {% elif produto.id != None %} action="/produtos/edit/{{produto.id}}" {% endif %} method="POST">
-        <input type="hidden" value="{{produto.id}}">
-        <label for="nome">Nome </label>
-        <input type="text" name="nome" id="nome" value="{{produto.nome}}">
-        <br>
-        <label for="nome">Descrição </label>
-        <input type="text" name="descricao" id="descricao" value="{{produto.descricao}}">
-        <br>
-        <label for="modelo">Modelo </label>
-        <input type="text" name="modelo" id="modelo" value="{{produto.modelo}}">
-        <br>
-        <label for="cod_barras">Cód. de barras </label>
-        <input type="number" name="cod_barras" id="cod_barras" value="{{produto.cod_barras}}">
-        <br>
-        <label for="porcentagem">Porcentagem</label>
-        <input type="number" name="porcentagem" id="porcentagem" value="{{produto.porcentagem}}">
-        <br>
-        <label for="preco_custo">Preço custo </label>
-        <input type="number" name="preco_custo" id="preco_custo" value="{{produto.preco_custo}}">
-        <br>
-        <label for="preco_venda">Preço venda </label>
-        <input type="number" name="preco_venda" id="preco_venda" value="{{produto.preco_venda}}">
-        <br>
-        <label for="quantidade">Quantidade</label>
-        <input type="number" name="quantidade" id="quantidade" value="{{produto.quantidade}}">
-        <br>
-        <label for="foto">Foto </label>
-        <input type="text" name="foto" id="foto" value="{{produto.foto}}">
-        <br>
-        <label for="marca_id">Marca:</label>
-        <select name="marca_id" id="marca_id">
-          {% for marca in marcas %}
-            {% if marca.id == produto.marca_id %}
-              <option value="{{marca.id}}" selected>{{marca.marca}}</option>
-            {% endif %}
-            {% if marca.id != produto.marca_id %}
-              <option value="{{marca.id}}">{{marca.marca}}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-        <br>
-        <label for="tamanho_id">Tamanho:</label>
-        <select name="tamanho_id" id="tamanho_id" >
-          {% for tamanho in tamanhos %}
-            {% if tamanho.id == produto.tamanho_id %}
-              <option value="{{tamanho.id}}" selected>{{tamanho.tamanho}}</option>
-            {% endif %}
-            {% if tamanho.id != produto.tamanho_id %}
-              <option value="{{tamanho.id}}">{{tamanho.tamanho}}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-        <br>
-        <label for="animal_id">Animal:</label>
-        <select name="animal_id" id="animal_id">
-          {% for animal in animais %}
-            {% if animal.id == produto.animal_id %}
-              <option value="{{animal.id}}" selected>{{animal.animal}}</option>
-            {% endif %}
-            {% if animal.id != produto.animal_id %}
-              <option value="{{animal.id}}">{{animal.animal}}</option>
-            {% endif %}
-          {% endfor %}
-        </select>
-        <br>
-        <button type="submit">Cadastrar</button>
-    </form>
+<body>
+    <header class="cadastro-produtos">
+        <main></main>
+        <div class="header-1">
+        <div class="logo">
+            <img src=""/>
+        </div>
+        </div>
+    </header>
+    <main class="col-100 menu-urls">
+        <div class="header-2">
+            <div class="menu">
+                <ul>
+                    <li><a href="">Home</a></li>
+                    <li><a href="">Cadastro</a></li>
+                    <li><a href="">Estoque</a></li>
+                    <li><a href="">Blog</a></li>
+                    <li><a href="">Suporte</a></li>
+                </ul>
+            </div>
+            <div class="busca">
+                <input placeholder="pesquisar" type="text" />
+            </div>
+        </div>
+    </main>
+    <div id="main-container">
+        <h1>Novo Produto</h1> 
+        <form>
+            <input type="file" name="arquivos" multiple>
+        </form>
 
-    <h2>Produtos</h2>
-
-    <div class="container">
-      <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Imagem</th>
-              <th scope="col">Descrição</th>
-              <th scope="col">Modelo</th>
-              <th scope="col">Nome</th>
-              <th scope="col">Preço custo</th>
-              <th scope="col">Preço venda</th>
-              <th scope="col">Quantidade</th>
-              <th scope="col"></th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for produto in produtos %}
-            <tr>
-              <td><img src="{{produto.foto}}" style="width: 50px; height: 50px"></td>
-              <td>{{produto.descricao}}</td>
-              <td>{{produto.modelo}}</td>
-              <td>{{produto.nome}}</td>
-              <td>{{produto.preco_custo}}</td>
-              <td>{{produto.preco_venda}}</td>
-              <td>{{produto.quantidade}}</td>
-              <td><a href="/produtos/delete/{{produto.id}}"><i class="fas fa-trash" style="color: red"></i></a> <a href="/produtos/buscar/{{produto.id}}"><i class="fas fa-pencil-alt"></i></a></td>
-            </tr>
-          </tbody>
-          {% endfor %}
-      </table>
+        <form id="register-form">
+                <div class="full-box">
+                <latel for="nome-produto">Nome do Produto</latel>
+                <input type="text" name="name" id="name">
+            </div>
+            <div class="full-box">
+                <latel for="descricao">Descrição</latel>
+                <input type="text" name="name" id="name">
+            </div>
+            <div class="half-box spacing">
+                <latel for="preco-produto">Preço de Venda</latel>
+                <input type="text" name="name" id="name">
+            </div>
+            <div class="half-box spacing">
+                <latel for="modelo">Modelo do Produto</latel>
+                <input type="text" name="name" id="name">
+            </div>
+            <div class="half-box spacing">
+                <latel for="quantidADE">Quantidade</latel>
+                <input type="text" name="name" id="name">
+            </div>
+            <div class="half-box spacing">
+                <latel for="tamanho">Tamanho do Produto</latel>
+                <input type="text" name="name" id="name">
+            </div>
+            <div class="half-box spacing">
+                <latel for="Marca">Marca do Produto</latel>
+                <input type="text" name="name" id="name">
+            </div>
+            <div class="half-box spacing">
+                <latel for="animal">Para qual animal?</latel>
+                <input type="text" name="name" id="name">
+            </div>
+            <div class="full-box">
+                <input type="submit" id="btn-submit" value="Registrar">
+            </div>
+        </form>
     </div>
-{% endblock main %}
+    <script src="js/scripts.js"></script>
+</body>
+</html>
