@@ -30,9 +30,9 @@ def login():
         return '<h1>' + form.username.data + ' ' + form.password.data
     return render_template('produtos.html', form=form)
 
-        if mensagem.erro:
+    if mensagem.erro:
             return render_template('login.html', mensagem=mensagem)
-        elif mensagem.sucesso:
+    elif mensagem.sucesso:
             return redirect(url_for("produtos"))
     return render_template('login.html')
 
