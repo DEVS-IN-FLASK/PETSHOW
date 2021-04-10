@@ -5,14 +5,6 @@ from flask import Flask, request, jsonify, session, g, redirect, url_for, \
 from flask_restful import Resource, Api
 from sqlalchemy import create_engine
 from json import dumps
-<<<<<<< HEAD
-=======
-import requests
-from flask_bootstrap import Bootstrap
-from flask_wtf import Form
-from wtforms import StringField, PasswordField, BooleanField
-from wtforms.validators import InputRequired, Email, Length
->>>>>>> parent of befecd9 (rota usuarios, patch, put, partial, bibs no static)
 
 
 
@@ -28,16 +20,6 @@ PASSWORD = 'default'
 app = Flask(__name__)
 app.config.from_object(__name__)
 urlApi = "http://petshow-api.herokuapp.com"
-<<<<<<< HEAD
-=======
-Bootstrap(app)
-
-
-class LoginForm(Form):
-    username = StringField('Usuário', validators=[InputRequired(), Length(min=4, max=15)])
-    password = PasswordField('Senha', validators=[InputRequired(), Length(min=4, max=15)])
-    remember = BooleanField('Me mantenha conectado')
->>>>>>> parent of befecd9 (rota usuarios, patch, put, partial, bibs no static)
 
 
 #faltando teste e mensagens
@@ -226,13 +208,10 @@ def deletar(url):
 
 def cadastrar(url, body):
     return requests.post(url, data = dumps(body), headers={'content-type': 'application/json'}).json()
-<<<<<<< HEAD
 
 def editar(url, body):
     return requests.put(url, data = dumps(body), headers={'content-type': 'application/json'}).json()
 
-=======
->>>>>>> parent of befecd9 (rota usuarios, patch, put, partial, bibs no static)
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
