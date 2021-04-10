@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" conttente="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie = edge">
+    <title>Tela de Pedidos</title>
+    <link rel="stylesheet" href="../static/css/fontawesome_all.css">
+    <link rel="stylesheet" href="../static/css/adminlte.css">
+
+</head>
+
+<body>
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <!-- Main content -->
+                    <div class="invoice p-3 mb-3">
+                        <!-- title row -->
+                        <div class="row">
+                            <div class="col-12">
+                                <h4>
+                                    <i class="fas fa-globe"></i> PetShow (logo vai aqui)
+                                    <small class="float-right"><button type="button" class="btn btn-danger float-right" style="margin-right: 5px;">
+                                            <i class="fa fa-trash"></i> Excluir Pedido
+                                        </button></small>
+                                </h4>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- info row -->
+                        <div class="row invoice-info">
+                            <div class="col-sm-4 invoice-col">
+                                Cliente
+                                <address>
+                                    <strong>Paris, Hilton.</strong><br>
+                                    Rua Mulholland Estates, 795<br>
+                                    Los Angeles, Califórnia<br>
+                                    CEP 90210 EUA<br>
+                                    Phone: (310) 496-8826<br>
+                                    Email: contact@parishilton.com
+                                </address>
+
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-sm-4 invoice-col">
+                                Pet
+                                <address>
+                                    <strong>Bamby</strong><br>
+                                    <img src="../static/img/Bamby_ParisHilton.jpg" alt="Foto Bamby&Paris">
+                                </address>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-sm-4 invoice-col">
+                                <b>Pedido #001</b><br>
+                                <br>
+                                <b>Cliente ID:</b> PHb001<br>
+                                <b>Data do Pedido:</b> 19/03/2021<br>
+                                <br>
+                                <div class="row">
+                                    <div class="col-2">
+                                        <input type="text" class="form-control" placeholder="Qtd">
+                                    </div>
+                                    <div class="col-10">
+                                        <input type="text" class="form-control" placeholder="Cód Barras">
+                                    </div>
+
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+
+                        <!-- Table row -->
+                        <div class="row">
+                            <div class="col-12 table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Qtd</th>
+                                            <th>Produto</th>
+                                            <th>Tamanho</th>
+                                            <th>Cód Barras</th>
+                                            <th>Marca</th>
+                                            <th>Preço UN</th>
+                                            <th>Subtotal</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Moletom Love</td>
+                                            <td>M</td>
+                                            <td>987652583</td>
+                                            <td>Pop Dog</td>
+                                            <td>58,50</td>
+                                            <td>58,50</td>
+                                            <td>
+                                                <a class="btn bg-danger">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>1</td>
+                                            <td>Vestido Frutas</td>
+                                            <td>P</td>
+                                            <td>987652582</td>
+                                            <td>Bela & Cia Pet</td>
+                                            <td>45,00</td>
+                                            <td>45,00</td>
+                                            <td>
+                                                <a class="btn bg-danger">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>2</td>
+                                            <td>Moletom Love</td>
+                                            <td>M</td>
+                                            <td>987652583</td>
+                                            <td>Pop Dog</td>
+                                            <td>58,50</td>
+                                            <td>testar js</td>
+                                            <td>
+                                                <a class="btn bg-danger">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>3</td>
+                                            <td>Moletom Love</td>
+                                            <td>M</td>
+                                            <td>987652583</td>
+                                            <td>Pop Dog</td>
+                                            <td>58,50</td>
+                                            <td>testar js</td>
+                                            <td>
+                                                <a class="btn bg-danger">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+
+                        <div class="row">
+                            <!-- accepted payments column -->
+                            <div class="col-6">
+                                <p class="lead">Formas de Pagamento:</p>
+                                <img src="../static/img/visa.png" alt="Visa">
+                                <img src="../static/img/mastercard.png" alt="Mastercard">
+                                <img src="../static/img/money.png" alt="Dinheiro">
+
+
+                                <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
+
+                                </p>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-6">
+                                <p class="lead">Quantidade Devida 19/03/2021</p>
+
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <th style="width:50%">Subtotal:</th>
+                                                <td>+ R$250.30</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Desconto (- 0,5%)</th>
+                                                <td>- R$10.34</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Entrega:</th>
+                                                <td>+ R$5.80</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Total:</th>
+                                                <td>+ R$265.24</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+
+                        <!-- this row will not appear when printing -->
+                        <div class="row no-print">
+                            <div class="col-12">
+                                <a href="invoice-print.html" rel="noopener" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Imprimir</a>
+                                <a href="busca_lte.html">
+                                    <button type="button" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button></a>
+                                <button type="button" class="btn btn-success float-right" style="margin-right: 5px;">
+                                    <i class="fa fa-check"></i> Confirmar Pedido
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.invoice -->
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+
+
+    <footer>
+        <p>&copy; PetShow (footer vai aqui)</p>
+    </footer>
+
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/js/adminlte.min.js"></script>
+</body></html>
