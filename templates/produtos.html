@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}
-    {{ super() }} - Produtos
-{% endblock title %}
-
 {% include 'partials/header.html' %}
+
+{% with tipo='produtos' %}
 {% include 'partials/sidebar.html'%}
+{% endwith %}
+
 
 {% block main %}
     <form {% if not produto.id %} action="/produtos" {% elif produto.id != None %} action="/produtos/edit/{{produto.id}}" {% endif %} method="POST">

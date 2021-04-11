@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-    {% extends 'base.html' %}
+{% extends 'base.html' %}
 
-    {% block title %}
-        {{ super() }} - Pedidos
-    {% endblock title %}
+{% include 'partials/header.html' %}
 
-    {% include 'partials/header.html' %}
-    {% include 'partials/sidebar.html'%}
+{% with tipo='pedido' %}
+{% include 'partials/sidebar.html'%}
+{% endwith %}
 
 
     {% block main %}
@@ -236,3 +235,5 @@
     <script src="../components/AdminLTE/dist/js/adminlte.min.js"></script>
 </body></html>
     {% endblock main %}
+
+{% include 'partials/footer.html' %}

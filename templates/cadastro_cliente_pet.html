@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-    {% extends 'base.html' %}
-
-{% block title %}
-    {{ super() }} - Cadastre-se
-{% endblock title %}
+{% extends 'base.html' %}
 
 {% include 'partials/header.html' %}
+
+{% with tipo='cadastro' %}
 {% include 'partials/sidebar.html'%}
+{% endwith %}
 
 <head>
     <meta charset="UTF-8">
