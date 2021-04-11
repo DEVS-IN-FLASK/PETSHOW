@@ -7,7 +7,7 @@ from sqlalchemy import create_engine
 from json import dumps
 import requests
 from flask_bootstrap import Bootstrap
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import InputRequired, Email, Length
 from flask_cors import CORS
@@ -31,7 +31,7 @@ Bootstrap(app)
 CORS(app)
 
 
-class LoginForm(Form):
+class LoginForm(FlaskForm):
     username = StringField('Usuário', validators=[InputRequired(), Length(min=4, max=15)])
     password = PasswordField('Senha', validators=[InputRequired(), Length(min=4, max=15)])
     remember = BooleanField('Me mantenha conectado')
