@@ -168,7 +168,7 @@
                 </label>
             </div>
 
-            <p id="add-pet" onclick="adicionarPet()">Adicionar</p>
+            <p id="add-pet" onclick="adicionarPet()" style="background: green; cursor:pointer; width: 100px">Adicionar</p>
 
             <div id="pets"></div>
         </fieldset>
@@ -205,11 +205,24 @@
 
             clientes = data;
 
+            console.log(data)
+
             ReactDOM.render(
-                <a>Aqui fica os clientes</a>,
+                data.clientes.map((cliente, index) => {
+                    return (
+                        <div key={index}>
+                            <h1>{cliente.cliente.nome}</h1>
+                            <p onClick={() => editarCliente()}>Editar</p>
+                        </div>
+                    )
+                }),
                 document.getElementById("clientes-pet")
             );
         };
+
+        function editarCliente(id, nome, cpf, email, endereco, pets, telefones) {
+            console.log("teste")
+        }
 
         function adicionarPet() {
             let pet = {
@@ -282,8 +295,6 @@
                 pets: pets
             }
 
-            console.log(body)
-
             const response = await fetch(`${urlApi}/clientes`, {
                 method: "POST",
                 headers: {
@@ -293,12 +304,10 @@
             });
             const data = await response.json();
 
-            console.log(data)
-
             listar();
         }
 
-        window.onload = () => listar();
+        window.onload = listar();
     </script>
 </body>
 </html>

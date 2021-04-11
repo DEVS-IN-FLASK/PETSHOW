@@ -44,10 +44,10 @@ def login():
         return '<h1>' + form.username.data + ' ' + form.password.data
     return render_template('produtos.html', form=form)
 
-        if mensagem.erro:
-            return render_template('login.html', mensagem=mensagem)
-        elif mensagem.sucesso:
-            return redirect(url_for("produtos"))
+    if mensagem.erro:
+        return render_template('login.html', mensagem=mensagem)
+    elif mensagem.sucesso:
+        return redirect(url_for("produtos"))
     return render_template('login.html')
 
 
@@ -69,10 +69,13 @@ def produtos(id = None):
             "foto": request.form["foto"],
             "marca_id": int(request.form["marca_id"]),
             "tamanho_id": int(request.form["tamanho_id"]),
-            "animal_id": int(request.form["animal_id"] )
+            "animal_id": int(request.form["animal_id"] ),
+            "usuario_id": 3 #colocar id usuario logado
         }
 
         mensagem = cadastrar(urlApi + "/produtos/", body)
+        print(body)
+        print(mensagem)
 
         return redirect(url_for("produtos"))
     elif(id != None and request.method == "GET"):
@@ -92,10 +95,13 @@ def produtos(id = None):
             "foto": request.form["foto"],
             "marca_id": int(request.form["marca_id"]),
             "tamanho_id": int(request.form["tamanho_id"]),
-            "animal_id": int(request.form["animal_id"] )
+            "animal_id": int(request.form["animal_id"] ),
+            "usuario_id": 3 #colocar id usuario logado
         }
 
         mensagem = editar(urlApi + "/produtos/" + id + "/alterar/", body)
+
+        print(mensagem)
 
         return redirect(url_for("produtos"))
     else:
@@ -249,40 +255,9 @@ def remover_usuario(login):
 
 
 
-@app.route('/clientes-pet', methods=["GET", 'POST'])
-@app.route('/clientes-pet/edit/<id>', methods=["POST"])
-@app.route('/clientes-pet/delete/<id>', methods=["GET"])
-def clientes(id = None):
-    if(id == None and request.method == "POST"):
-        body = {
-            "endereco": {
-                "rua": request.form["rua"],
-                "numero": request.form["numero"],
-                "bairro": request.form["bairro"],
-                "cep": request.form["cep"],
-                "cidade": request.form["cidade"],
-                "uf": request.form["uf"]
-            },
-            "nome": request.form["nome"],
-            "email": request.form["email"],
-            "cpf": request.form["cpf"],
-            "telefones": {
-                "telefone": request.form["telefone"]
-            }
-        }
-        
-        mensagem = cadastrar(urlApi + "/clientes", body)
-
-        print(mensagem)
-        print(body)
-
-        return render_template('cadastro_cliente_pet.html')
-    elif(id != None and request.method == "GET"):
-        return render_template('cadastro_cliente_pet.html')
-    elif(id != None):
-        return render_template('cadastro_cliente_pet.html')
-    else:
-        return render_template('cadastro_cliente_pet.html')
+@app.route('/clientes-pet', methods=["GET"])
+def clientes():
+    return render_template('cadastro_cliente_pet.html')
 
 
 def listar(url):
@@ -292,7 +267,7 @@ def deletar(url):
     return requests.delete(url).json()
 
 def cadastrar(url, body):
-    return requests.post(url, data=dumps(body), headers={'content-type': 'application/json'})
+    return requests.post(url, data=dumps(body), headers={'content-type': 'application/json'}).json()
 
 def alterar_parte(url, body):
     return requests.patch(url, data=dumps(body), headers={'content-type': 'application/json'})
