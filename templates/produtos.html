@@ -4,6 +4,8 @@
     {{ super() }} - Produtos
 {% endblock title %}
 
+{% include 'partials/header.html' %}
+{% include 'partials/sidebar.html'%}
 
 {% block main %}
     <form {% if not produto.id %} action="/produtos" {% elif produto.id != None %} action="/produtos/edit/{{produto.id}}" {% endif %} method="POST">
@@ -107,3 +109,5 @@
       </table>
     </div>
 {% endblock main %}
+
+{% include 'partials/footer.html' %}

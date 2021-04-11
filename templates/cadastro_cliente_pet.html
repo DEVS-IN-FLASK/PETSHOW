@@ -1,5 +1,14 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+    {% extends 'base.html' %}
+
+{% block title %}
+    {{ super() }} - Cadastre-se
+{% endblock title %}
+
+{% include 'partials/header.html' %}
+{% include 'partials/sidebar.html'%}
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,20 +16,16 @@
     <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js" integrity="sha512-pBSlhNUvB+td6sjW1zmR6L7c7kVWR4octUPl4tfHmzO63424nxta8aLmficEcAAswQmRqTiToi63AazDurj/Sg==" crossorigin="anonymous"></script>
-    <title>Cadastre-se</title>
 </head>
 <body>
 
 
+{% block main %}
+
     <div class='header'>
-
         <div class='logo'>  <img style="width: 5%;" src="/static/images/logo.PNG"> </div>
-        <div class='menu'>
-            Sobre a loja | Produtos | Contato
-        </div>
-
     </div>
-    
+
     <div class="topo">
         <h1 id='titulo' >Cadastro do Cliente e Pet</h1>
         <p id='subtitulo' >Insira as informações do cliente</p>
@@ -311,3 +316,6 @@
     </script>
 </body>
 </html>
+{% endblock main %}
+
+{% include 'partials/footer.html' %}

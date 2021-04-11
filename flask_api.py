@@ -252,9 +252,6 @@ def remover_usuario(login):
     print(msg)
     return redirect(url_for("usuarios"))
 
-
-
-
 @app.route('/clientes-pet', methods=["GET"])
 def clientes():
     return render_template('cadastro_cliente_pet.html')
