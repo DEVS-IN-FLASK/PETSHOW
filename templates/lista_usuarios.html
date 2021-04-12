@@ -4,9 +4,11 @@
 
 
 {% with tipo='Usuário' %}
-{% with rota='usuario' %}
+{% with rota='/usuarios' %}
+{% with rota_new='/usuarios/new/' %}
 {% with user='User' %}
 {% include 'partials/sidebar.html'%}
+{% endwith %}
 {% endwith %}
 {% endwith %}
 {% endwith %}
