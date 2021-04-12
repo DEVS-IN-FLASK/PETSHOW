@@ -12,7 +12,7 @@
   <div id="main-container">
     <h1>Novo Produto</h1> 
     <form {% if not produto.id %} action="/produtos" {% elif produto.id != None %} action="/produtos/edit/{{produto.id}}" {% endif %} method="POST" id="register-form">
-        <input type="file" name="arquivos" multiple>
+        <!--<input type="file" name="arquivos" multiple>-->
         <input type="hidden" value="{{produto.id}}">
         <div class="full-box">
           <label for="nome">Nome </label>
@@ -46,10 +46,9 @@
           <label for="quantidade">Quantidade</label>
           <input type="number" name="quantidade" id="quantidade" value="{{produto.quantidade}}">
         </div>
-        <!--
         <label for="foto">Foto </label>
         <input type="text" name="foto" id="foto" value="{{produto.foto}}">
-        <br>-->
+        <br>
         <div class="half-box spacing">
           <label for="marca_id">Marca:</label>
           <select name="marca_id" id="marca_id" style="padding: 10px; display: block; width: 100%;border-bottom: 2px solid #323232;font-size: .9rem;margin-bottom: 40px;">
