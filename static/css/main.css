@@ -77,7 +77,7 @@ main {
     position: relative;
 }
 
-input, label {
+input, label, select {
     display: block;
     width: 100%;
 }
