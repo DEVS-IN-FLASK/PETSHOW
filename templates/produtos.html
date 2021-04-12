@@ -52,7 +52,7 @@
         <br>-->
         <div class="half-box spacing">
           <label for="marca_id">Marca:</label>
-          <select name="marca_id" id="marca_id">
+          <select name="marca_id" id="marca_id" style="padding: 10px; display: block; width: 100%;border-bottom: 2px solid #323232;font-size: .9rem;margin-bottom: 40px;">
             {% for marca in marcas %}
               {% if marca.id == produto.marca_id %}
                 <option value="{{marca.id}}" selected>{{marca.marca}}</option>
@@ -65,7 +65,7 @@
         </div>
         <div class="half-box spacing">
           <label for="tamanho_id">Tamanho:</label>
-          <select name="tamanho_id" id="tamanho_id" >
+          <select name="tamanho_id" id="tamanho_id" style="padding: 10px; display: block; width: 100%;border-bottom: 2px solid #323232;font-size: .9rem;margin-bottom: 40px;">
             {% for tamanho in tamanhos %}
               {% if tamanho.id == produto.tamanho_id %}
                 <option value="{{tamanho.id}}" selected>{{tamanho.tamanho}}</option>
@@ -78,7 +78,7 @@
         </div>
         <div class="half-box spacing">
           <label for="animal_id">Para qual animal?</label>
-          <select name="animal_id" id="animal_id">
+          <select name="animal_id" id="animal_id" style="padding: 10px; display: block; width: 100%;border-bottom: 2px solid #323232;font-size: .9rem;margin-bottom: 40px;">
             {% for animal in animais %}
               {% if animal.id == produto.animal_id %}
                 <option value="{{animal.id}}" selected>{{animal.animal}}</option>
