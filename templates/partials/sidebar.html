@@ -8,6 +8,9 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
+                    <a href="clientes-pet" class="nav-link">Clientes</a>
+                </li>
+                <li class="nav-item d-none d-sm-inline-block">
                     <a href="{{ url_for('pedidos') }}" class="nav-link">Pedidos</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
@@ -50,7 +53,7 @@
                         <li class="nav-item menu-open">
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>Produtos
+                                <p>{{ tipo }}s
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>

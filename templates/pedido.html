@@ -1,6 +1,17 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+{% extends 'base.html' %}
 
+{% with title='Pedidos'%}
+    {% include 'partials/header.html' %}
+{% endwith %}
+
+{% with tipo='pedido' %}
+{% include 'partials/sidebar.html'%}
+{% endwith %}
+
+
+    {% block main %}
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" conttente="width=device-width, initial-scale=1.0">
@@ -218,9 +229,13 @@
 
     <footer>
         <p>&copy; PetShow (footer vai aqui)</p>
+        {% include 'partials/footer.html' %}
     </footer>
 
     <script src="../components/AdminLTE/plugins/jquery/jquery.min.js"></script>
     <script src="../components/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../components/AdminLTE/dist/js/adminlte.min.js"></script>
 </body></html>
+    {% endblock main %}
+
+{% include 'partials/footer.html' %}

@@ -1,30 +1,38 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+{% extends 'base.html' %}
+
+{% with title='Cadastre-se'%}
+    {% include 'partials/header.html' %}
+{% endwith %}
+
+{% with tipo='cadastro' %}
+{% include 'partials/sidebar.html'%}
+{% endwith %}
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel='stylesheet' type='text/css' href='../static/css/styleCustomerRegistration.css' media="">
-    <title>Cadastre-se</title>
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js" integrity="sha512-pBSlhNUvB+td6sjW1zmR6L7c7kVWR4octUPl4tfHmzO63424nxta8aLmficEcAAswQmRqTiToi63AazDurj/Sg==" crossorigin="anonymous"></script>
 </head>
 <body>
 
 
+{% block main %}
+
     <div class='header'>
-
         <div class='logo'>  <img style="width: 5%;" src="/static/images/logo.PNG"> </div>
-        <div class='menu'>
-            Sobre a loja | Produtos | Contato
-        </div>
-
     </div>
-    
+
     <div class="topo">
         <h1 id='titulo' >Cadastro do Cliente e Pet</h1>
         <p id='subtitulo' >Insira as informações do cliente</p>
         <br>
     </div>
-    <form class="formulario" action="/cadastro-cliente-pet" method="POST">
+    <form class="formulario">
         <fieldset class='grupo1'>
             <p><strong>Dados do cliente</strong></p>
             <BR>
@@ -44,13 +52,8 @@
             </div>
 
             <div class='campo'>
-                <label for='rg'><strong>RG</strong></label>
-                <input type='text' name='rg' id='rg'>
-            </div>
-
-            <div class='campo'>
-                <label for='phone'><strong>Telefone</strong></label>
-                <input type='text' name='phone' id='phone' required>
+                <label for='telefone'><strong>Telefone</strong></label>
+                <input type='text' name='telefone' id='telefone' required>
             </div>
 
         </fieldset>
@@ -74,8 +77,8 @@
             </div>
 
             <div class='campo'>
-                <label for='complemento'><strong>Complemento</strong></label>
-                <input type='text' name='complemento' id='complemento'>
+                <label for='bairro'><strong>Bairro</strong></label>
+                <input type='text' name='bairro' id='bairro' required>
             </div>
 
             <div class='campo'>
@@ -84,9 +87,9 @@
             </div>
 
             <div class='campo'>
-                <label for='UF'><strong>UF</strong></label>
-                <select id="UF" required>
-                    <option selected disabled value="">Selecione</option>
+                <label for='uf'><strong>UF</strong></label>
+                <select id="uf" name="uf" required>
+                    <option>Selecione</option>
                     <option>AC</option>
                     <option>AL</option>
                     <option>AP</option>
@@ -117,67 +120,203 @@
                 </select>
             </div>
 
-            <div class='campo'>
-                <label for='referencia'><strong>Ponto de Referência</strong></label>
-                <input type='text' name='referencia' id='referencia'>
-            </div>
-
         </fieldset>
 
-        <fieldset class='grupo3'>
-            <p><strong>Dados do PET</strong></p>
+        <fieldset>
+            <p><strong>Inserir PET</strong></p>
             <br>
             <div class='campo'>
-                <label for='nome'><strong>Nome</strong></label>
-                <input type='text' name='nome' id='nome' required>
+                <label for='nome_pet'><strong>Nome</strong></label>
+                <input type='text' name='nome_pet' id='nome_pet' required>
             </div>
 
             <div class='campo'>
                 <label><strong>Espécie</strong></label>
                 <label for='dog'>
-                    <input type='radio' name='especie' id='dog' >Cachorro
+                    <input type='radio' name='especie' id='dog' value="Cachorro" >Cachorro
                 </label>
                 <label for='cat'>
-                    <input type='radio' name='especie' id='cat'>Gato
+                    <input type='radio' name='especie' id='cat' value="Gato">Gato
                 </label>                
             </div>
 
             <div class='campo'>
                 <label><strong>Porte</strong></label>
                 <label for='mini'>
-                    <input type='radio' name='porte' id='mini'>Miniatura
+                    <input type='radio' name='porte' id='mini' value="Miniatura">Miniatura
                 </label>
                 <label for='small'>
-                    <input type='radio' name='porte' id='small'>Pequeno
+                    <input type='radio' name='porte' id='small' value="Pequeno">Pequeno
                 </label>
                 <label for='medium'>
-                    <input type='radio' name='porte' id='medium'>Médio
+                    <input type='radio' name='porte' id='medium' value="Médio">Médio
                 </label> 
                 <label for='large'>
-                    <input type='radio' name='porte' id='large'>Grande
+                    <input type='radio' name='porte' id='large' value="Grande">Grande
                 </label>
                 <label for='huge'>
-                    <input type='radio' name='porte' id='huge'>Muito Grande
+                    <input type='radio' name='porte' id='huge' value="Muito grande">Muito Grande
                 </label>  
             </div>
 
             <div class='campo'>
                 <label for='raça'><strong>Raça</strong></label>
-                <input type='text' name='raça' id='raça'>
+                <input type='text' name='raca' id='raca'>
             </div>
 
             <div class='campo'>
                 <label><strong>Gênero</strong></label>
                 <label for='female'>
-                    <input type='radio' name='genero' id='female'>Fêmea
+                    <input type='radio' name='genero' id='female' value="Fêmea">Fêmea
                 </label>
                 <label for='male'>
-                    <input type='radio' name='genero' id='male'>Macho
-                </label>  
+                    <input type='radio' name='genero' id='male' value="Macho">Macho
+                </label>
             </div>
 
+            <p id="add-pet" onclick="adicionarPet()" style="background: green; cursor:pointer; width: 100px">Adicionar</p>
+
+            <div id="pets"></div>
         </fieldset>
-        <button class='button' type='submit'><strong>Salvar</strong></button>
+        <button class='button' type='submit' id="salvar"><strong>Salvar</strong></button>
     </form>
+
+    <div id="clientes-pet"></div>
+
+    <script type="text/babel">
+        const urlApi = "https://cors-anywhere.herokuapp.com/http://petshow-api.herokuapp.com";
+        let clientes = [];
+
+        let pets = [];
+
+        let rua = document.getElementById("rua");
+        let numero = document.getElementById("numero");
+        let bairro = document.getElementById("bairro");
+        let cep = document.getElementById("cep");
+        let cidade = document.getElementById("cidade");
+        let uf = document.getElementById("uf");
+
+        let nome = document.getElementById("nome");
+        let email = document.getElementById("email");
+        let cpf = document.getElementById("cpf");
+
+        let telefone = document.getElementById("telefone");
+
+        let nomePet = document.getElementById("nome_pet");
+        let raca = document.getElementById("raca");
+
+        const listar = async () => {
+            const response = await fetch(`${urlApi}/clientes`);
+            const data = await response.json();
+
+            clientes = data;
+
+            console.log(data)
+
+            ReactDOM.render(
+                data.clientes.map((cliente, index) => {
+                    return (
+                        <div key={index}>
+                            <h1>{cliente.cliente.nome}</h1>
+                            <p onClick={() => editarCliente()}>Editar</p>
+                        </div>
+                    )
+                }),
+                document.getElementById("clientes-pet")
+            );
+        };
+
+        function editarCliente(id, nome, cpf, email, endereco, pets, telefones) {
+            console.log("teste")
+        }
+
+        function adicionarPet() {
+            let pet = {
+                nome: nomePet.value,
+                especie: document.querySelector('input[name="especie"]:checked').value,
+                porte: document.querySelector('input[name="porte"]:checked').value,
+                raca: raca.value,
+                genero: document.querySelector('input[name="genero"]:checked').value
+            }
+
+            pets.push(pet);
+
+            ReactDOM.render(
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Espécie</th>
+                            <th>Porte</th>
+                            <th>Raça</th>
+                            <th>Gênero</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {
+                        pets.map((pet, index) => {
+                            return (
+                                <tr key={index}>
+                                    <td>{pet.nome}</td>
+                                    <td>{pet.especie}</td>
+                                    <td>{pet.porte}</td>
+                                    <td>{pet.raca}</td>
+                                    <td>{pet.genero}</td>
+                                </tr>
+                            );
+                        })
+                    }
+                    </tbody>
+                </table>,
+                document.getElementById("pets")
+            );
+
+            nomePet.value = "";
+            document.querySelector('input[name="especie"]:checked').checked = false;
+            document.querySelector('input[name="porte"]:checked').checked = false;
+            document.querySelector('input[name="genero"]:checked').checked = false;
+            raca.value = "";
+        }
+
+        document.getElementById("salvar").onclick = async (event) => {
+            event.preventDefault();
+
+            let body = {
+                nome: nome.value,
+                email: email.value,
+                cpf: cpf.value,
+                endereco: {
+                    rua: rua.value,
+                    numero: numero.value,
+                    bairro: bairro.value,
+                    cep: cep.value,
+                    cidade: cidade.value,
+                    uf: uf.value
+                },
+                telefones: [
+                    {
+                        telefone: telefone.value
+                    }
+                ],
+                pets: pets
+            }
+
+            const response = await fetch(`${urlApi}/clientes`, {
+                method: "POST",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify(body)
+            });
+            const data = await response.json();
+
+            listar();
+        }
+
+        window.onload = listar();
+    </script>
 </body>
 </html>
+{% endblock main %}
+
+{% include 'partials/footer.html' %}
