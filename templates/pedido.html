@@ -2,7 +2,9 @@
 <html lang="pt-BR">
 {% extends 'base.html' %}
 
-{% include 'partials/header.html' %}
+{% with title='Pedidos'%}
+    {% include 'partials/header.html' %}
+{% endwith %}
 
 {% with tipo='pedido' %}
 {% include 'partials/sidebar.html'%}

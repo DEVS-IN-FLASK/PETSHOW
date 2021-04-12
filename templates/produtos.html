@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 
-{% include 'partials/header.html' %}
+
+{% with title='Produtos'%}
+    {% include 'partials/header.html' %}
+{% endwith %}
 
 {% with tipo='produtos' %}
-{% include 'partials/sidebar.html'%}
+    {% include 'partials/sidebar.html'%}
 {% endwith %}
 
 
