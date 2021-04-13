@@ -1,183 +1,193 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel='stylesheet' type='text/css' href='../static/css/styleCustomerRegistration.css' media="">
-    <title>Cadastre-se</title>
-</head>
-<body>
+
+{% with title='Clientes e Pets'%}
+    {% include 'partials/header.html' %}
+{% endwith %}
+
+{% with tipo='Cliente' %}
+{% with rota='/clientes-pet' %}
+{% with rota_new='/clientes-pet' %}
+{% with user='User' %}
+{% include 'partials/sidebar.html'%}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+
+            <!-- Tela Novo Cliente e Pet começa aqui -->
+            <div class="container">
+                <div class="col-md-6">
+                    {% if usuario %}
+                        {% if tipo %}
+                            {% if tipo == 'senha' %}
+                            <form method="POST" action="{{ url_for('alterar_senha', login=usuario.login) }}">
+                            {% elif tipo == 'tipo' %}
+                            <form method="POST" action="{{ url_for('alterar_tipo', login=usuario.login) }}">
+                            {% endif %}
+                        {% endif %}
+                    {% else %}
+
+                        
+                    <div class="mb-3">
+                        <h1 id='titulo' >Cadastro do Cliente e Pet</h1>
+                        <br>
+                    </div>
+                   
+                    <form method="POST" action="{{ url_for('usuarios') }}">
+                    {% endif %}
 
 
-    <div class='header'>
+                      
+                       <div class="mb-1">
+                        <label for="nome"><strong>Dados Cliente</strong></label>
+                        </div>
 
-        <div class='logo'>  <img style="width: 5%;" src="/static/images/logo.PNG"> </div>
-        <div class='menu'>
-            Sobre a loja | Produtos | Contato
-        </div>
+                        <div class="mb-3">
+                            <label for="nome">Nome Completo:</label>
+                            <input type="text" class="form-control" id="nome" {% if not usuario %}name="nome"{% endif %} placeholder="Digite o nome" value="{% if usuario %}{{ usuario.nome }}{% endif %}" {% if usuario %}{{'readonly'}}{% endif %}>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email">E-mail:</label>
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Digite o e-mail" value="{% if usuario %}{{ usuario.login }}{% endif %}" {% if usuario %}{{'readonly'}}{% endif %}>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="cpf">CPF:</label>
+                            <input type="text" class="form-control" id="cpf" {% if not usuario %}name="cpf"{% endif %} placeholder="Digite o CPF" value="{% if usuario %}{{ usuario.nome }}{% endif %}" {% if usuario %}{{'readonly'}}{% endif %}>
+                        </div>
+                        <div class="mb-3">
+                            <label for="rg">RG:</label>
+                            <input type="text" class="form-control" id="rg" {% if not usuario %}name="rg"{% endif %} placeholder="Digite o RG" value="{% if usuario %}{{ usuario.nome }}{% endif %}" {% if usuario %}{{'readonly'}}{% endif %}>
+                        </div>
+                        <div class="mb-3">
+                            <label for="telefone">Telefone:</label>
+                            <input type="text" class="form-control" id="telefone" {% if not usuario %}name="telefone"{% endif %} placeholder="Digite o telefone" value="{% if usuario %}{{ usuario.nome }}{% endif %}" {% if usuario %}{{'readonly'}}{% endif %}>
+                        </div>
 
-    </div>
-    
-    <div class="topo">
-        <h1 id='titulo' >Cadastro do Cliente e Pet</h1>
-        <p id='subtitulo' >Insira as informações do cliente</p>
-        <br>
-    </div>
-    <form class="formulario" action="/cadastro-cliente-pet" method="POST">
-        <fieldset class='grupo1'>
-            <p><strong>Dados do cliente</strong></p>
-            <BR>
-            <div class='campo'>
-                <label for='nome'><strong>Nome Completo</strong></label>              
-                <input type='text' name='nome' id='nome' required>
+                        <br />
+                        <div class="mb-1">
+                        <label for="nome"><strong>Endereço</strong></label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="cep">CEP:</label>
+                            <input type="text" class="form-control" id="cep" {% if not usuario %}name="CEP"{% endif %} placeholder="Digite o cep" value="{% if usuario %}{{ usuario.nome }}{% endif %}" {% if usuario %}{{'readonly'}}{% endif %}>
+                        </div>
+                        <div class="mb-3">
+                            <label for="rua">Rua:</label>
+                            <input type="text" class="form-control" id="rua" {% if not usuario %}name="rua"{% endif %} placeholder="Digite a rua" value="{% if usuario %}{{ usuario.nome }}{% endif %}" {% if usuario %}{{'readonly'}}{% endif %}>
+                        </div>
+                        <div class="mb-3">
+                            <label for="numero">Número:</label>
+                            <input type="number" class="form-control" id="numero" {% if not usuario %}name="numero"{% endif %} placeholder="Digite o número" value="{% if usuario %}{{ usuario.nome }}{% endif %}" {% if usuario %}{{'readonly'}}{% endif %}>
+                        </div>
+                        <div class="mb-3">
+                            <label for="complemento">Complemento:</label>
+                            <input type="text" class="form-control" id="complemento" {% if not usuario %}name="Complemento"{% endif %} placeholder="Digite o Complemento" value="{% if usuario %}{{ usuario.nome }}{% endif %}" {% if usuario %}{{'readonly'}}{% endif %}>
+                        </div>
+                        <div class="mb-3">
+                            <label for="cidade">Cidade:</label>
+                            <input type="text" class="form-control" id="cidade" {% if not usuario %}name="cidade"{% endif %} placeholder="Digite a Cidade" value="{% if usuario %}{{ usuario.nome }}{% endif %}" {% if usuario %}{{'readonly'}}{% endif %}>
+                        </div>
+                        
+                        
+                        <div class="mb-3">
+                                    <label for='UF'>UF:</label>
+                            <select id="UF" required>
+                                <option selected disabled value="">Selecione</option>
+                                <option>AC</option>
+                                <option>AL</option>
+                                <option>AP</option>
+                                <option>AM</option>
+                                <option>BA</option>
+                                <option>CE</option>
+                                <option>DF</option>
+                                <option>ES</option>
+                                <option>GO</option>
+                                <option>MA</option>
+                                <option>MT</option>
+                                <option>MS</option>
+                                <option>MG</option>
+                                <option>PA</option>
+                                <option>PB</option>
+                                <option>PR</option>
+                                <option>PE</option>
+                                <option>PI</option>
+                                <option>RJ</option>
+                                <option>RN</option>
+                                <option>RS</option>
+                                <option>RO</option>
+                                <option>RR</option>
+                                <option>SC</option>
+                                <option>SP</option>
+                                <option>SE</option>
+                                <option>TO</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for='referencia'>Ponto de Referência:</label>
+                            <input type='text' class="form-control" name="referencia" id="referencia" placeholder="Digite o e-mail" value="{% if usuario %}{{ usuario.login }}{% endif %}" {% if usuario %}{{'readonly'}}{% endif %}>
+                        </div>
+                        
+                        <br />
+                        <div class="mb-1">
+                        <label for="nome"><strong>Dados PET</strong></label>
+                         </div>
+
+                         <div class="mb-3">
+                            <label for='nome'>Nome:</label>
+                            <input type='text' class="form-control" id="nome" {% if not usuario %}name="nome"{% endif %} placeholder="Digite o nome do PET" value="{% if usuario %}{{ usuario.nome }}{% endif %}" {% if usuario %}{{'readonly'}}{% endif %}>
+                        </div>
+            
+                        <div class="mb-3">
+                            <label>Espécie:</label>
+                            <label for='dog'>
+                                <input type='radio' name='especie' id='dog' >Cachorro
+                            </label>
+                            <label for='cat'>
+                                <input type='radio' name='especie' id='cat'>Gato
+                            </label>                
+                        </div>
+            
+                        <div class="mb-3">
+                            <label>Porte:</label>
+                            <label for='mini'>
+                                <input type='radio' name='porte' id='mini'>Miniatura
+                            </label>
+                            <label for='small'>
+                                <input type='radio' name='porte' id='small'>Pequeno
+                            </label>
+                            <label for='medium'>
+                                <input type='radio' name='porte' id='medium'>Médio
+                            </label> 
+                            <label for='large'>
+                                <input type='radio' name='porte' id='large'>Grande
+                            </label>
+                            <label for='huge'>
+                                <input type='radio' name='porte' id='huge'>Muito Grande
+                            </label>  
+                        </div>
+            
+                        <div class="mb-3">
+                            <label for='raça'>Raça:</label>
+                            <input type='text' class="form-control" id="raca" {% if not usuario %}name="nome"{% endif %} placeholder="Digite a raça" value="{% if usuario %}{{ usuario.nome }}{% endif %}" {% if usuario %}{{'readonly'}}{% endif %}>
+                        </div>
+            
+                        <div class="mb-3">
+                            <label>Gênero:</label>
+                            <label for='female'>
+                                <input type='radio' name='genero' id='female'>Fêmea
+                            </label>
+                            <label for='male'>
+                                <input type='radio' name='genero' id='male'>Macho
+                            </label>  
+                        </div>
+
+
+                        <button type="submit" class="btn btn-primary">Cadastrar</button>
+                        
+                    </form>
+                </div>
             </div>
-
-            <div class='campo'>
-                <label for='email'><strong>E-mail</strong></label>
-                <input type='email' name='email' id='email' required>
-            </div>
-
-            <div class='campo'>
-                <label for='cpf'><strong>CPF</strong></label>
-                <input type='text' name='cpf' id='cpf' required>
-            </div>
-
-            <div class='campo'>
-                <label for='rg'><strong>RG</strong></label>
-                <input type='text' name='rg' id='rg'>
-            </div>
-
-            <div class='campo'>
-                <label for='phone'><strong>Telefone</strong></label>
-                <input type='text' name='phone' id='phone' required>
-            </div>
-
-        </fieldset>
-
-        <fieldset class='grupo2'>
-            <p><strong>Endereço</strong></p>
-            <br>
-            <div class='campo'>
-                <label for='cep'><strong>CEP</strong></label>
-                <input type='text' name='cep' id='cep' required>
-            </div>
-
-            <div class='campo'>
-                <label for='rua'><strong>Rua</strong></label>
-                <input type='text' name='rua' id='rua' required>
-            </div>
-
-            <div class='campo'>
-                <label for='numero'><strong>Número</strong></label>
-                <input type='number' name='numero' id='numero' required>
-            </div>
-
-            <div class='campo'>
-                <label for='complemento'><strong>Complemento</strong></label>
-                <input type='text' name='complemento' id='complemento'>
-            </div>
-
-            <div class='campo'>
-                <label for='cidade'><strong>Cidade</strong></label>
-                <input type='text' name='cidade' id='cidade' required>
-            </div>
-
-            <div class='campo'>
-                <label for='UF'><strong>UF</strong></label>
-                <select id="UF" required>
-                    <option selected disabled value="">Selecione</option>
-                    <option>AC</option>
-                    <option>AL</option>
-                    <option>AP</option>
-                    <option>AM</option>
-                    <option>BA</option>
-                    <option>CE</option>
-                    <option>DF</option>
-                    <option>ES</option>
-                    <option>GO</option>
-                    <option>MA</option>
-                    <option>MT</option>
-                    <option>MS</option>
-                    <option>MG</option>
-                    <option>PA</option>
-                    <option>PB</option>
-                    <option>PR</option>
-                    <option>PE</option>
-                    <option>PI</option>
-                    <option>RJ</option>
-                    <option>RN</option>
-                    <option>RS</option>
-                    <option>RO</option>
-                    <option>RR</option>
-                    <option>SC</option>
-                    <option>SP</option>
-                    <option>SE</option>
-                    <option>TO</option>
-                </select>
-            </div>
-
-            <div class='campo'>
-                <label for='referencia'><strong>Ponto de Referência</strong></label>
-                <input type='text' name='referencia' id='referencia'>
-            </div>
-
-        </fieldset>
-
-        <fieldset class='grupo3'>
-            <p><strong>Dados do PET</strong></p>
-            <br>
-            <div class='campo'>
-                <label for='nome'><strong>Nome</strong></label>
-                <input type='text' name='nome' id='nome' required>
-            </div>
-
-            <div class='campo'>
-                <label><strong>Espécie</strong></label>
-                <label for='dog'>
-                    <input type='radio' name='especie' id='dog' >Cachorro
-                </label>
-                <label for='cat'>
-                    <input type='radio' name='especie' id='cat'>Gato
-                </label>                
-            </div>
-
-            <div class='campo'>
-                <label><strong>Porte</strong></label>
-                <label for='mini'>
-                    <input type='radio' name='porte' id='mini'>Miniatura
-                </label>
-                <label for='small'>
-                    <input type='radio' name='porte' id='small'>Pequeno
-                </label>
-                <label for='medium'>
-                    <input type='radio' name='porte' id='medium'>Médio
-                </label> 
-                <label for='large'>
-                    <input type='radio' name='porte' id='large'>Grande
-                </label>
-                <label for='huge'>
-                    <input type='radio' name='porte' id='huge'>Muito Grande
-                </label>  
-            </div>
-
-            <div class='campo'>
-                <label for='raça'><strong>Raça</strong></label>
-                <input type='text' name='raça' id='raça'>
-            </div>
-
-            <div class='campo'>
-                <label><strong>Gênero</strong></label>
-                <label for='female'>
-                    <input type='radio' name='genero' id='female'>Fêmea
-                </label>
-                <label for='male'>
-                    <input type='radio' name='genero' id='male'>Macho
-                </label>  
-            </div>
-
-        </fieldset>
-        <button class='button' type='submit'><strong>Salvar</strong></button>
-    </form>
-</body>
-</html>
+        
+        {% include 'partials/footer.html' %}

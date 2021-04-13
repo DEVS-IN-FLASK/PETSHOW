@@ -1,18 +1,16 @@
-# pip freeze > requeriments.txt
 import os
+import requests
 from flask import Flask, request, jsonify, session, g, redirect, url_for, \
      abort, render_template, flash
 from flask_restful import Resource, Api
 from sqlalchemy import create_engine
 from json import dumps
-import requests
 from flask_bootstrap import Bootstrap
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import InputRequired, Email, Length
 from flask_cors import CORS
 
-# configuração
 
 '''
 DATABASE = './tmp/flaskr.db'
@@ -22,7 +20,7 @@ USERNAME = 'admin'
 PASSWORD = 'default'
 '''
 
-# criar nossa pequena aplicação :)
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'default'
 app.config.from_object(__name__)
@@ -37,18 +35,25 @@ class LoginForm(FlaskForm):
     remember = BooleanField('Me mantenha conectado')
 
 
+#faltando teste e mensagens
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        return '<h1>' + form.username.data + ' ' + form.password.data
-    return render_template('produtos.html', form=form)
+        return redirect(url_for("produtos"))
+    return render_template('login.html', form=form)
+    '''
+    if mensagem.erro:
+        return render_template('login.html', mensagem=mensagem)
+    elif mensagem.sucesso:
+        return redirect(url_for("produtos"))
+    return render_template('login.html')
+    '''
 
 
-# Se entrar nessa rota, sem ID, por formulário, ele irá cadastrar
+#faltando mensagens
 @app.route('/produtos', methods=["GET", 'POST'])
-# Ao enviar um ID, pelo formulário, existente, fazemos o editar. Buscamos e editamos.
 @app.route('/produtos/edit/<id>', methods=["POST"])
 @app.route('/produtos/delete/<id>', methods=["GET"])
 def produtos(id = None):
@@ -56,45 +61,70 @@ def produtos(id = None):
         body = {
             "nome": request.form["nome"],
             "descricao": request.form["descricao"],
-            "foto": request.form["foto"],
-            "preco_custo": float(request.form["preco_custo"]),
-            "preco_venda": float(request.form["preco_venda"]),
             "modelo": request.form["modelo"],
             "cod_barras": int(request.form["cod_barras"]),
             "porcentagem": float(request.form["porcentagem"]),
+            "preco_custo": float(request.form["preco_custo"]),
+            "preco_venda": float(request.form["preco_venda"]),
             "quantidade": int(request.form["quantidade"]),
-            "tamanho_id": int(request.form["tamanho_id"]),
+            "foto": request.form["foto"],
             "marca_id": int(request.form["marca_id"]),
-            "animal_id": int(request.form["animal_id"] )
+            "tamanho_id": int(request.form["tamanho_id"]),
+            "animal_id": int(request.form["animal_id"] ),
+            "usuario_id": 3 #colocar id usuario logado
         }
 
-        notificacao = cadastrar(urlApi + "/produtos/", body)
-
-        print(notificacao)
+        mensagem = cadastrar(urlApi + "/produtos/", body)
+        print(body)
+        print(mensagem)
 
         return redirect(url_for("produtos"))
     elif(id != None and request.method == "GET"):
-        notificacao = deletar(urlApi + "/produtos/" + id + "/remover/")
+        mensagem = deletar(urlApi + "/produtos/" + id + "/remover/")
+
         return redirect(url_for("produtos"))
     elif(id != None):
-        produtos = "Editar um produto"
-        # @redirect("/produtos")
-        return render_template('produtos.html', produtos=produtos)
+        body = {
+            "nome": request.form["nome"],
+            "descricao": request.form["descricao"],
+            "modelo": request.form["modelo"],
+            "cod_barras": int(request.form["cod_barras"]),
+            "porcentagem": float(request.form["porcentagem"]),
+            "preco_custo": float(request.form["preco_custo"]),
+            "preco_venda": float(request.form["preco_venda"]),
+            "quantidade": int(request.form["quantidade"]),
+            "foto": request.form["foto"],
+            "marca_id": int(request.form["marca_id"]),
+            "tamanho_id": int(request.form["tamanho_id"]),
+            "animal_id": int(request.form["animal_id"] ),
+            "usuario_id": 3 #colocar id usuario logado
+        }
+
+        mensagem = editar(urlApi + "/produtos/" + id + "/alterar/", body)
+
+        print(mensagem)
+
+        return redirect(url_for("produtos"))
     else:
-        tamanhos = listar(urlApi + "/produtos/tamanhos/")
+        produtos = listar(urlApi + "/produtos/")
+
+        produto = None
+        if request.args.get("editar"):
+            produto = [p for p in produtos if int(p["id"]) == int(request.args.get("editar"))][0]
+
         marcas = listar(urlApi + "/produtos/marcas/")
+        tamanhos = listar(urlApi + "/produtos/tamanhos/")
         animais = listar(urlApi + "/produtos/animais/")
-        return render_template('produtos.html', produtos=listar(urlApi + "/produtos/"), tamanhos=tamanhos, marcas=marcas, animais=animais)
+
+        return render_template('produtos.html', produtos=produtos, tamanhos=tamanhos, marcas=marcas, animais=animais, produto=produto)
 
 
-# Recebe o id, busca no banco, renderiza na página em questão. No HTML, fazemos a lógica para mostrar no formulário.
 @app.route('/produtos/buscar/<id>')
 def buscar_produto(id):
-    msg = "Produto por id"
-    return render_template('produtos.html', msg=msg)
+    return redirect(url_for('produtos', editar=id))
 
 
-@app.route('/pedidos', methods=["GET", 'POST'])
+@app.route('/pedidos/', methods=["GET", 'POST'])
 @app.route('/pedidos/edit/<id>', methods=["POST"])
 @app.route('/pedidos/delete/<id>', methods=["GET"])
 def pedidos(id = None):
@@ -142,7 +172,6 @@ Falta restringir o acesso dos usuários a alteração de senha e alteração de 
     só gerentes podem alterar tipo de usuário
     só usuário logado só pode alterar a própria senha
 '''
-
 @app.route('/usuarios/', methods=["GET", "POST"])
 def usuarios():
     if request.method == "POST":
@@ -155,18 +184,19 @@ def usuarios():
         notificacao = cadastrar(urlApi + "/usuarios/novo", body)
         msg = "Cadastrado com sucesso"
         return redirect(url_for("usuarios"))
-    else:
+    elif request.method == 'GET':
         usuarios = listar(urlApi + '/usuarios/')
         print(usuarios)
         msg = "Usuarios"
         return render_template('lista_usuarios.html', msg=msg, usuarios=usuarios)
 
-@app.route('/usuarios/new/', methods=["GET"])
+
+@app.route('/usuarios/new', methods=["GET"])
 def cadastrar_usuario():
     msg = "Cadastrar um usuario"
     return render_template('cadastro_usuario.html', msg=msg)
 
-@app.route('/usuarios/edit/<login>/', methods=["GET", "POST"])
+@app.route('/usuarios/edit/<login>', methods=["GET", "POST"])
 def alterar_usuario(login):
     if request.method == "POST":
         msg = "Alterar um usuario"
@@ -179,7 +209,7 @@ def alterar_usuario(login):
                 usuario = x
         return render_template('cadastro_usuario.html', msg=msg, usuario=usuario)
 
-@app.route('/usuarios/senha/<login>/', methods=["GET", "POST"])
+@app.route('/usuarios/senha/<login>', methods=["GET", "POST"])
 def alterar_senha(login):
     if request.method == 'GET':
         msg = "Editar senha"
@@ -197,7 +227,7 @@ def alterar_senha(login):
         msg = "Alterada com sucesso"
         return redirect(url_for("usuarios"))
 
-@app.route('/usuarios/tipo/<login>/', methods=["GET", "POST"])
+@app.route('/usuarios/tipo/<login>', methods=["GET", "POST"])
 def alterar_tipo(login):
     if request.method == 'GET':
         msg = "Editar senha"
@@ -216,32 +246,19 @@ def alterar_tipo(login):
         return redirect(url_for("usuarios"))
 
 
-@app.route('/usuarios/delete/<login>/', methods=["POST"])
+@app.route('/usuarios/delete/<login>', methods=["POST"])
 def remover_usuario(login):
     req = requests.delete(urlApi + '/usuarios/' + login + '/remover')
     msg = req.json()
     print(msg)
     return redirect(url_for("usuarios"))
 
+@app.route('/clientes-pet/', methods=["GET"])
+def clientes():
+    return render_template('cadastro_cliente_pet.html')
 
 
 
-@app.route('/clientes-pet', methods=["GET", 'POST'])
-@app.route('/clientes-pet/edit/<id>', methods=["POST"])
-@app.route('/clientes-pet/delete/<id>', methods=["GET"])
-def clientes(id = None):
-    if(id == None and request.method == "POST"):
-        msg = "Cadastrar um cliente"
-        return render_template('cadastro_cliente_pet.html', msg=msg)
-    elif(id != None and request.method == "GET"):
-        msg = "Deletar um cliente"
-        return render_template('cadastro_cliente_pet.html', msg=msg)
-    elif(id != None):
-        msg = "Editar um cliente"
-        return render_template('cadastro_cliente_pet.html', msg=msg)
-    else:
-        msg = "Clientes"
-        return render_template('cadastro_cliente_pet.html', msg=msg)
 
 def listar(url):
     return requests.get(url).json()
@@ -250,13 +267,17 @@ def deletar(url):
     return requests.delete(url).json()
 
 def cadastrar(url, body):
-    return requests.post(url, data=dumps(body), headers={'content-type': 'application/json'})
+    return requests.post(url, data=dumps(body), headers={'content-type': 'application/json'}).json()
 
 def alterar_parte(url, body):
     return requests.patch(url, data=dumps(body), headers={'content-type': 'application/json'})
 
 def alterar_todo(url, body):
     return requests.put(url, data=dumps(body), headers={'content-type': 'application/json'})
+
+def editar(url, body):
+    return requests.put(url, data = dumps(body), headers={'content-type': 'application/json'}).json()
+
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
