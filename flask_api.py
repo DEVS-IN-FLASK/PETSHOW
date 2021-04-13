@@ -53,7 +53,7 @@ def login():
 
 
 #faltando mensagens
-@app.route('/produtos/', methods=["GET", 'POST'])
+@app.route('/produtos', methods=["GET", 'POST'])
 @app.route('/produtos/edit/<id>', methods=["POST"])
 @app.route('/produtos/delete/<id>', methods=["GET"])
 def produtos(id = None):
