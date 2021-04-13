@@ -2,12 +2,18 @@
 <html lang="pt-br">
 {% extends 'base.html' %}
 
-{% with title='Cadastre-se'%}
+{% with title='Clientes e Pets'%}
     {% include 'partials/header.html' %}
 {% endwith %}
 
-{% with tipo='cadastro' %}
+{% with tipo='Cliente' %}
+{% with rota='/clientes-pet' %}
+{% with rota_new='/clientes-pet' %}
+{% with user='User' %}
 {% include 'partials/sidebar.html'%}
+{% endwith %}
+{% endwith %}
+{% endwith %}
 {% endwith %}
 
 <head>

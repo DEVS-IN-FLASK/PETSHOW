@@ -41,18 +41,19 @@ class LoginForm(Form):
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        return '<h1>' + form.username.data + ' ' + form.password.data
-    return render_template('produtos.html', form=form)
-
+        return redirect(url_for("produtos"))
+    return render_template('login.html', form=form)
+    '''
     if mensagem.erro:
         return render_template('login.html', mensagem=mensagem)
     elif mensagem.sucesso:
         return redirect(url_for("produtos"))
     return render_template('login.html')
+    '''
 
 
 #faltando mensagens
-@app.route('/produtos', methods=["GET", 'POST'])
+@app.route('/produtos/', methods=["GET", 'POST'])
 @app.route('/produtos/edit/<id>', methods=["POST"])
 @app.route('/produtos/delete/<id>', methods=["GET"])
 def produtos(id = None):
@@ -123,7 +124,7 @@ def buscar_produto(id):
     return redirect(url_for('produtos', editar=id))
 
 
-@app.route('/pedidos', methods=["GET", 'POST'])
+@app.route('/pedidos/', methods=["GET", 'POST'])
 @app.route('/pedidos/edit/<id>', methods=["POST"])
 @app.route('/pedidos/delete/<id>', methods=["GET"])
 def pedidos(id = None):
@@ -171,7 +172,6 @@ Falta restringir o acesso dos usuários a alteração de senha e alteração de 
     só gerentes podem alterar tipo de usuário
     só usuário logado só pode alterar a própria senha
 '''
-
 @app.route('/usuarios/', methods=["GET", "POST"])
 def usuarios():
     if request.method == "POST":
@@ -184,18 +184,19 @@ def usuarios():
         notificacao = cadastrar(urlApi + "/usuarios/novo", body)
         msg = "Cadastrado com sucesso"
         return redirect(url_for("usuarios"))
-    else:
+    elif request.method == 'GET':
         usuarios = listar(urlApi + '/usuarios/')
         print(usuarios)
         msg = "Usuarios"
         return render_template('lista_usuarios.html', msg=msg, usuarios=usuarios)
 
-@app.route('/usuarios/new/', methods=["GET"])
+
+@app.route('/usuarios/new', methods=["GET"])
 def cadastrar_usuario():
     msg = "Cadastrar um usuario"
     return render_template('cadastro_usuario.html', msg=msg)
 
-@app.route('/usuarios/edit/<login>/', methods=["GET", "POST"])
+@app.route('/usuarios/edit/<login>', methods=["GET", "POST"])
 def alterar_usuario(login):
     if request.method == "POST":
         msg = "Alterar um usuario"
@@ -208,7 +209,7 @@ def alterar_usuario(login):
                 usuario = x
         return render_template('cadastro_usuario.html', msg=msg, usuario=usuario)
 
-@app.route('/usuarios/senha/<login>/', methods=["GET", "POST"])
+@app.route('/usuarios/senha/<login>', methods=["GET", "POST"])
 def alterar_senha(login):
     if request.method == 'GET':
         msg = "Editar senha"
@@ -226,7 +227,7 @@ def alterar_senha(login):
         msg = "Alterada com sucesso"
         return redirect(url_for("usuarios"))
 
-@app.route('/usuarios/tipo/<login>/', methods=["GET", "POST"])
+@app.route('/usuarios/tipo/<login>', methods=["GET", "POST"])
 def alterar_tipo(login):
     if request.method == 'GET':
         msg = "Editar senha"
@@ -245,16 +246,18 @@ def alterar_tipo(login):
         return redirect(url_for("usuarios"))
 
 
-@app.route('/usuarios/delete/<login>/', methods=["POST"])
+@app.route('/usuarios/delete/<login>', methods=["POST"])
 def remover_usuario(login):
     req = requests.delete(urlApi + '/usuarios/' + login + '/remover')
     msg = req.json()
     print(msg)
     return redirect(url_for("usuarios"))
 
-@app.route('/clientes-pet', methods=["GET"])
+@app.route('/clientes-pet/', methods=["GET"])
 def clientes():
     return render_template('cadastro_cliente_pet.html')
+
+
 
 
 def listar(url):

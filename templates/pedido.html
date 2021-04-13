@@ -6,21 +6,19 @@
     {% include 'partials/header.html' %}
 {% endwith %}
 
-{% with tipo='pedido' %}
+{% with tipo='Pedido' %}
+{% with rota='/pedidos' %}
+{% with rota_new='/pedidos' %}
+{% with user='User' %}
 {% include 'partials/sidebar.html'%}
+{% endwith %}
+{% endwith %}
+{% endwith %}
 {% endwith %}
 
 
     {% block main %}
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" conttente="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie = edge">
-    <title>Tela de Pedidos</title>
-    <link rel="stylesheet" href="../components/AdminLTE/plugins/fontawesome-free/css/all.css">
-    <link rel="stylesheet" href="../components/AdminLTE/dist/css/adminlte.css">
-    
-</head>
+
 
 <body>
     <section class="content">
@@ -60,7 +58,7 @@
                                 Pet
                                 <address>
                                     <strong>Bamby</strong><br>
-                                    <img src="../img/Bamby_ParisHilton.png" alt="Foto Bamby&Paris">
+                                    <img src="/static/img/Bamby_ParisHilton.png" alt="Foto Bamby&Paris">
                                 </address>
                             </div>
                             <!-- /.col -->
@@ -168,9 +166,9 @@
                             <!-- accepted payments column -->
                             <div class="col-6">
                                 <p class="lead">Formas de Pagamento:</p>
-                                <img src="../img/visa.png" alt="Visa">
-                                <img src="../img/mastercard.png" alt="Mastercard">
-                                <img src="../img/money.png" alt="Dinheiro">
+                                <img src="/static/img/visa.png" alt="Visa">
+                                <img src="/static/img/mastercard.png" alt="Mastercard">
+                                <img src="/static/img/money.png" alt="Dinheiro">
 
 
                                 <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
@@ -227,15 +225,8 @@
     </section>
 
 
-    <footer>
-        <p>&copy; PetShow (footer vai aqui)</p>
-        {% include 'partials/footer.html' %}
-    </footer>
 
-    <script src="../components/AdminLTE/plugins/jquery/jquery.min.js"></script>
-    <script src="../components/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../components/AdminLTE/dist/js/adminlte.min.js"></script>
-</body></html>
+
     {% endblock main %}
 
 {% include 'partials/footer.html' %}
