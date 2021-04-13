@@ -191,7 +191,7 @@ def usuarios():
         return render_template('lista_usuarios.html', msg=msg, usuarios=usuarios)
 
 
-@app.route('/usuarios/new', methods=["GET"])
+@app.route('/usuarios/new/', methods=["GET"])
 def cadastrar_usuario():
     msg = "Cadastrar um usuario"
     return render_template('cadastro_usuario.html', msg=msg)
@@ -281,5 +281,5 @@ def editar(url, body):
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
-    #app.run(host='0.0.0.0', port=port, debug=True)
-    app.run(host='localhost', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=port, debug=True)
+    #app.run(host='localhost', port=5000, debug=True)
