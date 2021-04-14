@@ -248,7 +248,7 @@ def alterar_tipo(login):
 
 @app.route('/usuarios/delete/<login>', methods=["POST"])
 def remover_usuario(login):
-    req = requests.delete(urlApi + '/usuarios/' + login + '/remover')
+    req = requests.delete(urlApi + '/usuarios/' + login + '/remover/')
     msg = req.json()
     print(msg)
     return redirect(url_for("usuarios"))
