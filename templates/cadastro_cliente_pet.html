@@ -9,14 +9,19 @@
 
 {% with tipo='Cliente' %}
 {% with rota='/clientes-pet' %}
-{% with rota_new='/clientes-pet' %}
+{% with rota_new='/cadastro-clientes-pet' %}
 {% with user='User' %}
+
+
 {% include 'partials/sidebar.html'%}
 {% endwith %}
 {% endwith %}
 {% endwith %}
 {% endwith %}
 
+
+
+<h2>{{msg}}</h2>
 <!-- Tela Novo Cliente e Pet começa aqui -->
 <div class="container">
     <div class="col-md-6">
@@ -30,7 +35,7 @@
                 {% endif %}
                 {% else %}
 
-                <form method="POST" action="{{ url_for('usuarios') }}">
+                <form method="POST" action="{{ url_for('cadastroclientes') }}">
                     {% endif %}
 
 
@@ -199,8 +204,8 @@
                         </label>
                     </div>
 
-                    <p style="background: rgb(77, 74, 74); color: white; border-radius: 10px; text-align: center; padding: 2px; width: 85px; cursor: pointer; margin: 20px 0"
-                        onclick="adicionarPet()">Salvar pet</p>
+                    <!-- <p style="background: rgb(77, 74, 74); color: white; border-radius: 10px; text-align: center; padding: 2px; width: 85px; cursor: pointer; margin: 20px 0"
+                        onclick="adicionarPet()">Salvar pet</p> -->
 
                     <div id="pets"></div>
 
@@ -211,8 +216,13 @@
     </div>
     <div id="clientes-pet" style="margin-top: 100px; text-align: center; width: 90%"></div>
 </div>
-<script type="text/babel">
-    const urlApi = "https://cors-anywhere.herokuapp.com/http://petshow-api.herokuapp.com";
+
+
+
+
+<!-- <script type="text/babel">
+    //const urlApi = "https://cors-anywhere.herokuapp.com/http://petshow-api.herokuapp.com";
+    const urlApi = "https://cors-anywhere.herokuapp.com";
     let clientes = [];
 
     let pets = [];
@@ -390,6 +400,6 @@
     }
 
     window.onload = listar();
-</script>
+</script> -->
 
 {% include 'partials/footer.html' %}

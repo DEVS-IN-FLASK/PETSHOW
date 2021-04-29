@@ -255,8 +255,35 @@ def remover_usuario(login):
 
 @app.route('/clientes-pet/', methods=["GET"])
 def clientes():
-    return render_template('cadastro_cliente_pet.html')
+    if request.method == 'GET':
+        listaClientes = listar(urlApi + '/clientes/')
+        print(listaClientes)
+        msg = "teste"
+        return render_template('cliente_pet.html', msg=msg, Listaclientes=listaClientes)
 
+
+@app.route('/cadastro-clientes-pet/', methods=["GET", "POST"])
+def cadastroclientes():
+    if request.method == "POST":
+        body = {
+            "nome": request.form["nome"],
+            "email": request.form["email"],
+            "cpf": request.form["cpf"],
+            "telefone": request.form["telefone"],
+            "cep": request.form["cep"],
+            "rua": request.form["rua"],
+            "numero": request.form["numero"],
+            "bairro": request.form["bairro"],
+            "cidade": request.form["cidade"],
+            "tipo": 'SP'      
+            }
+
+        notificacao = cadastrar(urlApi + "/clientes/", body)
+        msg = "Cadastrado com sucesso"
+        #return redirect(url_for("cadastroclientes"))
+        return render_template('cadastro_cliente_pet.html',msg=notificacao)
+    elif request.method == 'GET':
+        return render_template('cadastro_cliente_pet.html')
 
 
 
