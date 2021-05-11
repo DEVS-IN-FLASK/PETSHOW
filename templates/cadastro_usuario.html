@@ -6,7 +6,7 @@
 {% with tipo='Usuário' %}
 {% with rota='/usuarios' %}
 {% with rota_new='/usuarios/new/' %}
-{% with user='User' %}
+{% with user=user %}
 {% include 'partials/sidebar.html'%}
 {% endwith %}
 {% endwith %}
@@ -16,6 +16,16 @@
             <!-- Tela Novo Usuário começa aqui -->
             <div class="container">
                 <div class="col-md-6">
+                        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            <ul class=flashes>
+                            {% for message in messages %}
+                            <li>{{ message }}</li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                        {% endwith %}
+
                     {% if usuario %}
                         {% if tipo %}
                             {% if tipo == 'senha' %}
@@ -47,6 +57,7 @@
                             <select name="tipo" id="tipo" class="form-select">
                                 <option value="funcionario" {% if usuario %}{{'selected' if usuario.tipo == 'funcionario'}}{% endif %}>Funcionário</option>
                                 <option value="gerente" {% if usuario %}{{'selected' if usuario.tipo == 'gerente'}}{% endif %}>Gerente</option>
+                                <option value="inativo" {% if usuario %}{{'selected' if usuario.tipo == 'inativo'}}{% endif %}>Inativo</option>
                             </select>
                         </div>
                         {% endif %}
