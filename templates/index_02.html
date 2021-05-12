@@ -1,230 +1,153 @@
-<!DOCTYPE html>
+{% with title='Produtos'%}
+{% include 'partials/header.html' %}
+{% endwith %}
 
-<html lang="pt-br">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Novo Produto</title>
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='components/AdminLTE/plugins/fontawesome-free/css/all.min.css') }}">
-    <!-- IonIcons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='components/AdminLTE/dist/css/adminlte.min.css') }}">
-</head>
+{% with tipo='Produto' %}
+{% with rota='/produtos' %}
+{% with rota_new='/produtos' %}
+{% with user='User' %}
+{% include 'partials/sidebar.html'%}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+{% endwith %}
 
-<body class="sidebar-mini">
-    <div class="wrapper">
-        <!-- Main Header -->
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
-            <!-- Left navbar links -->
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="index3.html" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Pedido</a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Produto</a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Estoque</a>
-                </li>
-            </ul>
+<!--link rel="stylesheet" href="../static/css/main.css"-->
 
-            <!-- Right navbar links -->
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-                        <i class="fas fa-expand-arrows-alt"></i>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-        <!-- Main Sidebar Container -->
-        <aside class="main-sidebar sidebar-dark-primary elevation-4">
-            <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link">
-                <img src="{{ url_for('static', filename='img/logo.png')}}" alt="Petshow Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">PetShow</span>
-            </a>
-            <!-- Sidebar -->
-            <div class="sidebar">
-                <!-- Sidebar Menu -->
-                <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-                        <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-                        <li class="nav-item menu-open">
-                            <a href="#" class="nav-link active">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>Produtos
-                                    <i class="right fas fa-angle-left"></i>
-                                </p>
-                            </a>
-                            <ul class="nav nav-treeview">
-                                <li class="nav-item">
-                                    <a href="./index.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Listar Produtos</p>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
-                                    <a href="./index2.html" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Novo Produto</p>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a href="pages/widgets.html" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
-                                <p>
-                                    Usuários
-                                    <span class="right badge badge-danger">New</span>
-                                </p>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <!-- /.sidebar-menu -->
+{% block main %}
+<div id="main-container">
+
+
+    <!-- Tela Novo Produto começa aqui -->
+    <div class="container">
+        <div class="card card-success ">
+            <div class="card-header">
+                <h3 class="card-title">Novo Produto 222</h3>
             </div>
-            <!-- /.sidebar -->
-        </aside>
-        <!-- Content -->
-        <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            <div class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
-                        <div class="col-sm-6">
-                            <h1 class="m-0"></h1>
-                        </div><!-- /.col -->
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="#"></a></li>
-                                <li class="breadcrumb-item active"></li>
-                            </ol>
-                        </div><!-- /.col -->
-                    </div><!-- /.row -->
-                </div><!-- /.container-fluid -->
-            </div>
-            <!-- /.content-header -->
+            <form {% if not produto.id %} action="/produtos" {% elif produto.id !=None %} action="/produtos/edit/{{produto.id}}" {% endif %} method="POST" id="register-form">
+                <!--<input type="file" name="arquivos" multiple>-->
+                <input type="hidden" value="{{produto.id}}">
 
 
-
-            <!-- Tela Novo Produto começa aqui -->
-            <div class="container">
-                <div class="card card-success ">
-                    <div class="card-header">
-                        <h3 class="card-title">Novo Produto</h3>
-                    </div>
-                    <form action="http://127.0.0.1:5000/produtos/" method="post">
-                        <div class="card-body">
-                            <div class="row info-panel">
-                                <div class="col-2">
-                                    <div class="col-12">
-                                        <a href="" data-toggle="lightbox" data-title="sample 1 - white" data-gallery="gallery">
-                                            <img src="https://via.placeholder.com/300/FFFFFF?text=Foto" class="img-fluid mb-2 border rounded-circle" alt="white sample">
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="col-10">
-                                    <div class="col-12">
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <div class="form-group">
-                                                    <label for="userId">Identificador</label>
-                                                    <input id="userId" type="text" class="form-control" name="foto" placeholder="Id Produto">
-                                                </div>
-                                            </div>
-                                            <div class="col-9">
-                                                <div class="form-group">
-                                                    <label for="description">Nome do Produto</label>
-                                                    <input id="description" type="text" name="description" class="form-control" placeholder="Descrição">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-5">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" name="preco_custo" placeholder="Preço de Custo">
-                                                </div>
-                                            </div>
-                                            <div class="col-2">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" name="porcentagem" placeholder="%">
-                                                </div>
-                                            </div>
-                                            <div class="col-5">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" name="preco_venda" placeholder="Preço de Venda">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-3">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" name="quantidade" placeholder="Qtd">
-                                                </div>
-                                            </div>
-                                            <div class="col-9">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" name="cod_barras" placeholder="Cód Barras">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-8">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" name="modelo" placeholder="Modelo">
-                                                </div>
-                                            </div>
-                                            <div class="col-4">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" name="tamanho" placeholder="Tamanho">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" name="tipo" placeholder="Tipo">
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    <input type="text" class="form-control" name="marca" placeholder="Marca">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
+                <div class="card-body">
+                    <div class="row info-panel">
+                        <div class="col-2">
+                            <div class="col-12">
+                                <a href="" data-toggle="lightbox" data-title="sample 1 - white" data-gallery="gallery">
+                                    <img src="https://via.placeholder.com/300/FFFFFF?text=Foto" class="img-fluid mb-2 border rounded-circle" alt="white sample">
+                                </a>
                             </div>
                         </div>
-                        <div class="card-footer">
-                            <button type="submit" class="btn btn-danger float-left">Cancelar</button>
-                            <button type="submit" class="btn btn-success float-right">Salvar</button>
-                        </div>
-                    </form>
-                </div>
+
+                        <div class="col-10">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-9">
+                                        <div class="form-group">
+                                            <label for="nome">Nome do Produto</label>
+                                            <input id="description" type="text" name="nome" class="form-control" placeholder="Descrição" value="{{produto.nome}}">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-5">
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" name="preco_custo" placeholder="Preço de Custo" id="preco_custo" value="{{produto.preco_custo}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" name="porcentagem" placeholder="%" id="porcentagem" value="{{produto.porcentagem}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-5">
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" name="preco_venda" placeholder="Preço de Venda" id="preco_venda" value="{{produto.preco_venda}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3">
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" name="quantidade" placeholder="Qtd" id="quantidade" value="{{produto.quantidade}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-9">
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" name="cod_barras" placeholder="Cód Barras" id="cod_barras" value="{{produto.cod_barras}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="modelo" placeholder="Modelo" id="modelo" value="{{produto.modelo}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="nome">Descrição </label>
+                                                <input id="descricao" class="form-control" type="text" name="descricao" value="{{produto.descricao}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <div class="form-group">
+
+                                                <select type="text" class="form-control" placeholder="Tamanho" name="tamanho_id" id="tamanho_id" style="padding: 10px; display: block; width: 100%;border-bottom: 2px solid #323232;font-size: .9rem;margin-bottom: 40px;">
+                                                    {% for tamanho in tamanhos %}
+                                                    {% if tamanho.id == produto.tamanho_id %}
+                                                    <option value="{{tamanho.id}}" selected>{{tamanho.tamanho}}</option>
+                                                    {% endif %}
+                                                    {% if tamanho.id != produto.tamanho_id %}
+                                                    <option value="{{tamanho.id}}">{{tamanho.tamanho}}</option>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <label for="animal_id">Para qual animal?</label>
+                                                <select name="animal_id" id="animal_id" type="text" class="form-control" style="padding: 10px; display: block; width: 100%;border-bottom: 2px solid #323232;font-size: .9rem;margin-bottom: 40px;">
+                                                    {% for animal in animais %}
+                                                    {% if animal.id == produto.animal_id %}
+                                                    <option value="{{animal.id}}" selected>{{animal.animal}}</option>
+                                                    {% endif %}
+                                                    {% if animal.id != produto.animal_id %}
+                                                    <option value="{{animal.id}}">{{animal.animal}}</option>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" name="marca" placeholder="Marca">
+                                                <select name="marca_id" id="marca_id" style="padding: 10px; display: block; width: 100%;border-bottom: 2px solid #323232;font-size: .9rem;margin-bottom: 40px;">
+                                                    {% for marca in marcas %}
+                                                    {% if marca.id == produto.marca_id %}
+                                                    <option value="{{marca.id}}" selected>{{marca.marca}}</option>
+                                                    {% endif %}
+                                                    {% if marca.id != produto.marca_id %}
+                                                    <option value="{{marca.id}}">{{marca.marca}}</option>
+                                                    {% endif %}
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+            </form>
+            <br />
+            <div class="card-footer">
+                <button type="submit" class="btn btn-danger float-left">Cancelar</button>
+                <button type="submit" id="btn-submit" class="btn btn-success float-right" value="Registrar">Salvar</button>
             </div>
         </div>
-        <!-- /.card-body -->
+    </div>
+    {% endblock main %}
 
-        <script src="{{ url_for('static', filename='/components/AdminLTE/plugins/jquery/jquery.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='/components/AdminLTE/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-        <script src="{{ url_for('static', filename='/components/AdminLTE/dist/js/adminlte.min.js') }}"></script>
-</body>
-
-</html>
+    {% include 'partials/footer.html' %}
