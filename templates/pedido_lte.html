@@ -1,15 +1,24 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+{% extends 'base.html' %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" conttente="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie = edge">
-    <title>Tela de Pedidos</title>
-    <link rel="stylesheet" href="../static/css/fontawesome_all.css">
-    <link rel="stylesheet" href="../static/css/adminlte.css">
+{% with title='Pedidos'%}
+    {% include 'partials/header.html' %}
+{% endwith %}
 
-</head>
+{% with tipo='Pedido' %}
+{% with rota='/pedidos' %}
+{% with rota_new='/pedidos' %}
+{% with user='User' %}
+{% include 'partials/sidebar.html'%}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+
+
+    {% block main %}
+
 
 <body>
     <section class="content">
@@ -49,7 +58,7 @@
                                 Pet
                                 <address>
                                     <strong>Bamby</strong><br>
-                                    <img src="../static/img/Bamby_ParisHilton.jpg" alt="Foto Bamby&Paris">
+                                    <img src="/static/img/Bamby_ParisHilton.png" alt="Foto Bamby&Paris">
                                 </address>
                             </div>
                             <!-- /.col -->
@@ -157,9 +166,9 @@
                             <!-- accepted payments column -->
                             <div class="col-6">
                                 <p class="lead">Formas de Pagamento:</p>
-                                <img src="../static/img/visa.png" alt="Visa">
-                                <img src="../static/img/mastercard.png" alt="Mastercard">
-                                <img src="../static/img/money.png" alt="Dinheiro">
+                                <img src="/static/img/visa.png" alt="Visa">
+                                <img src="/static/img/mastercard.png" alt="Mastercard">
+                                <img src="/static/img/money.png" alt="Dinheiro">
 
 
                                 <p class="text-muted well well-sm shadow-none" style="margin-top: 10px;">
@@ -201,7 +210,7 @@
                         <div class="row no-print">
                             <div class="col-12">
                                 <a href="invoice-print.html" rel="noopener" target="_blank" class="btn btn-default"><i class="fas fa-print"></i> Imprimir</a>
-                                <a href="busca_lte.html">
+                                <a href="busca.html">
                                     <button type="button" class="btn btn-primary"><i class="fa fa-search"></i> Buscar</button></a>
                                 <button type="button" class="btn btn-success float-right" style="margin-right: 5px;">
                                     <i class="fa fa-check"></i> Confirmar Pedido
@@ -216,11 +225,8 @@
     </section>
 
 
-    <footer>
-        <p>&copy; PetShow (footer vai aqui)</p>
-    </footer>
 
-    <script src="../static/js/jquery.min.js"></script>
-    <script src="../static/js/bootstrap.bundle.min.js"></script>
-    <script src="../static/js/adminlte.min.js"></script>
-</body></html>
+
+    {% endblock main %}
+
+{% include 'partials/footer.html' %}

@@ -1,0 +1,125 @@
+{% with title='Clientes e Pets'%}
+{% include 'partials/header.html' %}
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"
+    integrity="sha512-pBSlhNUvB+td6sjW1zmR6L7c7kVWR4octUPl4tfHmzO63424nxta8aLmficEcAAswQmRqTiToi63AazDurj/Sg=="
+    crossorigin="anonymous"></script>
+{% endwith %}
+
+{% with tipo='Cliente' %}
+{% with rota='/clientes-pet' %}
+{% with rota_new='/cadastro-clientes-pet' %}
+{% with user='User' %}
+
+
+{% include 'partials/sidebar.html'%}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+
+
+<!-- Tela Listar Clientes começa aqui -->
+
+
+
+
+
+<div class="container">
+
+
+    <div class="col-md-12 ">
+        <h1> Lista Clientes/Pets </h1>
+    </div>
+
+    <!-- 
+    <div class="col-md-12 text-right"> 
+        <a class="btn btn-primary"   href="{{ url_for('cadastroclientes') }}"> Cadastrar Novo Cliente</a>
+    </div><br><br> -->
+
+    <!-- Table row -->
+    {% for cliente in Listaclientes.clientes %}
+    <div class="container" style="border: solid 1px #AAA; padding: 20px; margin: 30px auto; width: 100%;">
+        <h4>Dados do cliente</h4>
+        <p>Nome: {{cliente.cliente.nome}}</p>
+        <p>Email: {{cliente.cliente.email}}</p>
+        <p>CPF: {{cliente.cliente.cpf}}</p>
+        <p>Telefone: {{cliente.cliente.telefones[0].telefone}}</p>
+        <br>
+        <h4>Endereço do cliente</h4>
+        <p>CEP: {{cliente.cliente.endereco.cep}}</p>
+        <p>Rua: {{cliente.cliente.endereco.rua}}</p>
+        <p>Número: {{cliente.cliente.endereco.numero}}</p>
+        <p>Bairro: {{cliente.cliente.endereco.bairro}}</p>
+        <p>Cidade: {{cliente.cliente.endereco.cidade}}</p>
+        <p>UF: {{cliente.cliente.endereco.uf}}</p>
+        <br>
+        {% if cliente.cliente.pets %}
+        <h4>Pets</h4>
+        <div class="row">
+            <div class="col-12 table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Espécie</th>
+                            <th>Porte</th>
+                            <th>Raça</th>
+                            <th>Gênero</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for pet in cliente.cliente.pets %}
+                        <td>{{ pet.nome }}</td>
+                        <td>{{ pet.especie }}</td>
+                        <td>{{ pet.porte }}</td>
+                        <td>{{ pet.raca }}</td>
+                        <td>{{ pet.genero }}</td>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.col -->
+        </div>
+        {% endif %}
+        <button type="button" class="btn btn-primary" value={{cliente.cliente.id}}>Editar</button> <button type="button"
+            class="btn btn-danger" value={{cliente.cliente.id}}>Deletar</button>
+    </div>
+    {% endfor %}
+    <!-- /.row -->
+</div>
+
+<script>
+    let botoesDeletar = document.getElementsByClassName("btn-danger");
+    const urlApi = "https://cors-anywhere.herokuapp.com/http://petshow-api.herokuapp.com";
+
+    let botoesEditar = document.getElementsByClassName("btn-primary");
+
+    for (var c = 0; c < botoesDeletar.length; c++)
+        botoesDeletar[c].onclick = () => deletar(event.target.value)
+
+    for (var c = 0; c < botoesEditar.length; c++)
+        botoesEditar[c].onclick = () => editar(event.target.value)
+
+    function deletar(id) {
+        console.log(id)
+        fetch(`${urlApi}/clientes/${id}/remover`, {
+            method: "DELETE"
+        })
+            .then(r => r.json())
+            .then(d => {
+                if (d.erro === undefined)
+                    window.location.href = "/clientes-pet"
+            }
+            );
+    }
+
+    function editar(id) {
+        localStorage.setItem("id", id);
+        window.location.href = "/cadastro-clientes-pet";
+    }
+</script>
+
+
+{% include 'partials/footer.html' %}
