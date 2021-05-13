@@ -20,7 +20,7 @@
 
 {% block main %}
   <div id="main-container">
-    <h1>Novo Produto   222</h1> 
+    <h1>Novo Produto</h1> 
     <form {% if not produto.id %} action="/produtos" {% elif produto.id != None %} action="/produtos/edit/{{produto.id}}" {% endif %} method="POST" id="register-form">
         <!--<input type="file" name="arquivos" multiple>-->
         <input type="hidden" value="{{produto.id}}">
