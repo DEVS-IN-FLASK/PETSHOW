@@ -10,10 +10,12 @@
 {% with tipo='Cliente' %}
 {% with rota='/clientes-pet' %}
 {% with rota_new='/cadastro-clientes-pet' %}
-{% with user='User' %}
+{% with user=user %}
+<!-- {% with search=search %} -->
 
 
 {% include 'partials/sidebar.html'%}
+<!-- {% endwith %} -->
 {% endwith %}
 {% endwith %}
 {% endwith %}
@@ -33,6 +35,16 @@
         <h1> Lista Clientes/Pets </h1>
     </div>
 
+    <form method="POST" action="{{ url_for('clientes') }}">
+
+    <div class="col-md-3">
+        <label for="search">Pesquisar por CPF:</label>
+        <input type="text" class="form-control" id="search" name="search">
+        <button type="submit" class="btn btn-primary" id="salvar"
+                        style="display: block; margin: 20px auto;">Pesquisar</button>
+            
+    </div>
+    </form>
 <!-- 
     <div class="col-md-12 text-right"> 
         <a class="btn btn-primary"   href="{{ url_for('cadastroclientes') }}"> Cadastrar Novo Cliente</a>
@@ -62,29 +74,58 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                 {% for clientes in Listaclientes.clientes %} 
+                                {% if search != ''%}
+                                    {% for clientes in Listaclientes.clientes %} 
+                                        {% if clientes.cliente.cpf == search %} 
 
                                
-                                <tr>
-                                   <td>{{ clientes.cliente.nome }}</td>
-                                   <td>{{ clientes.cliente.email }}</td>
-                                   <td>{{ clientes.cliente.cpf }}</td>
-                                   <td>{{ clientes.cliente.telefone }}</td>
-                                   <td>{{ clientes.cliente.endereco.cep }}</td>
-                                   <td>{{ clientes.cliente.endereco.rua }}</td>
-                                   <td>{{ clientes.cliente.endereco.numero }}</td>
-                                   <td>{{ clientes.cliente.endereco.bairro }}</td>
-                                   <td>{{ clientes.cliente.endereco.cidade }}</td>
-                                   <td>{{ clientes.cliente.endereco.uf }}</td>
-                                   <td>{{ clientes.cliente.nomepet }}</td>
-                                   <td>{{ clientes.cliente.especie }}</td>
-                                   <td>{{ clientes.cliente.porte }}</td>
-                                   <td>{{ clientes.cliente.raca }}</td>
-                                   <td>{{ clientes.cliente.genero }}</td>
-                                
-                                </tr>
-                                
-                                {% endfor %}
+                                            <tr>
+                                            <td>{{ clientes.cliente.nome }}</td>
+                                            <td>{{ clientes.cliente.email }}</td>
+                                            <td>{{ clientes.cliente.cpf }}</td>
+                                            <td>{{ clientes.cliente.telefone }}</td>
+                                            <td>{{ clientes.cliente.endereco.cep }}</td>
+                                            <td>{{ clientes.cliente.endereco.rua }}</td>
+                                            <td>{{ clientes.cliente.endereco.numero }}</td>
+                                            <td>{{ clientes.cliente.endereco.bairro }}</td>
+                                            <td>{{ clientes.cliente.endereco.cidade }}</td>
+                                            <td>{{ clientes.cliente.endereco.uf }}</td>
+                                            <td>{{ clientes.cliente.nomepet }}</td>
+                                            <td>{{ clientes.cliente.especie }}</td>
+                                            <td>{{ clientes.cliente.porte }}</td>
+                                            <td>{{ clientes.cliente.raca }}</td>
+                                            <td>{{ clientes.cliente.genero }}</td>
+                                            
+                                            </tr>
+
+                                        {% endif %} 
+                                    {% endfor %}
+                                {% elif search == ''%}
+
+                                    {% for clientes in Listaclientes.clientes %} 
+                                                                
+                                         <tr>
+                                              <td>{{ clientes.cliente.nome }}</td>
+                                              <td>{{ clientes.cliente.email }}</td>
+                                              <td>{{ clientes.cliente.cpf }}</td>
+                                              <td>{{ clientes.cliente.telefone }}</td>
+                                              <td>{{ clientes.cliente.endereco.cep }}</td>
+                                              <td>{{ clientes.cliente.endereco.rua }}</td>
+                                              <td>{{ clientes.cliente.endereco.numero }}</td>
+                                              <td>{{ clientes.cliente.endereco.bairro }}</td>
+                                              <td>{{ clientes.cliente.endereco.cidade }}</td>
+                                              <td>{{ clientes.cliente.endereco.uf }}</td>
+                                              <td>{{ clientes.cliente.nomepet }}</td>
+                                              <td>{{ clientes.cliente.especie }}</td>
+                                              <td>{{ clientes.cliente.porte }}</td>
+                                              <td>{{ clientes.cliente.raca }}</td>
+                                              <td>{{ clientes.cliente.genero }}</td>
+                                                
+                                         </tr>
+
+                                            
+                                    {% endfor %}  
+                                {% endif %}
                             </tbody>
                         </table>
                     </div>
