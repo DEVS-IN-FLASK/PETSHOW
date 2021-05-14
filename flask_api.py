@@ -130,7 +130,7 @@ def produtos(id = None):
             tamanhos = listar(urlApi + "/produtos/tamanhos/")
             animais = listar(urlApi + "/produtos/animais/")
 
-            return render_template('produtos_cadastro.html', produtos=produtos, tamanhos=tamanhos, marcas=marcas, animais=animais, produto=produto, user=session['login'])
+            return render_template('produtos_lista.html', produtos=produtos, tamanhos=tamanhos, marcas=marcas, animais=animais, produto=produto, user=session['login'])
     except Exception:
             flash('Não foi possível a conexão com o banco')
             return redirect(url_for("login"))
