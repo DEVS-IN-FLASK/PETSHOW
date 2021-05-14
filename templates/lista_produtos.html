@@ -1,0 +1,112 @@
+{% with title='Produtos'%}
+{% include 'partials/header.html' %}
+{% endwith %}
+
+
+
+
+{% with tipo='Produto' %}
+{% with rota='/produtos' %}
+{% with rota_new='/produtos' %}
+{% with user='User' %}
+{% include 'partials/sidebar.html'%}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+
+<!--link rel="stylesheet" href="../static/css/main.css"-->
+
+{% block main %}
+
+<div id="main-container">
+
+
+    <!-- Tela Lista começa aqui -->
+    <div class="container">
+        <div class="card card-success ">
+            <div class="card-header">
+                <h3 class="card-title">Lista de Produtos</h3>
+            </div>
+                            <div class="card-body">
+                                <div id="example1_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <table id="example1" class="table table-bordered table-striped dataTable dtr-inline" role="grid" aria-describedby="example1_info">
+                                                <thead>                                                    
+                                                    <tr role="row">
+                                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">Foto</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Platform(s): activate to sort column ascending">Nome</th>                                                
+                                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">Modelo</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Descrição</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">Custo</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">Venda</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">Quantidade</th>          
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for produto in produtos %}
+                                                    <tr role="row">
+                                                        <td><img src="{{produto.foto}}" style="width: 50px; height: 50px"></td>
+                                                        <td>{{produto.descricao}}</td>
+                                                        <td>{{produto.modelo}}</td>
+                                                        <td>{{produto.nome}}</td>
+                                                        <td>{{produto.preco_custo}}</td>
+                                                        <td>{{produto.preco_venda}}</td>
+                                                        <td>{{produto.quantidade}}</td>
+                                                    </tr>
+                                                </tbody>
+                                                {% endfor %}
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-danger float-left">Cancelar</button>
+                                <button type="submit" id="btn-submit" class="btn btn-success float-right" value="Registrar">Selecionar</button>
+                            </div>
+                                        
+                </div>
+            </div><!-- /.container-fluid -->
+        </div>
+    </section>
+    <script src="../static/js/jquery.min.js"></script>
+    <script src="../static/js/bootstrap.bundle.min.js"></script>
+    <script src="../static/js/jquery.dataTables.min.js"></script>
+    <script src="../static/js/dataTables.bootstrap4.min.js"></script>
+    <script src="../static/js/dataTables.responsive.min.js"></script>
+    <script src="../static/js/responsive.bootstrap4.min.js"></script>
+    <script src="../static/js/dataTables.buttons.min.js"></script>
+    <script src="../static/js/buttons.bootstrap4.min.js"></script>
+    <script src="../static/js/jszip.min.js"></script>
+    <script src="../static/js/pdfmake.min.js"></script>
+    <script src="../static/js/vfs_fonts.js"></script>
+    <script src="../static/js/buttons.html5.min.js"></script>
+    <script src="../static/js/buttons.print.min.js"></script>
+    <script src="../static/js/buttons.colVis.min.js"></script>
+    <script src="../static/lightbox2/js/lightbox.min.js"></script>
+    <script src="../static/lightbox2/js/lightbox.min.js"></script>
+
+    <!-- função para simulação de alimentação da tabela, deve ser substituída quando api ficar pronta -->
+    <script>
+        $(function() {
+            $("#example1").DataTable({
+                "responsive": true,
+                "lengthChange": false,
+                "autoWidth": false,
+                "ajax": '/ajax/produtos.txt',
+                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        });
+    </script>
+
+    <script>
+        lightbox.option({
+            'resizeDuration': 200,
+            'wrapAround': true,
+            'maxWidth': 300
+        })
+    </script>
+{% endblock main %}
+{% include 'partials/footer.html' %}
