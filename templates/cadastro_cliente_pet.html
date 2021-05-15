@@ -10,7 +10,7 @@
 {% with tipo='Cliente' %}
 {% with rota='/clientes-pet' %}
 {% with rota_new='/cadastro-clientes-pet' %}
-{% with user='User' %}
+{% with user=user %}
 
 
 {% include 'partials/sidebar.html'%}
@@ -90,7 +90,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="numero">Número:</label>
-                        <input type="text" class="form-control" id="numero" {% if not usuario %}name="numero"
+                        <input type="number" class="form-control" id="numero" {% if not usuario %}name="numero"
                             {% endif %} placeholder="Digite o número"
                             value="{% if usuario %}{{ usuario.nome }}{% endif %}"
                             {% if usuario %}{{'readonly'}}{% endif %}>
@@ -204,8 +204,8 @@
                         </label>
                     </div>
 
-                    <p style="background: rgb(77, 74, 74); color: white; border-radius: 10px; text-align: center; padding: 2px; width: 85px; cursor: pointer; margin: 20px 0"
-                        onclick="adicionarPet()">Salvar pet</p>
+                    <!-- <p style="background: rgb(77, 74, 74); color: white; border-radius: 10px; text-align: center; padding: 2px; width: 85px; cursor: pointer; margin: 20px 0"
+                        onclick="adicionarPet()">Salvar pet</p> -->
 
                     <div id="pets"></div>
 
@@ -214,14 +214,16 @@
 
                 </form>
     </div>
+    <div id="clientes-pet" style="margin-top: 100px; text-align: center; width: 90%"></div>
 </div>
 
 
 
 
-<script type="text/babel">
-    const urlApi = "https://cors-anywhere.herokuapp.com/http://petshow-api.herokuapp.com";
-    let cliente = {};
+<!-- <script type="text/babel">
+    //const urlApi = "https://cors-anywhere.herokuapp.com/http://petshow-api.herokuapp.com";
+    const urlApi = "https://cors-anywhere.herokuapp.com";
+    let clientes = [];
 
     let pets = [];
 
@@ -244,72 +246,52 @@
     let raca = document.getElementById("raca");
 
     const listar = async () => {
-        let idLS = Number(localStorage.getItem("id"));
+        const response = await fetch(`${urlApi}/clientes`);
+        const data = await response.json();
 
-        if (!isNaN(idLS)) {
-            fetch(`${urlApi}/clientes`)
-                .then(response => response.json())
-                .then(data => {
-                    cliente = data.clientes.find(c => c.cliente.id === idLS);
+        clientes = data;
 
-                    id = idLS;
-                    nome.value = cliente.cliente.nome;
-                    email.value = cliente.cliente.email;
-                    cpf.value = cliente.cliente.cpf;
-
-                    telefone.value = cliente.cliente.telefones[0].telefone;
-
-                    cep.value = cliente.cliente.endereco.cep;
-                    rua.value = cliente.cliente.endereco.rua;
-                    numero.value = cliente.cliente.endereco.numero;
-                    bairro.value = cliente.cliente.endereco.bairro;
-                    cidade.value = cliente.cliente.endereco.cidade;
-                    uf.value = cliente.cliente.endereco.uf;
-
-                    pets = cliente.cliente.pets;
-
-                    ReactDOM.render(
-                        <div>
-                            <div className="mb-1">
-                                <label htmlFor=""><strong>Pets do cliente</strong></label>
-                            </div>
-                            <table className="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Nome</th>
-                                        <th scope="col">Espécie</th>
-                                        <th scope="col">Porte</th>
-                                        <th scope="col">Raça</th>
-                                        <th scope="col">Gênero</th>
+        ReactDOM.render(
+            <div>
+                <h1 className="titulo">Clientes</h1>
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Espécie</th>
+                            <th scope="col">Porte</th>
+                            <th scope="col">Raça</th>
+                            <th scope="col">Gênero</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            clientes.clientes.map((pet, index) => {
+                                return (
+                                    <tr key={index}>
+                                        <td>{pet.nome}</td>
+                                        <td>{pet.animal_id === 1 ? "Cachorro" : "Gato"}</td>
+                                        <td>{pet.porte}</td>
+                                        <td>{pet.raca}</td>
+                                        <td>{pet.genero}</td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        pets.map((pet, index) => {
-                                            return (
-                                                <tr key={index}>
-                                                    <td>{pet.nome}</td>
-                                                    <td>{pet.animal_id === 1 ? "Cachorro" : "Gato"}</td>
-                                                    <td>{pet.porte}</td>
-                                                    <td>{pet.raca}</td>
-                                                    <td>{pet.genero}</td>
-                                                </tr>
-                                            );
-                                        })
-                                    }
-                                </tbody>
-                            </table>
-                        </div>,
-                        document.getElementById("pets")
-                    );
+                                );
+                            })
+                        }
+                    </tbody>
+                </table>
+            </div>,
+            document.getElementById("clientes-pet")
+        );
 
-                    localStorage.removeItem("id");
-                });
-        }
-
+        
         limparCamposUsuario();
         limparCamposPet();
     };
+
+    function editarCliente(id, nome, cpf, email, endereco, pets, telefones) {
+        console.log("teste")
+    }
 
     function limparCamposPet() {
         nomePet.value = "";
@@ -405,11 +387,8 @@
             pets: pets
         }
 
-        let metodo = id > -1 ? "PUT" : "POST"
-        let end = metodo==="POST" ? `${urlApi}/clientes` : `${urlApi}/clientes/${id}/alterar`
-
-        const response = await fetch(end, {
-            method: metodo,
+        const response = await fetch(`${urlApi}/clientes`, {
+            method: "POST",
             headers: {
                 "content-type": "application/json"
             },
@@ -417,12 +396,10 @@
         });
         const data = await response.json();
 
-        console.log(data)
-
         listar();
     }
 
     window.onload = listar();
-</script>
+</script> -->
 
 {% include 'partials/footer.html' %}

@@ -20,10 +20,10 @@
                     <a href="{{ url_for('usuarios') }}" class="nav-link">Usuários</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Bem-vindo, {{ user }}</a>
+                    <a href="#" class="nav-link">Bem-vindo, {{ user.nome }}</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Logout</a>
+                    <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
                 </li>
             </ul>
 
