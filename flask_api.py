@@ -293,14 +293,21 @@ def remover_usuario(login):
     return redirect(url_for("usuarios"))
 
 
-@app.route('/clientes-pet/', methods=["GET"])
+@app.route('/clientes-pet/', methods=["GET", "POST"])
 def clientes():
     try:
         if request.method == 'GET':
             listaClientes = listar(urlApi + '/clientes/')
             print(listaClientes)
-            msg = "teste"
-            return render_template('cliente_pet.html', msg=msg, Listaclientes=listaClientes, user=session['login'])
+            search = ''
+            return render_template('cliente_pet.html', search=search , Listaclientes=listaClientes, user=session['login'])
+        elif request.method == 'POST':
+            listaClientes = listar(urlApi + '/clientes/')
+            print(listaClientes)
+            # search = "teste"
+            search = request.form["search"]
+            print("search="+search)
+            return render_template('cliente_pet.html', search=search, Listaclientes=listaClientes, user=session['login'])
     except Exception:
         flash('Não foi possível a conexão com o banco')
         return redirect(url_for("login"))
@@ -313,13 +320,15 @@ def cadastroclientes():
                 "nome": request.form["nome"],
                 "email": request.form["email"],
                 "cpf": request.form["cpf"],
-                "telefone": request.form["telefone"],
+                "telefones": [],
+                "endereco":{
                 "cep": request.form["cep"],
                 "rua": request.form["rua"],
                 "numero": request.form["numero"],
                 "bairro": request.form["bairro"],
                 "cidade": request.form["cidade"],
-                "tipo": 'SP'      
+                "uf": "SP"},
+                "pets": []      
                 }
 
             notificacao = cadastrar(urlApi + "/clientes/", body)
@@ -328,12 +337,14 @@ def cadastroclientes():
             return render_template('cadastro_cliente_pet.html',msg=notificacao, user=session['login'])
         elif request.method == 'GET':
             return render_template('cadastro_cliente_pet.html', user=session['login'])
-    except Exception:
+    except Exception as e:
+        print(e)
         flash('Não foi possível a conexão com o banco')
-        return redirect(url_for("login"))
+        #return redirect(url_for("login"))
 
 
 def listar(url):
+    print(session)
     return requests.get(url, headers={'authorization': f"Bearer {session['access_token']}"}).json()
 
 def deletar(url):
