@@ -25,7 +25,7 @@ CORS(app)
 class LoginForm(FlaskForm):
     username = StringField('Login', validators=[InputRequired(), Length(min=4, max=15)])
     password = PasswordField('Senha', validators=[InputRequired(), Length(min=4, max=15)])
-    #remember = BooleanField('Me mantenha conectado')
+    remember = BooleanField('Me mantenha conectado')
 
 
 #faltando teste e mensagens
