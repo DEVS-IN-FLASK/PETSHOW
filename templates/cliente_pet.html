@@ -1,0 +1,138 @@
+{% with title='Clientes e Pets'%}
+{% include 'partials/header.html' %}
+<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"
+    integrity="sha512-pBSlhNUvB+td6sjW1zmR6L7c7kVWR4octUPl4tfHmzO63424nxta8aLmficEcAAswQmRqTiToi63AazDurj/Sg=="
+    crossorigin="anonymous"></script>
+{% endwith %}
+
+{% with tipo='Cliente' %}
+{% with rota='/clientes-pet' %}
+{% with rota_new='/cadastro-clientes-pet' %}
+{% with user='user' %}
+<!-- {% with search=search %} -->
+
+
+{% include 'partials/sidebar.html'%}
+<!-- {% endwith %} -->
+{% endwith %}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+
+
+<!-- Tela Listar Clientes começa aqui -->
+
+
+
+
+
+<div class="container">
+
+
+    <div class="col-md-12 "> 
+        <h1> Lista Clientes/Pets </h1>
+    </div>
+
+    <form method="POST" action="{{ url_for('clientes') }}">
+
+    <div class="col-md-3">
+        <label for="search">Pesquisar por CPF:</label>
+        <input type="text" class="form-control" id="search" name="search">
+        <button type="submit" class="btn btn-primary" id="salvar"
+                        style="display: block; margin: 20px auto;">Pesquisar</button>
+            
+    </div>
+    </form>
+<!-- 
+    <div class="col-md-12 text-right"> 
+        <a class="btn btn-primary"   href="{{ url_for('cadastroclientes') }}"> Cadastrar Novo Cliente</a>
+    </div><br><br> -->
+
+                <!-- Table row -->
+                <div class="row">
+                    <div class="col-12 table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                    <th>CPF</th>
+                                    <th>Telefone</th>
+                                    <th>CEP</th>
+                                    <th>Rua</th>
+                                    <th>Número</th>
+                                    <th>Bairro</th>
+                                    <th>Cidade</th>
+                                    <th>UF</th>
+                                    <th>Nome do Pet</th>
+                                    <th>Espécie</th>
+                                    <th>Porte</th>
+                                    <th>Raça</th>
+                                    <th>Gênero</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if search != ''%}
+                                    {% for clientes in Listaclientes.clientes %} 
+                                        {% if clientes.cliente.cpf == search %} 
+
+                               
+                                            <tr>
+                                            <td>{{ clientes.cliente.nome }}</td>
+                                            <td>{{ clientes.cliente.email }}</td>
+                                            <td>{{ clientes.cliente.cpf }}</td>
+                                            <td>{{ clientes.cliente.telefone }}</td>
+                                            <td>{{ clientes.cliente.endereco.cep }}</td>
+                                            <td>{{ clientes.cliente.endereco.rua }}</td>
+                                            <td>{{ clientes.cliente.endereco.numero }}</td>
+                                            <td>{{ clientes.cliente.endereco.bairro }}</td>
+                                            <td>{{ clientes.cliente.endereco.cidade }}</td>
+                                            <td>{{ clientes.cliente.endereco.uf }}</td>
+                                            <td>{{ clientes.cliente.nomepet }}</td>
+                                            <td>{{ clientes.cliente.especie }}</td>
+                                            <td>{{ clientes.cliente.porte }}</td>
+                                            <td>{{ clientes.cliente.raca }}</td>
+                                            <td>{{ clientes.cliente.genero }}</td>
+                                            
+                                            </tr>
+
+                                        {% endif %} 
+                                    {% endfor %}
+                                {% elif search == ''%}
+
+                                    {% for clientes in Listaclientes.clientes %} 
+                                                                
+                                         <tr>
+                                              <td>{{ clientes.cliente.nome }}</td>
+                                              <td>{{ clientes.cliente.email }}</td>
+                                              <td>{{ clientes.cliente.cpf }}</td>
+                                              <td>{{ clientes.cliente.telefone }}</td>
+                                              <td>{{ clientes.cliente.endereco.cep }}</td>
+                                              <td>{{ clientes.cliente.endereco.rua }}</td>
+                                              <td>{{ clientes.cliente.endereco.numero }}</td>
+                                              <td>{{ clientes.cliente.endereco.bairro }}</td>
+                                              <td>{{ clientes.cliente.endereco.cidade }}</td>
+                                              <td>{{ clientes.cliente.endereco.uf }}</td>
+                                              <td>{{ clientes.cliente.nomepet }}</td>
+                                              <td>{{ clientes.cliente.especie }}</td>
+                                              <td>{{ clientes.cliente.porte }}</td>
+                                              <td>{{ clientes.cliente.raca }}</td>
+                                              <td>{{ clientes.cliente.genero }}</td>
+                                                
+                                         </tr>
+
+                                            
+                                    {% endfor %}  
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+</div>
+
+
+{% include 'partials/footer.html' %}

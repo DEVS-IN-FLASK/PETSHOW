@@ -1,10 +1,14 @@
+{% with title='Usuário'%}
+    {% include 'partials/header.html' %}
+{% endwith %}
 
-{% include 'partials/header.html' %}
 
 {% with tipo='Usuário' %}
-{% with rota='usuario' %}
-{% with user='User' %}
+{% with rota='/usuarios' %}
+{% with rota_new='/usuarios/new/' %}
+{% with user=user %}
 {% include 'partials/sidebar.html'%}
+{% endwith %}
 {% endwith %}
 {% endwith %}
 {% endwith %}
@@ -12,6 +16,15 @@
             <!-- Tela Listar Usuários começa aqui -->
             <div class="container">
                 <!-- Table row -->
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <ul class=flashes>
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+                {% endwith %}
                 <div class="row">
                     <div class="col-12 table-responsive">
                         <table class="table table-striped">
@@ -23,35 +36,32 @@
                                     <th>Tipo</th>
                                     <th></th>
                                     <th></th>
-                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for usuario in usuarios %}
                                 <tr>
+                                    {% if user.tipo == 'gerente' or user.login == usuario.login %}
                                     <td>{{ usuario.id }}</td>
                                     <td>{{ usuario.login }}</td>
                                     <td>{{ usuario.nome }}</td>
                                     <td>{{ usuario.tipo }}</td>
                                     <td>
-                                        <form method="POST" action="{{ url_for('remover_usuario', login=usuario.login) }}">
-                                            <button class="btn bg-danger">
-                                                <i class="fa fa-trash"></i>
-                                            </button>
-                                        </form>
-                                        
-                                    </td>
-                                    <td>
+                                        {% if user.tipo == 'gerente' %}
                                         <a class="btn btn-warning" href="{{ url_for('alterar_tipo', login=usuario.login) }}">
-                                            <i class="fa fa-compass"></i>
+                                            Alterar Tipo
                                         </a>
+                                        {% endif %}
                                     </td>
                                     <td>
+                                        {% if user.login == usuario.login %}
                                         <a class="btn btn-warning" href="{{ url_for('alterar_senha', login=usuario.login) }}">
-                                            <i class="fa fa-user-secret"></i>
+                                            Alterar Senha
                                         </a>
+                                        {% endif %}
                                     </td>
                                 </tr>
+                                {% endif %}
                                 {% endfor %}
                             </tbody>
                         </table>
