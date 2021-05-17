@@ -15,7 +15,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'devsinflaskpetshowapp'
 app.config.from_object(__name__)
-urlApi = "http://localhost:8080"
+urlApi = "https://petshow-api.herokuapp.com/"
 #urlApi = "http://localhost:5000" #API:"http://localhost:8080"
 Bootstrap(app)
 CORS(app)
