@@ -78,7 +78,7 @@
 
                     <div class="mb-3">
                         <label for="cep">CEP:</label>
-                        <input type="text" class="form-control" id="cep" {% if not usuario %}name="CEP" {% endif %}
+                        <input type="text" class="form-control" id="cep" {% if not usuario %}name="cep" {% endif %}
                             placeholder="Digite o cep" value="{% if usuario %}{{ usuario.nome }}{% endif %}"
                             {% if usuario %}{{'readonly'}}{% endif %}>
                     </div>
@@ -113,7 +113,7 @@
 
                     <div class="mb-3">
                         <label for='UF'>UF:</label>
-                        <select id="uf" required>
+                        <select name="uf" required>
                             <option selected disabled value="">Selecione</option>
                             <option value="AC">AC</option>
                             <option value="AL">AL</option>
@@ -152,7 +152,7 @@
 
                     <div class="mb-3">
                         <label for='nome_pet'>Nome:</label>
-                        <input type='text' class="form-control" id="nome_pet" {% if not usuario %}name="nome"
+                        <input type='text' class="form-control" id="nome_pet" {% if not usuario %}name="nome_pet"
                             {% endif %} placeholder="Digite o nome do PET"
                             value="{% if usuario %}{{ usuario.nome }}{% endif %}"
                             {% if usuario %}{{'readonly'}}{% endif %}>
@@ -161,10 +161,10 @@
                     <div class="mb-3">
                         <label>Espécie:</label>
                         <label for='dog'>
-                            <input type='radio' name='especie' id='dog' value="1">Cachorro
+                            <input type='radio' name='especie' id='dog' value="cachorro">Cachorro
                         </label>
                         <label for='cat'>
-                            <input type='radio' name='especie' id='cat' value="2">Gato
+                            <input type='radio' name='especie' id='cat' value="gato">Gato
                         </label>
                     </div>
 
@@ -189,7 +189,7 @@
 
                     <div class="mb-3">
                         <label for='raça'>Raça:</label>
-                        <input type='text' class="form-control" id="raca" {% if not usuario %}name="nome" {% endif %}
+                        <input type='text' class="form-control" id="raca" {% if not usuario %}name="raca" {% endif %}
                             placeholder="Digite a raça" value="{% if usuario %}{{ usuario.nome }}{% endif %}"
                             {% if usuario %}{{'readonly'}}{% endif %}>
                     </div>
@@ -197,10 +197,10 @@
                     <div class="mb-3">
                         <label>Gênero:</label>
                         <label for='female'>
-                            <input type='radio' name='genero' id='female' value="Fêmea">Fêmea
+                            <input type='radio' name='genero' id='female' value="f">Fêmea
                         </label>
                         <label for='male'>
-                            <input type='radio' name='genero' id='male' value="Macho">Macho
+                            <input type='radio' name='genero' id='male' value="m">Macho
                         </label>
                     </div>
 
