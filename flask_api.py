@@ -12,7 +12,6 @@ from wtforms.validators import InputRequired, Email, Length
 from flask_cors import CORS
 
 
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'devsinflaskpetshowapp'
 app.config.from_object(__name__)
@@ -144,20 +143,48 @@ def buscar_produto(id):
 @app.route('/pedidos/edit/<id>', methods=["POST"])
 @app.route('/pedidos/delete/<id>', methods=["GET"])
 def pedidos(id = None):
-    if(id == None and request.method == "POST"):
-        msg = "Cadastrar um pedido"
-        return render_template('pedidos.html', msg=msg, user=session['login'])
-    elif(id != None and request.method == "GET"):
-        msg = "Deletar um pedido"
+    try:
+        if(id == None and request.method == "POST"):
+            body = {
+                "qtd": request.form["qtd"],
+                "produto": request.form["produto"],
+                "cod_barras": int(request.form["cod_barras"]),
+                "preco_venda": float(request.form["preco_venda"]),
+                "quantidade": int(request.form["quantidade"]),
+                "marca_id": int(request.form["marca_id"]),
+                "tamanho_id": int(request.form["tamanho_id"]),
+                "usuario_id": session['login']['id']
+            }
+            
+            mensagem = cadastrar pedidos (urlApi + "/pedidos/", body)
+            print(body)
+            print(mensagem)
+
+            return redirect(url_for("pedidos"))
+
+        elif(id != None and request.method == "GET"):
+            mensagem = deletar(urlApi + "/pedidos/" + id + "/remover/")
+
         # @redirect("/pedidos")
-        return render_template('pedidos.html', msg=msg, user=session['login'])
-    elif(id != None):
-        msg = "Editar um pedido"
+            return redirect(url_for("pedidos"))
+        elif(id != None):
+            body = {
+                "qtd": request.form["qtd"],
+                "produto": request.form["produto"],
+                "cod_barras": int(request.form["cod_barras"]),
+                "preco_venda": float(request.form["preco_venda"]),
+                "quantidade": int(request.form["quantidade"]),
+                "marca_id": int(request.form["marca_id"]),
+                "tamanho_id": int(request.form["tamanho_id"]),
+                "usuario_id": session['login']['id']
+            }
+            mensagem = editar(urlApi + "/pedidos/" + id + "/alterar/", body)
+            print(mensagem)
         # @redirect("/pedidos")
-        return render_template('pedidos.html', msg=msg, user=session['login'])
+             return redirect(url_for("pedidos"))
     else:
         msg = "Pedidos"
-        return render_template('pedido.html', msg=msg, user=session['login'])
+        return render_template('pedidos.html', msg=msg, user=session['login'])
 
 
 @app.route('/vendas', methods=["GET", 'POST'])
