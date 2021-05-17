@@ -156,7 +156,7 @@ def pedidos(id = None):
                 "usuario_id": session['login']['id']
             }
             
-            mensagem = cadastrar pedidos (urlApi + "/pedidos/", body)
+            mensagem = cadastrar(urlApi + "/pedidos/", body)
             print(body)
             print(mensagem)
 
@@ -181,10 +181,10 @@ def pedidos(id = None):
             mensagem = editar(urlApi + "/pedidos/" + id + "/alterar/", body)
             print(mensagem)
         # @redirect("/pedidos")
-             return redirect(url_for("pedidos"))
-    else:
-        msg = "Pedidos"
-        return render_template('pedidos.html', msg=msg, user=session['login'])
+            return redirect(url_for("pedidos"))
+        else:
+            msg = "Pedidos"
+            return render_template('pedidos.html', msg=msg, user=session['login'])
 
 
 @app.route('/vendas', methods=["GET", 'POST'])
