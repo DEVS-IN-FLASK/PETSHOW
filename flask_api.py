@@ -143,7 +143,7 @@ def buscar_produto(id):
 @app.route('/pedidos/edit/<id>', methods=["POST"])
 @app.route('/pedidos/delete/<id>', methods=["GET"])
 def pedidos(id = None):
-    try:
+#    try:
         if(id == None and request.method == "POST"):
             body = {
                 "qtd": request.form["qtd"],
