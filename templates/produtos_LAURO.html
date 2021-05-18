@@ -1,0 +1,132 @@
+{% with title='Produtos' %}
+{% include 'partials/header.html' %}
+{% endwith %}
+
+
+{% with tipo='Produto' %}
+{% with rota='/produtos' %}
+{% with rota_new='/produtos' %}
+{% with user='User' %}
+{% include 'partials/sidebar.html'%}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+
+{% block main %}
+  <div id="main-container">
+    <h1>Novo Produto   222</h1> 
+    <form {% if not produto.id %} action="/produtos" {% elif produto.id != None %} action="/produtos/edit/{{produto.id}}" {% endif %} method="POST" id="register-form">
+        <!--<input type="file" name="arquivos" multiple>-->
+        <input type="hidden" value="{{produto.id}}">
+        <div class="full-box">
+          <label for="nome">Nome </label>
+          <input type="text" name="nome" id="nome" value="{{produto.nome}}">
+        </div>
+        <div class="full-box">
+          <label for="nome">Descrição </label>
+          <input type="text" name="descricao" id="descricao" value="{{produto.descricao}}">
+        </div>
+        <div class="half-box spacing">
+          <label for="modelo">Modelo </label>
+          <input type="text" name="modelo" id="modelo" value="{{produto.modelo}}">
+        </div>
+        <div class="half-box spacing">
+          <label for="cod_barras">Cód. de barras </label>
+          <input type="number" name="cod_barras" id="cod_barras" value="{{produto.cod_barras}}">
+        </div>
+        <div class="half-box spacing">
+          <label for="porcentagem">Porcentagem</label>
+          <input type="number" name="porcentagem" id="porcentagem" value="{{produto.porcentagem}}">
+        </div>
+        <div class="half-box spacing">
+          <label for="preco_custo">Preço custo </label>
+          <input type="number" name="preco_custo" id="preco_custo" value="{{produto.preco_custo}}">
+        </div>
+        <div class="half-box spacing">
+          <label for="preco_venda">Preço venda </label>
+          <input type="number" name="preco_venda" id="preco_venda" value="{{produto.preco_venda}}">
+        </div>
+        <div class="half-box spacing">
+          <label for="quantidade">Quantidade</label>
+          <input type="number" name="quantidade" id="quantidade" value="{{produto.quantidade}}">
+        </div>
+        <label for="foto">Foto </label>
+        <input type="text" name="foto" id="foto" value="{{produto.foto}}">
+        <br>
+        <div class="half-box spacing">
+          <label for="marca_id">Marca:</label>
+          <select name="marca_id" id="marca_id" style="padding: 10px; display: block; width: 100%;border-bottom: 2px solid #323232;font-size: .9rem;margin-bottom: 40px;">
+            {% for marca in marcas %}
+              {% if marca.id == produto.marca_id %}
+                <option value="{{marca.id}}" selected>{{marca.marca}}</option>
+              {% endif %}
+              {% if marca.id != produto.marca_id %}
+                <option value="{{marca.id}}">{{marca.marca}}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+        <div class="half-box spacing">
+          <label for="tamanho_id">Tamanho:</label>
+          <select name="tamanho_id" id="tamanho_id" style="padding: 10px; display: block; width: 100%;border-bottom: 2px solid #323232;font-size: .9rem;margin-bottom: 40px;">
+            {% for tamanho in tamanhos %}
+              {% if tamanho.id == produto.tamanho_id %}
+                <option value="{{tamanho.id}}" selected>{{tamanho.tamanho}}</option>
+              {% endif %}
+              {% if tamanho.id != produto.tamanho_id %}
+                <option value="{{tamanho.id}}">{{tamanho.tamanho}}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+        <div class="half-box spacing">
+          <label for="animal_id">Para qual animal?</label>
+          <select name="animal_id" id="animal_id" style="padding: 10px; display: block; width: 100%;border-bottom: 2px solid #323232;font-size: .9rem;margin-bottom: 40px;">
+            {% for animal in animais %}
+              {% if animal.id == produto.animal_id %}
+                <option value="{{animal.id}}" selected>{{animal.animal}}</option>
+              {% endif %}
+              {% if animal.id != produto.animal_id %}
+                <option value="{{animal.id}}">{{animal.animal}}</option>
+              {% endif %}
+            {% endfor %}
+          </select>
+        </div>
+        <div class="full-box">
+          <input type="submit" id="btn-submit" value="Registrar">
+        </div>
+    </form>
+  </div>
+  <div style="width: 90%; margin:auto">
+    <h1 style="text-align: center; margin: 50px">Produtos</h1> 
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Imagem</th>
+            <th scope="col">Descrição</th>
+            <th scope="col">Modelo</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Preço custo</th>
+            <th scope="col">Preço venda</th>
+            <th scope="col">Quantidade</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for produto in produtos %}
+          <tr>
+            <td><img src="{{produto.foto}}" style="width: 50px; height: 50px"></td>
+            <td>{{produto.descricao}}</td>
+            <td>{{produto.modelo}}</td>
+            <td>{{produto.nome}}</td>
+            <td>{{produto.preco_custo}}</td>
+            <td>{{produto.preco_venda}}</td>
+            <td>{{produto.quantidade}}</td>            
+          </tr>
+        </tbody>
+        {% endfor %}
+    </table>
+  </div>
+{% endblock main %}
+{% include 'partials/footer.html' %}
