@@ -16,15 +16,15 @@ from flask_cors import CORS
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'devsinflaskpetshowapp'
 app.config.from_object(__name__)
-urlApi = "http://localhost:8080"
-#urlApi = "http://localhost:5000" #API:"http://localhost:8080"
+urlApi = "http://petshow-api.herokuapp.com"
+#urlApi = "http://localhost:5000"
 Bootstrap(app)
 CORS(app)
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Login', validators=[InputRequired(), Length(min=4, max=30)])
-    password = PasswordField('Senha', validators=[InputRequired(), Length(min=4, max=30)])
+    username = StringField('Login', validators=[InputRequired(), Length(min=4, max=15)])
+    password = PasswordField('Senha', validators=[InputRequired(), Length(min=4, max=15)])
     #remember = BooleanField('Me mantenha conectado')
 
 
@@ -129,7 +129,6 @@ def produtos(id = None):
             marcas = listar(urlApi + "/produtos/marcas/")
             tamanhos = listar(urlApi + "/produtos/tamanhos/")
             animais = listar(urlApi + "/produtos/animais/")
-        
 
             return render_template('produtos.html', produtos=produtos, tamanhos=tamanhos, marcas=marcas, animais=animais, produto=produto, user=session['login'])
     except Exception:
@@ -140,48 +139,25 @@ def produtos(id = None):
 def buscar_produto(id):
     return redirect(url_for('produtos', editar=id))
 
+
 @app.route('/pedidos/', methods=["GET", 'POST'])
 @app.route('/pedidos/edit/<id>', methods=["POST"])
 @app.route('/pedidos/delete/<id>', methods=["GET"])
 def pedidos(id = None):
-    try:
-        if(id == None and request.method == "POST"):
-            body = {
-                "cliente_id": int(request.form["cliente_id"]),
-                "observacao": request.form["observacao"],
-                "usuario_id": session['login']['id'],
-                "itens": [{
-                    "produto_id": int(request.form["produto_id"]),
-                    "quantidade": int(request.form["quantidade"]),
-                }]
-                }
-
-            mensagem = cadastrar(urlApi + "/pedidos/", body)
-            print(body)
-            print(mensagem)
-
-            return redirect(url_for("pedidos"))
-        elif(id != None and request.method == "GET"):
-            msg = "Deletar um pedido"
-            # @redirect("/pedidos")
-            return render_template('pedidos.html', msg=msg, user=session['login'])
-        elif(id != None):
-            msg = "Editar um pedido"
-             # @redirect("/pedidos")
-            return render_template('pedidos.html', msg=msg, user=session['login'])
-        else:
-            msg = "Pedidos"
-            pedidos = listar(urlApi + "/pedidos/")
-            pedido = None
-            if request.args.get("editar"):
-                pedido = [p for p in pedidos if int(p["id"]) == int(request.args.get("editar"))][0]
-            clientes = listar(urlApi + '/clientes/')
-            produtos = listar(urlApi + "/produtos/")
-            print(produtos)
-            return render_template('novo_pedido.html', msg=msg, clientes=clientes, pedido=pedido, produtos=produtos, user=session['login'])
-    except Exception:
-        flash('Não foi possível a conexão com o banco')
-        return redirect(url_for("login"))
+    if(id == None and request.method == "POST"):
+        msg = "Cadastrar um pedido"
+        return render_template('pedidos.html', msg=msg, user=session['login'])
+    elif(id != None and request.method == "GET"):
+        msg = "Deletar um pedido"
+        # @redirect("/pedidos")
+        return render_template('pedidos.html', msg=msg, user=session['login'])
+    elif(id != None):
+        msg = "Editar um pedido"
+        # @redirect("/pedidos")
+        return render_template('pedidos.html', msg=msg, user=session['login'])
+    else:
+        msg = "Pedidos"
+        return render_template('pedido.html', msg=msg, user=session['login'])
 
 
 @app.route('/vendas', methods=["GET", 'POST'])
@@ -388,6 +364,6 @@ def editar(url, body):
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
-    #app.run(host='0.0.0.0', port=port, debug=True)
-    app.run(host='localhost', port=5000, debug=True)
+    port = int(os.environ.get("PORT", 5001))
+    app.run(host='0.0.0.0', port=port, debug=True)
+    #app.run(host='localhost', port=5000, debug=True)
