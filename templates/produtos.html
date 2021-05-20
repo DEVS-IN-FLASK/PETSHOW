@@ -1,17 +1,22 @@
-{% with title='Produtos' %}
-{% include 'partials/header.html' %}
+{% with title='Produtos'%}
+    {% include 'partials/header.html' %}
 {% endwith %}
+
+
+
 
 
 {% with tipo='Produto' %}
 {% with rota='/produtos' %}
 {% with rota_new='/produtos' %}
-{% with user='User' %}
+{% with user=user %}
 {% include 'partials/sidebar.html'%}
 {% endwith %}
 {% endwith %}
 {% endwith %}
 {% endwith %}
+
+<!--link rel="stylesheet" href="../static/css/main.css"-->
 
 {% block main %}
 <div id="main-container">

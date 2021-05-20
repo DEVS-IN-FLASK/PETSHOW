@@ -16,8 +16,8 @@ from flask_cors import CORS
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'devsinflaskpetshowapp'
 app.config.from_object(__name__)
-urlApi = "http://localhost:8080"
-#urlApi = "http://localhost:5000" #API:"http://localhost:8080"
+urlApi = "http://petshow-api.herokuapp.com"
+#urlApi = "http://localhost:5000"
 Bootstrap(app)
 CORS(app)
 
@@ -388,6 +388,6 @@ def editar(url, body):
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 5001))
     #app.run(host='0.0.0.0', port=port, debug=True)
     app.run(host='localhost', port=5000, debug=True)
