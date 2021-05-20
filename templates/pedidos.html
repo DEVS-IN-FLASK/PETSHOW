@@ -1,16 +1,77 @@
-{% extends 'base.html' %}
-
-
-{% block title %}
-    {{ super() }} - Pedido
-{% endblock title %}
-
+{% extends 'base.html' %} 
+{% with title='Pedidos'%} 
+{% include 'partials/header.html' %} 
+{% endwith %} 
+{% with tipo='Pedido' %}
+{% with rota='/pedidos' %}
+{% with rota_new='/pedidos' %} 
+{% with user=user %}
+{% include 'partials/sidebar.html'%} 
+{% endwith %} 
+{% endwith %} 
+{% endwith %} 
+{% endwith %}
 
 {% block main %}
-    <h2>{{msg}}</h2>
-    <form action="/pedidos" method="POST">
-        <button type="submit">Cadastrar</button>
-    </form>
 
-    <a href="/pedidos/delete/<id>"><i class="fas fa-trash"></i></a>
+<div class="card card-success">
+    <div class="card-header">
+        <h3 class="card-title">Novo Pedido</h3>
+    </div>
+    <form {% if not pedido.id%} action="/pedidos" {% elif pedido.id!="None"%} action="/pedidos/edit/{{pedido.id}}" {% endif %} method="POST" id="register-form"></form>
+        <div class="card-body">
+            <div class="form-group">
+                <label for="nome">Cliente</label>
+                <select name="cliente_id" id="cliente_id" class="form-control">
+                    {% for cliente in clientes.clientes %}
+                        {% if cliente.cliente.id == pedido.cliente_id %}
+                            <option value="{{cliente.cliente.id}}" selected> {{cliente.cliente.nome}}-{{cliente.cliente.cpf}} </option>
+                        {% endif %}
+                        {% if cliente.cliente.id != pedido.cliente_id %}
+                            <option value="{{cliente.cliente.id}}"> {{cliente.cliente.nome}}-{{cliente.cliente.cpf}} </option>
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Produto</th>
+                            <th scope="col">Quantidade</th>
+                            <th scope="col">Remover</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <select name="produto_id" id="produto_id" class="form-control">
+                                    {% for produto in produtos %}
+                                        <option value="{{produto.id}}">{{produto.nome}}</option>
+                                    {% endfor %}
+                                </select>
+                            </td>
+                            <td>
+                                <input type="number" name="quantidade" id="quantidade" class="form-control" />
+                            </td>
+                            <td>
+                                <button id="btn-submit" class="btn btn-danger float-center" value="Registrar">X</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+                <div class="form-group"></div>
+                    <label for="observacao">Observação</label>
+                    <input type="text" name="observacao" id="observacao" value="{{pedido.observacao}}" class="form-control"/>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <button type="submit" class="btn btn-danger float-left">Cancelar</button>
+            <button type="submit" id="btn-submit" class="btn btn-success float-right" value="Registrar">Salvar</button>
+        </div>
+    </form>
+</div>
+
 {% endblock main %}
