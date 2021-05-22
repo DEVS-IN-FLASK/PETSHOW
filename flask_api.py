@@ -17,7 +17,9 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'devsinflaskpetshowapp'
 app.config.from_object(__name__)
 urlApi = "http://petshow-api.herokuapp.com"
+#"http://petshow-api.herokuapp.com"
 #urlApi = "http://localhost:5000"
+#"http://localhost:8080"
 Bootstrap(app)
 CORS(app)
 
@@ -150,16 +152,14 @@ def pedidos(id = None):
                 "cliente_id": int(request.form["cliente_id"]),
                 "observacao": request.form["observacao"],
                 "usuario_id": session['login']['id'],
+                # request.form.to_dict(flat=False)
                 "itens": [{
                     "produto_id": int(request.form["produto_id"]),
                     "quantidade": int(request.form["quantidade"]),
                 }]
                 }
-
             mensagem = cadastrar(urlApi + "/pedidos/", body)
-            print(body)
             print(mensagem)
-
             return redirect(url_for("pedidos"))
         elif(id != None and request.method == "GET"):
             msg = "Deletar um pedido"
@@ -177,9 +177,10 @@ def pedidos(id = None):
                 pedido = [p for p in pedidos if int(p["id"]) == int(request.args.get("editar"))][0]
             clientes = listar(urlApi + '/clientes/')
             produtos = listar(urlApi + "/produtos/")
-            print(produtos)
-            return render_template('novo_pedido.html', msg=msg, clientes=clientes, pedido=pedido, produtos=produtos, user=session['login'])
-    except Exception:
+
+            return render_template('pedidos.html', msg=msg, clientes=clientes, pedido=pedido, produtos=produtos, user=session['login'])
+    except Exception as e:
+        print(e)
         flash('Não foi possível a conexão com o banco')
         return redirect(url_for("login"))
 

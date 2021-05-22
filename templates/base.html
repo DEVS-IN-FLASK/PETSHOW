@@ -37,22 +37,53 @@
       href="/static/components/AdminLTE/dist/css/adminlte.min.css"
     />
 
-    <title>
-      {% block title %} 
-        PET SHOW 
-      {% endblock title %}
-    </title>
+    <title>{% block title %} PET SHOW {% endblock title %}</title>
   </head>
   <body class="sidebar-mini">
     <header></header>
     <div class="wrapper">
       <section class="content">
-        <div class="container-fluid">
-          {% block main %} 
-          {% endblock main %}
-        </div>
+        <div class="container-fluid">{% block main %} {% endblock main %}</div>
       </section>
     </div>
     <footer>{% include 'partials/footer.html'%}</footer>
   </body>
+  <script>
+    const tbodyEl = document.querySelector("tbody");
+    const tableEl = document.querySelector("table");
+    let counter = 0;
+    function adicionaLinhaProduto(e) {
+      e.preventDefault();
+      tbodyEl.innerHTML += `
+            <tr>
+                <td>
+                  <select name="produto_id" class="form-control">
+                    {% for produto in produtos %}
+                        <option value="{{produto.id}}">{{produto.nome}}</option>
+                    {% endfor %}
+                  </select>
+                </td>
+                <td>
+                  <input type="number" name="quantidade" class="form-control" />
+                </td>
+                <td>
+                  <button class="btn btn-danger deleteBtn">X</button>
+                </td>
+            </tr>
+        `;
+        counter += 1
+    }
+
+    function onDeleteRow(e) {
+      if (!e.target.classList.contains("deleteBtn")) {
+        return;
+      }
+
+      const btn = e.target;
+      btn.closest("tr").remove();
+    }
+
+    document.getElementById("adiciona-produto").addEventListener("click", adicionaLinhaProduto);
+    tableEl.addEventListener("click", onDeleteRow);
+  </script>
 </html>
