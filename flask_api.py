@@ -316,12 +316,13 @@ def clientes():
 def cadastroclientes():
     try:
         if request.method == "POST":
-            # print("Teste="+request.form["nome"])
-            # print(request.form["nome_pet"])
-            # print(request.form["raca"])
-            # print(request.form["porte"])
-            # print(request.form["genero"])
-            # print(request.form["especie"])
+            print("Teste="+request.form["nome"])
+            print(request.form["nome_pet"])
+            print(request.form["raca"])
+            print(request.form["especie"])
+            print(request.form["porte"])
+            print(request.form["genero"])
+            
                       
             body = {
                 "nome": request.form["nome"],
@@ -334,15 +335,14 @@ def cadastroclientes():
                 "numero": request.form["numero"],
                 "bairro": request.form["bairro"],
                 "cidade": request.form["cidade"],
-                "uf": request.form["uf"]},
-                "pets" : []
-                # "pets": [{
-                #             "nome": request.form["nome_pet"],
-                #             "raca": request.form["raca"],
-                #             "porte": request.form["porte"],
-                #             "genero": request.form["genero"],
-                #             "especie": request.form["especie"]
-                #         }]     
+                "uf": request.form["uf"]},          
+                "pets": [{
+                            "nome": request.form["nome_pet"],
+                            "raca": request.form["raca"],
+                            "porte": request.form["porte"],
+                            "genero": request.form["genero"],
+                            "animal_id":  request.form["especie"]
+                        }]     
                 }
 
            
