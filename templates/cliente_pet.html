@@ -88,11 +88,34 @@
                                             <td>{{ clientes.cliente.endereco.bairro }}</td>
                                             <td>{{ clientes.cliente.endereco.cidade }}</td>
                                             <td>{{ clientes.cliente.endereco.uf }}</td>
-                                            <td>{{ clientes.cliente.nomepet }}</td>
-                                            <td>{{ clientes.cliente.especie }}</td>
-                                            <td>{{ clientes.cliente.porte }}</td>
-                                            <td>{{ clientes.cliente.raca }}</td>
-                                            <td>{{ clientes.cliente.genero }}</td>
+
+                                            {% if clientes.cliente.pets[0] != null %}
+                                            <td>{{ clientes.cliente.pets[0].nome }}</td>
+
+                                            {% if clientes.cliente.pets[0].animal_id == 1 %}
+                                            <td>Cachorro</td>{% else %}<td>Gato</td>
+                                          {% endif %}  
+
+                                            {% if clientes.cliente.pets[0].porte == "Gigante" %}
+                                            <td>Muito Grande</td>{% else %}<td>{{ clientes.cliente.pets[0].porte }}</td>
+                                          {% endif %} 
+
+                                          
+                                          <td>{{ clientes.cliente.pets[0].raca }}</td>
+
+                                          {% if clientes.cliente.pets[0].genero == "m" %}
+                                          <td>Macho</td>{% else %}<td>Fêmea</td>
+                                          {% endif %}
+
+                                           {% else %}
+
+                                           <td></td>
+                                           <td></td>
+                                           <td></td>
+                                           <td></td>
+                                           <td></td>
+
+                                          {% endif %} 
                                             
                                             </tr>
 
@@ -113,11 +136,32 @@
                                               <td>{{ clientes.cliente.endereco.bairro }}</td>
                                               <td>{{ clientes.cliente.endereco.cidade }}</td>
                                               <td>{{ clientes.cliente.endereco.uf }}</td>
-                                              <td>{{ clientes.cliente.nomepet }}</td>
-                                              <td>{{ clientes.cliente.especie }}</td>
-                                              <td>{{ clientes.cliente.porte }}</td>
-                                              <td>{{ clientes.cliente.raca }}</td>
-                                              <td>{{ clientes.cliente.genero }}</td>
+
+                                              {% if clientes.cliente.pets[0] != null %}
+                                                <td>{{ clientes.cliente.pets[0].nome }}</td>
+
+                                                {% if clientes.cliente.pets[0].animal_id == 1 %}
+                                                <td>Cachorro</td>{% else %}<td>Gato</td>
+                                              {% endif %}  
+
+                                              {% if clientes.cliente.pets[0].porte == "Gigante" %}
+                                            <td>Muito Grande</td>{% else %}<td>{{ clientes.cliente.pets[0].porte }}</td>
+                                          {% endif %} 
+                                              <td>{{ clientes.cliente.pets[0].raca }}</td>
+
+                                              {% if clientes.cliente.pets[0].genero == "m" %}
+                                              <td>Macho</td>{% else %}<td>Fêmea</td>
+                                              {% endif %}
+
+                                               {% else %}
+
+                                               <td></td>
+                                               <td></td>
+                                               <td></td>
+                                               <td></td>
+                                               <td></td>
+
+                                              {% endif %}   
                                                 
                                          </tr>
 
