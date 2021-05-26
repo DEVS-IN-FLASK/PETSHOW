@@ -1,0 +1,140 @@
+
+{% with title='Relatório'%}
+{% include 'partials/header.html' %}
+{% endwith %}
+
+{% with tipo='Relatório' %}
+{% with rota='/relatorio' %}
+{% with rota_new='/usuarios/new/' %}
+{% with user=user %}
+{% with data=data %}
+{% include 'partials/sidebar.html'%}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+{% endwith %}
+
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+
+
+            <!-- Tela Novo Usuário começa aqui -->
+            <div class="container">
+                <div class="col-md-6">
+                        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            <ul class=flashes>
+                            {% for message in messages %}
+                            <li>{{ message }}</li>
+                            {% endfor %}
+                            </ul>
+                        {% endif %}
+                        {% endwith %}
+                        <form method="POST" action="{{ url_for('relatorio') }}">
+
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Relatório</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group">
+                                    <label>Período</label>
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">
+                                                <i class="far fa-calendar-alt"></i>
+                                            </span>
+                                        </div>
+                                        <input type="text" name="periodo" id="periodo" class="form-control float-right">    
+                                    </div>
+                                </div>
+                                <input type="submit" class="btn btn-primary" value="Consultar">
+                            </div>
+                        </div>
+                    </form>
+                    {% if data != None %}
+                        <h2>Período {{ data['periodo'] }}</h2>
+                        <div class="card text-white bg-success mb-3" style="max-width: 32rem;">
+                            <div class="card-header">Pedidos Concluídos</div>
+                            <div class="card-body">
+                                <h5 class="card-title">Valor Total: {{ "R$ %.2f"|format(data['concluido']) }}</h5>
+                                <p class="card-text">Pedidos que foram pagos e entregues</p>
+                            </div>
+                        </div>
+                        <div class="card text-white bg-info mb-3" style="max-width: 32rem;">
+                            <div class="card-header">Ticket Médio</div>
+                            <div class="card-body">
+                                <h5 class="card-title">Valor Total: {{ "R$ %.2f"|format(data['ticket_medio']) }}</h5>
+                            </div>
+                        </div>
+                        <div class="card text-white bg-primary mb-3" style="max-width: 32rem;">
+                            <div class="card-header">Pedidos Recebidos</div>
+                            <div class="card-body">
+                                <h5 class="card-title">Valor Total: {{ "R$ %.2f"|format(data['recebido']) }}</h5>
+                                <p class="card-text">Pedidos que ainda não foram pagos ou não foram entregues</p>
+                            </div>
+                        </div>
+                        <div class="card text-white bg-danger mb-3" style="max-width: 32rem;">
+                            <div class="card-header">Pedidos Cancelados</div>
+                            <div class="card-body">
+                                <h5 class="card-title">Valor Total: {{ "R$ %.2f"|format(data['cancelado']) }}</h5>
+                                <p class="card-text">Pedidos cancelados antes do pagamento ou devoluções</p>
+                            </div>
+                        </div>
+                        {% endif %}
+                </div>
+            </div>
+
+            
+        
+        {% include 'partials/footer.html' %}
+
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment-with-locales.min.js"></script>
+
+        <script>
+                var $j = jQuery.noConflict;
+                moment.locale('pt-br');
+                $("#periodo").daterangepicker({ 
+                    "singleDatePicker": false, 
+                    "locale": {
+                    "format": "DD/MM/YYYY",
+                    "separator": " - ",
+                    "applyLabel": "Aplicar",
+                    "cancelLabel": "Cancelar",
+                    "fromLabel": "De",
+                    "toLabel": "Até",
+                    "customRangeLabel": "Custom",
+                    "daysOfWeek": [
+                        "Dom",
+                        "Seg",
+                        "Ter",
+                        "Qua",
+                        "Qui",
+                        "Sex",
+                        "Sáb"
+                    ],
+                    "monthNames": [
+                        "Janeiro",
+                        "Fevereiro",
+                        "Março",
+                        "Abril",
+                        "Maio",
+                        "Junho",
+                        "Julho",
+                        "Agosto",
+                        "Setembro",
+                        "Outubro",
+                        "Novembro",
+                        "Dezembro"
+                    ],
+                    "firstDay": 0
+                    }
+                });
+                    
+                </script>
+       
+
