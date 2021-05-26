@@ -316,21 +316,36 @@ def clientes():
 def cadastroclientes():
     try:
         if request.method == "POST":
+            print("Teste="+request.form["nome"])
+            print(request.form["nome_pet"])
+            print(request.form["raca"])
+            print(request.form["especie"])
+            print(request.form["porte"])
+            print(request.form["genero"])
+            
+                      
             body = {
                 "nome": request.form["nome"],
                 "email": request.form["email"],
                 "cpf": request.form["cpf"],
-                "telefones": [],
+                "telefones": [{"telefone": request.form["telefone"]}],
                 "endereco":{
                 "cep": request.form["cep"],
                 "rua": request.form["rua"],
                 "numero": request.form["numero"],
                 "bairro": request.form["bairro"],
                 "cidade": request.form["cidade"],
-                "uf": "SP"},
-                "pets": []      
+                "uf": request.form["uf"]},          
+                "pets": [{
+                            "nome": request.form["nome_pet"],
+                            "raca": request.form["raca"],
+                            "porte": request.form["porte"],
+                            "genero": request.form["genero"],
+                            "animal_id":  request.form["especie"]
+                        }]     
                 }
 
+           
             notificacao = cadastrar(urlApi + "/clientes/", body)
             msg = "Cadastrado com sucesso"
             #return redirect(url_for("cadastroclientes"))
@@ -338,7 +353,7 @@ def cadastroclientes():
         elif request.method == 'GET':
             return render_template('cadastro_cliente_pet.html', user=session['login'])
     except Exception as e:
-        print(e)
+        #print(e)
         flash('Não foi possível a conexão com o banco')
         #return redirect(url_for("login"))
 
