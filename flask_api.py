@@ -181,36 +181,35 @@ def vendas(id = None):
 
 @app.route('/usuarios/', methods=["GET", "POST"])
 def usuarios():
-    #try:
-    if request.method == "POST":
-        body = {
-            "nome": request.form["nome"],
-            "login": request.form["login"],
-            "senha": request.form["senha"],
-            "tipo": request.form["tipo"]
-        }
+    try:
+        if request.method == "POST":
+            body = {
+                "nome": request.form["nome"],
+                "login": request.form["login"],
+                "senha": request.form["senha"],
+                "tipo": request.form["tipo"]
+            }
 
-        notificacao = cadastrar(urlApi + "/usuarios/novo", body)
-        print(notificacao)
-        if 'erro' not in notificacao:
-            msg = "Cadastrado com sucesso"
-            flash(msg)
-            return redirect(url_for("usuarios"))
-        else:
-            flash(notificacao['erro'])
-            return redirect(url_for("usuarios"))
+            notificacao = cadastrar(urlApi + "/usuarios/novo", body)
+            print(notificacao)
+            if 'erro' not in notificacao:
+                msg = "Cadastrado com sucesso"
+                flash(msg)
+                return redirect(url_for("usuarios"))
+            else:
+                flash(notificacao['erro'])
+                return redirect(url_for("usuarios"))
 
-    elif request.method == 'GET':
-        usuarios = listar(urlApi + '/usuarios/')
-        if 'msg' in usuarios:
-            flash('Tempo encerrado, faça login novamente')
-            return redirect(url_for("login"))
-        msg = "Usuarios"
-        return render_template('lista_usuarios.html', msg=msg, usuarios=usuarios, user=session['login'])
-    '''
+        elif request.method == 'GET':
+            usuarios = listar(urlApi + '/usuarios/')
+            if 'msg' in usuarios:
+                flash('Tempo encerrado, faça login novamente')
+                return redirect(url_for("login"))
+            msg = "Usuarios"
+            return render_template('lista_usuarios.html', msg=msg, usuarios=usuarios, user=session['login'])
     except Exception:
         flash('Não foi possível a conexão com o banco')
-        return redirect(url_for("login"))'''
+        return redirect(url_for("login"))
 
 @app.route('/usuarios/new/', methods=["GET"])
 def cadastrar_usuario():
@@ -341,6 +340,21 @@ def cadastroclientes():
         print(e)
         flash('Não foi possível a conexão com o banco')
         #return redirect(url_for("login"))
+
+# relatório de vendas
+@app.route('/relatorio/', methods=['GET', 'POST'])
+def relatorio():
+    try:
+        if request.method == 'POST':
+            periodo = request.form['periodo']
+            pedidos = listar(urlApi + '/relatorios/?data=' + periodo)
+
+            return render_template('relatorio.html', user=session['login'], data=pedidos)
+        else:
+            return render_template('relatorio.html', user=session['login'], data=None)
+    except Exception:
+        flash('Não foi possível a conexão com o banco')
+        return redirect(url_for("login"))
 
 
 def listar(url):
