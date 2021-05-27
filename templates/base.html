@@ -57,21 +57,20 @@
       tbodyEl.innerHTML += `
             <tr>
                 <td>
-                  <select name="produto_id" class="form-control">
+                  <select name="produto_id[${counter}]" class="form-control">
                     {% for produto in produtos %}
-                        <option value="{{produto.id}}">{{produto.nome}}</option>
+                        <option value="{{produto.id}}">{{produto.nome}} - {{produto.preco_venda}}</option>
                     {% endfor %}
                   </select>
                 </td>
                 <td>
-                  <input type="number" name="quantidade" class="form-control" />
+                  <input type="number" name="quantidade[${counter}]" class="form-control"/>
                 </td>
                 <td>
                   <button class="btn btn-danger deleteBtn">X</button>
                 </td>
             </tr>
         `;
-        counter += 1
     }
 
     function onDeleteRow(e) {
