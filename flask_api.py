@@ -148,16 +148,25 @@ def buscar_produto(id):
 def pedidos(id = None):
     try:
         if(id == None and request.method == "POST"):
+            products = []
+            dictForm = request.form.to_dict(flat=False)
+            # Iterate over all the items in dictionary and filter items which has even keys
+            for (key, value) in dictForm.items():
+                dict = {}
+                 # Check if key is even then add pair to new dictionary
+                if 'produto_id' in key:
+                    index = key.split('[')[-1].split(']')[0]
+                    dict["produto_id"] = int(value[0])
+                    dict["quantidade"] = int(dictForm.get('quantidade'+"["+index+"]")[0])
+                    products.append(dict)
+
             body = {
                 "cliente_id": int(request.form["cliente_id"]),
                 "observacao": request.form["observacao"],
                 "usuario_id": session['login']['id'],
-                # request.form.to_dict(flat=False)
-                "itens": [{
-                    "produto_id": int(request.form["produto_id"]),
-                    "quantidade": int(request.form["quantidade"]),
-                }]
+                "itens": products
                 }
+            print(body)  
             mensagem = cadastrar(urlApi + "/pedidos/", body)
             print(mensagem)
             return redirect(url_for("pedidos"))
