@@ -69,7 +69,6 @@ def logout():
 
 #faltando mensagens
 @app.route('/produtos', methods=["GET", 'POST'])
-@app.route('/produtos/edit/<id>', methods=["POST"])
 @app.route('/produtos/delete/<id>', methods=["GET"])
 def produtos(id = None):
     try:
@@ -94,12 +93,32 @@ def produtos(id = None):
             print(body)
             print(mensagem)
 
-            return redirect(url_for("list_produtos"))
+            return redirect(url_for("produtos"))
         elif(id != None and request.method == "GET"):
             mensagem = deletar(urlApi + "/produtos/" + id + "/remover/")
 
             return redirect(url_for("produtos"))
-        elif(id != None):
+
+        else:
+            produtos = listar(urlApi + "/produtos/")
+
+            produto = None
+            if request.args.get("editar"):
+                produto = [p for p in produtos if int(p["id"]) == int(request.args.get("editar"))][0]
+
+            marcas = listar(urlApi + "/produtos/marcas/")
+            tamanhos = listar(urlApi + "/produtos/tamanhos/")
+            animais = listar(urlApi + "/produtos/animais/")
+        
+
+            return render_template('produtos.html', produtos=produtos, tamanhos=tamanhos, marcas=marcas, animais=animais, produto=produto, user=session['login'])
+    except Exception:
+            flash('Não foi possível a conexão com o banco')
+            return redirect(url_for("login"))
+
+@app.route('/produtos/edit/<id>', methods=["POST"])
+def editar_produto(id):
+        if(id != None):
             body = {
                 "nome": request.form["nome"],
                 "descricao": request.form["descricao"],
@@ -121,7 +140,9 @@ def produtos(id = None):
             print(mensagem)
 
             return redirect(url_for("produtos"))
-        else:
+            
+@app.route('/produtos/lista/')
+def lista_produto(id=None):
             produtos = listar(urlApi + "/produtos/")
 
             produto = None
@@ -133,11 +154,8 @@ def produtos(id = None):
             animais = listar(urlApi + "/produtos/animais/")
         
 
-            return render_template('produtos.html', produtos=produtos, tamanhos=tamanhos, marcas=marcas, animais=animais, produto=produto, user=session['login'])
-    except Exception:
-            flash('Não foi possível a conexão com o banco')
-            return redirect(url_for("login"))
-
+            return render_template('lista_produtos.html', produtos=produtos, tamanhos=tamanhos, marcas=marcas, animais=animais, produto=produto, user=session['login'])
+    
 @app.route('/produtos/buscar/<id>')
 def buscar_produto(id):
     return redirect(url_for('produtos', editar=id))
@@ -428,5 +446,5 @@ def editar(url, body):
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5001))
-    app.run(host='0.0.0.0', port=port, debug=True)
-    #app.run(host='localhost', port=5000, debug=True)
+    #app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(host='localhost', port=5000, debug=True)

@@ -3,7 +3,7 @@
 {% endwith %}
 
 {% with tipo='Produto' %}
-{% with rota='/list_produtos' %}
+{% with rota='/produtos/lista' %}
 {% with rota_new='/produtos' %}
 {% with user='User' %}
 {% include 'partials/sidebar.html'%}
@@ -51,6 +51,9 @@
                                                         <td>{{produto.preco_custo}}</td>
                                                         <td>{{produto.preco_venda}}</td>
                                                         <td>{{produto.quantidade}}</td>
+                                                        <td><a class="btn btn-warning" href="{{ url_for('editar_produto', id=produto.id) }}"> Alterar</a>
+
+                                                        </td>
                                                     </tr>
                                                 </tbody>
                                                 {% endfor %}
