@@ -1,13 +1,9 @@
+{% extends 'base.html' %}
 {% with title='Produtos'%}
     {% include 'partials/header.html' %}
 {% endwith %}
-
-
-
-
-
 {% with tipo='Produto' %}
-{% with rota='/produtos' %}
+{% with rota='/list_produtos' %}
 {% with rota_new='/produtos' %}
 {% with user=user %}
 {% include 'partials/sidebar.html'%}
@@ -15,124 +11,127 @@
 {% endwith %}
 {% endwith %}
 {% endwith %}
-
-<!--link rel="stylesheet" href="../static/css/main.css"-->
-
 {% block main %}
-  <div id="main-container">
-    <h1>Novo Produto</h1> 
-    <form {% if not produto.id %} action="/produtos" {% elif produto.id != None %} action="/produtos/edit/{{produto.id}}" {% endif %} method="POST" id="register-form">
-        <!--<input type="file" name="arquivos" multiple>-->
+
+<div class="card card-success">
+    <div class="card-header">
+        <h3 class="card-title">Novo Produto</h3>
+    </div>
+    <form {% if not produto.id %} action="/produtos" {% elif produto.id !=None %} action="/produtos/edit/{{produto.id}}" {% endif %} method="POST" id="register-form">
         <input type="hidden" value="{{produto.id}}">
-        <div class="full-box">
-          <label for="nome">Nome </label>
-          <input type="text" name="nome" id="nome" value="{{produto.nome}}">
-        </div>
-        <div class="full-box">
-          <label for="nome">Descrição </label>
-          <input type="text" name="descricao" id="descricao" value="{{produto.descricao}}">
-        </div>
-        <div class="half-box spacing">
-          <label for="modelo">Modelo </label>
-          <input type="text" name="modelo" id="modelo" value="{{produto.modelo}}">
-        </div>
-        <div class="half-box spacing">
-          <label for="cod_barras">Cód. de barras </label>
-          <input type="number" name="cod_barras" id="cod_barras" value="{{produto.cod_barras}}">
-        </div>
-        <div class="half-box spacing">
-          <label for="porcentagem">Porcentagem</label>
-          <input type="number" name="porcentagem" id="porcentagem" value="{{produto.porcentagem}}">
-        </div>
-        <div class="half-box spacing">
-          <label for="preco_custo">Preço custo </label>
-          <input type="number" name="preco_custo" id="preco_custo" value="{{produto.preco_custo}}">
-        </div>
-        <div class="half-box spacing">
-          <label for="preco_venda">Preço venda </label>
-          <input type="number" name="preco_venda" id="preco_venda" value="{{produto.preco_venda}}">
-        </div>
-        <div class="half-box spacing">
-          <label for="quantidade">Quantidade</label>
-          <input type="number" name="quantidade" id="quantidade" value="{{produto.quantidade}}">
-        </div>
-        <label for="foto">Foto </label>
-        <input type="text" name="foto" id="foto" value="{{produto.foto}}">
-        <br>
-        <div class="half-box spacing">
-          <label for="marca_id">Marca:</label>
-          <select name="marca_id" id="marca_id" style="padding: 10px; display: block; width: 100%;border-bottom: 2px solid #323232;font-size: .9rem;margin-bottom: 40px;">
-            {% for marca in marcas %}
-              {% if marca.id == produto.marca_id %}
-                <option value="{{marca.id}}" selected>{{marca.marca}}</option>
-              {% endif %}
-              {% if marca.id != produto.marca_id %}
-                <option value="{{marca.id}}">{{marca.marca}}</option>
-              {% endif %}
-            {% endfor %}
-          </select>
-        </div>
-        <div class="half-box spacing">
-          <label for="tamanho_id">Tamanho:</label>
-          <select name="tamanho_id" id="tamanho_id" style="padding: 10px; display: block; width: 100%;border-bottom: 2px solid #323232;font-size: .9rem;margin-bottom: 40px;">
-            {% for tamanho in tamanhos %}
-              {% if tamanho.id == produto.tamanho_id %}
-                <option value="{{tamanho.id}}" selected>{{tamanho.tamanho}}</option>
-              {% endif %}
-              {% if tamanho.id != produto.tamanho_id %}
-                <option value="{{tamanho.id}}">{{tamanho.tamanho}}</option>
-              {% endif %}
-            {% endfor %}
-          </select>
-        </div>
-        <div class="half-box spacing">
-          <label for="animal_id">Para qual animal?</label>
-          <select name="animal_id" id="animal_id" style="padding: 10px; display: block; width: 100%;border-bottom: 2px solid #323232;font-size: .9rem;margin-bottom: 40px;">
-            {% for animal in animais %}
-              {% if animal.id == produto.animal_id %}
-                <option value="{{animal.id}}" selected>{{animal.animal}}</option>
-              {% endif %}
-              {% if animal.id != produto.animal_id %}
-                <option value="{{animal.id}}">{{animal.animal}}</option>
-              {% endif %}
-            {% endfor %}
-          </select>
-        </div>
-        <div class="full-box">
-          <input type="submit" id="btn-submit" value="Registrar">
+            <div class="card-body">
+                <div class="col-12">
+                    <h5 style="text-align: center;" class="text-muted"><strong>Cadastro de Produtos</strong></h5>
+                    <div class="row">
+                        <div class="col-9">
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Nome do Produto" type="text" name="nome" id="nome" value="{{produto.nome}}">
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Modelo" type="text" name="modelo" id="modelo" value="{{produto.modelo}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <input class="form-control" placeholder="URL da Foto do Produto" type="text" name="foto" id="foto" value="{{produto.foto}}">
+                            </div>
+                        </div>                                      
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Preço de Custo" type="number" name="preco_custo" id="preco_custo" value="{{produto.preco_custo}}">
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-group">
+                                <input class="form-control" placeholder="%" type="number" name="porcentagem" id="porcentagem" value="{{produto.porcentagem}}">
+                            </div>
+                        </div>
+                        <div class="col-5">
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Preço de Venda" type="number" name="preco_venda" id="preco_venda" value="{{produto.preco_venda}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Qtd" type="number" name="quantidade" id="quantidade" value="{{produto.quantidade}}">
+                            </div>
+                        </div>
+                        <div class="col-9">
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Cód Barras" type="number" name="cod_barras" id="cod_barras" value="{{produto.cod_barras}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">                        
+                        <div class="col-12">
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Descrição" type="text" name="descricao" id="descricao" value="{{produto.descricao}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="tamanho_id" class="text-muted">Tamanho</label>
+                                <select name="tamanho_id" id="tamanho_id" class="form-control">
+                                    {% for tamanho in tamanhos %}
+                                        {% if tamanho.id == produto.tamanho_id %}
+                                            <option value="{{tamanho.id}}" selected>{{tamanho.tamanho}}</option>
+                                        {% endif %}
+                                        {% if tamanho.id != produto.tamanho_id %}
+                                            <option value="{{tamanho.id}}">{{tamanho.tamanho}}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="animal_id" class="text-muted">Qual Pet?</label>
+                                <select name="animal_id" id="animal_id" type="text" class="form-control">
+                                    {% for animal in animais %}
+                                        {% if animal.id == produto.animal_id %}
+                                            <option value="{{animal.id}}" selected>{{animal.animal}}</option>
+                                        {% endif %}
+                                        {% if animal.id != produto.animal_id %}
+                                            <option value="{{animal.id}}">{{animal.animal}}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="form-group">
+                                <label for="nome" class="text-muted">Marca</label>
+                                <select name="marca_id" id="marca_id" type="text" class="form-control">
+                                    {% for marca in marcas %}
+                                        {% if marca.id == produto.marca_id %}
+                                            <option value="{{marca.id}}" selected>{{marca.marca}}</option>
+                                        {% endif %}
+                                        {% if marca.id != produto.marca_id %}
+                                            <option value="{{marca.id}}">{{marca.marca}}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                <button type="submit" class="btn btn-danger float-left">Cancelar</button>
+                <button type="submit" id="btn-submit" class="btn btn-success float-right" value="Registrar">Salvar</button>
+                </div>
+            </div>                                          
         </div>
     </form>
-  </div>
-  <div style="width: 90%; margin:auto">
-    <h1 style="text-align: center; margin: 50px">Produtos</h1> 
-    <table class="table">
-        <thead>
-          <tr>
-            <th scope="col">Imagem</th>
-            <th scope="col">Descrição</th>
-            <th scope="col">Modelo</th>
-            <th scope="col">Nome</th>
-            <th scope="col">Preço custo</th>
-            <th scope="col">Preço venda</th>
-            <th scope="col">Quantidade</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for produto in produtos %}
-          <tr>
-            <td><img src="{{produto.foto}}" style="width: 50px; height: 50px"></td>
-            <td>{{produto.descricao}}</td>
-            <td>{{produto.modelo}}</td>
-            <td>{{produto.nome}}</td>
-            <td>{{produto.preco_custo}}</td>
-            <td>{{produto.preco_venda}}</td>
-            <td>{{produto.quantidade}}</td>            
-          </tr>
-        </tbody>
-        {% endfor %}
-    </table>
-  </div>
+</div>    
 {% endblock main %}
-
 {% include 'partials/footer.html' %}

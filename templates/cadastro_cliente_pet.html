@@ -78,7 +78,7 @@
 
                     <div class="mb-3">
                         <label for="cep">CEP:</label>
-                        <input type="text" class="form-control" id="cep" {% if not usuario %}name="CEP" {% endif %}
+                        <input type="text" class="form-control" id="cep" {% if not usuario %}name="cep" {% endif %}
                             placeholder="Digite o cep" value="{% if usuario %}{{ usuario.nome }}{% endif %}"
                             {% if usuario %}{{'readonly'}}{% endif %}>
                     </div>
@@ -90,7 +90,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="numero">Número:</label>
-                        <input type="text" class="form-control" id="numero" {% if not usuario %}name="numero"
+                        <input type="number" class="form-control" id="numero" {% if not usuario %}name="numero"
                             {% endif %} placeholder="Digite o número"
                             value="{% if usuario %}{{ usuario.nome }}{% endif %}"
                             {% if usuario %}{{'readonly'}}{% endif %}>
@@ -113,7 +113,7 @@
 
                     <div class="mb-3">
                         <label for='UF'>UF:</label>
-                        <select id="uf" required>
+                        <select name="uf" required>
                             <option selected disabled value="">Selecione</option>
                             <option value="AC">AC</option>
                             <option value="AL">AL</option>
@@ -152,7 +152,7 @@
 
                     <div class="mb-3">
                         <label for='nome_pet'>Nome:</label>
-                        <input type='text' class="form-control" id="nome_pet" {% if not usuario %}name="nome"
+                        <input type='text' class="form-control" id="nome_pet" {% if not usuario %}name="nome_pet"
                             {% endif %} placeholder="Digite o nome do PET"
                             value="{% if usuario %}{{ usuario.nome }}{% endif %}"
                             {% if usuario %}{{'readonly'}}{% endif %}>
@@ -161,35 +161,35 @@
                     <div class="mb-3">
                         <label>Espécie:</label>
                         <label for='dog'>
-                            <input type='radio' name='especie' id='dog' value="1">Cachorro
+                            <input type='radio' name='especie' value="1">Cachorro
                         </label>
                         <label for='cat'>
-                            <input type='radio' name='especie' id='cat' value="2">Gato
+                            <input type='radio' name='especie' value="2">Gato
                         </label>
                     </div>
 
                     <div class="mb-3">
                         <label>Porte:</label>
                         <label for='mini'>
-                            <input type='radio' name='porte' id='mini' value="Miniatura">Miniatura
+                            <input type='radio' name='porte'  value="Miniatura">Miniatura
                         </label>
                         <label for='small'>
-                            <input type='radio' name='porte' id='small' value="Pequeno">Pequeno
+                            <input type='radio' name='porte'  value="Pequeno">Pequeno
                         </label>
                         <label for='medium'>
-                            <input type='radio' name='porte' id='medium' value="Médio">Médio
+                            <input type='radio' name='porte'  value="Médio">Médio
                         </label>
                         <label for='large'>
-                            <input type='radio' name='porte' id='large' value="Grande">Grande
+                            <input type='radio' name='porte'  value="Grande">Grande
                         </label>
                         <label for='huge'>
-                            <input type='radio' name='porte' id='huge' value="Muito grande">Muito Grande
+                            <input type='radio' name='porte'  value="Gigante">Muito Grande
                         </label>
                     </div>
 
                     <div class="mb-3">
                         <label for='raça'>Raça:</label>
-                        <input type='text' class="form-control" id="raca" {% if not usuario %}name="nome" {% endif %}
+                        <input type='text' class="form-control" id="raca" {% if not usuario %} name="raca" {% endif %}
                             placeholder="Digite a raça" value="{% if usuario %}{{ usuario.nome }}{% endif %}"
                             {% if usuario %}{{'readonly'}}{% endif %}>
                     </div>
@@ -197,31 +197,35 @@
                     <div class="mb-3">
                         <label>Gênero:</label>
                         <label for='female'>
-                            <input type='radio' name='genero' id='female' value="Fêmea">Fêmea
+                            <input type='radio' name='genero'  value="f">Fêmea
                         </label>
                         <label for='male'>
-                            <input type='radio' name='genero' id='male' value="Macho">Macho
+                            <input type='radio' name='genero'  value="m">Macho
                         </label>
                     </div>
 
-                    <p style="background: rgb(77, 74, 74); color: white; border-radius: 10px; text-align: center; padding: 2px; width: 85px; cursor: pointer; margin: 20px 0"
-                        onclick="adicionarPet()">Salvar pet</p>
+                    <!-- <p style="background: rgb(77, 74, 74); color: white; border-radius: 10px; text-align: center; padding: 2px; width: 85px; cursor: pointer; margin: 20px 0"
+                        onclick="adicionarPet()">Salvar pet</p> -->
 
                     <div id="pets"></div>
 
                     <button type="submit" class="btn btn-primary" id="salvar"
                         style="display: block; margin: 20px auto;">Salvar</button>
+                    <button type="submit" id="btn-submit" class="btn btn-success float-right" value="Novo_Pedido">Novo Pedido</button>
+                                </div>
 
                 </form>
     </div>
+    <div id="clientes-pet" style="margin-top: 100px; text-align: center; width: 90%"></div>
 </div>
 
 
 
 
-<script type="text/babel">
-    const urlApi = "https://cors-anywhere.herokuapp.com/http://petshow-api.herokuapp.com";
-    let cliente = {};
+<!-- <script type="text/babel">
+    //const urlApi = "https://cors-anywhere.herokuapp.com/http://petshow-api.herokuapp.com";
+    const urlApi = "https://cors-anywhere.herokuapp.com";
+    let clientes = [];
 
     let pets = [];
 
@@ -244,72 +248,52 @@
     let raca = document.getElementById("raca");
 
     const listar = async () => {
-        let idLS = Number(localStorage.getItem("id"));
+        const response = await fetch(`${urlApi}/clientes`);
+        const data = await response.json();
 
-        if (!isNaN(idLS)) {
-            fetch(`${urlApi}/clientes`)
-                .then(response => response.json())
-                .then(data => {
-                    cliente = data.clientes.find(c => c.cliente.id === idLS);
+        clientes = data;
 
-                    id = idLS;
-                    nome.value = cliente.cliente.nome;
-                    email.value = cliente.cliente.email;
-                    cpf.value = cliente.cliente.cpf;
-
-                    telefone.value = cliente.cliente.telefones[0].telefone;
-
-                    cep.value = cliente.cliente.endereco.cep;
-                    rua.value = cliente.cliente.endereco.rua;
-                    numero.value = cliente.cliente.endereco.numero;
-                    bairro.value = cliente.cliente.endereco.bairro;
-                    cidade.value = cliente.cliente.endereco.cidade;
-                    uf.value = cliente.cliente.endereco.uf;
-
-                    pets = cliente.cliente.pets;
-
-                    ReactDOM.render(
-                        <div>
-                            <div className="mb-1">
-                                <label htmlFor=""><strong>Pets do cliente</strong></label>
-                            </div>
-                            <table className="table">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">Nome</th>
-                                        <th scope="col">Espécie</th>
-                                        <th scope="col">Porte</th>
-                                        <th scope="col">Raça</th>
-                                        <th scope="col">Gênero</th>
+        ReactDOM.render(
+            <div>
+                <h1 className="titulo">Clientes</h1>
+                <table className="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Espécie</th>
+                            <th scope="col">Porte</th>
+                            <th scope="col">Raça</th>
+                            <th scope="col">Gênero</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            clientes.clientes.map((pet, index) => {
+                                return (
+                                    <tr key={index}>
+                                        <td>{pet.nome}</td>
+                                        <td>{pet.animal_id === 1 ? "Cachorro" : "Gato"}</td>
+                                        <td>{pet.porte}</td>
+                                        <td>{pet.raca}</td>
+                                        <td>{pet.genero}</td>
                                     </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        pets.map((pet, index) => {
-                                            return (
-                                                <tr key={index}>
-                                                    <td>{pet.nome}</td>
-                                                    <td>{pet.animal_id === 1 ? "Cachorro" : "Gato"}</td>
-                                                    <td>{pet.porte}</td>
-                                                    <td>{pet.raca}</td>
-                                                    <td>{pet.genero}</td>
-                                                </tr>
-                                            );
-                                        })
-                                    }
-                                </tbody>
-                            </table>
-                        </div>,
-                        document.getElementById("pets")
-                    );
+                                );
+                            })
+                        }
+                    </tbody>
+                </table>
+            </div>,
+            document.getElementById("clientes-pet")
+        );
 
-                    localStorage.removeItem("id");
-                });
-        }
-
+        
         limparCamposUsuario();
         limparCamposPet();
     };
+
+    function editarCliente(id, nome, cpf, email, endereco, pets, telefones) {
+        console.log("teste")
+    }
 
     function limparCamposPet() {
         nomePet.value = "";
@@ -405,11 +389,8 @@
             pets: pets
         }
 
-        let metodo = id > -1 ? "PUT" : "POST"
-        let end = metodo==="POST" ? `${urlApi}/clientes` : `${urlApi}/clientes/${id}/alterar`
-
-        const response = await fetch(end, {
-            method: metodo,
+        const response = await fetch(`${urlApi}/clientes`, {
+            method: "POST",
             headers: {
                 "content-type": "application/json"
             },
@@ -417,12 +398,10 @@
         });
         const data = await response.json();
 
-        console.log(data)
-
         listar();
     }
 
     window.onload = listar();
-</script>
+</script> -->
 
 {% include 'partials/footer.html' %}

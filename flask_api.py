@@ -17,14 +17,16 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'devsinflaskpetshowapp'
 app.config.from_object(__name__)
 urlApi = "http://petshow-api.herokuapp.com"
+#"http://petshow-api.herokuapp.com"
 #urlApi = "http://localhost:5000"
+#"http://localhost:8080"
 Bootstrap(app)
 CORS(app)
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Login', validators=[InputRequired(), Length(min=4, max=15)])
-    password = PasswordField('Senha', validators=[InputRequired(), Length(min=4, max=15)])
+    username = StringField('Login', validators=[InputRequired(), Length(min=4, max=60)])
+    password = PasswordField('Senha', validators=[InputRequired(), Length(min=4, max=60)])
     #remember = BooleanField('Me mantenha conectado')
 
 
@@ -129,6 +131,7 @@ def produtos(id = None):
             marcas = listar(urlApi + "/produtos/marcas/")
             tamanhos = listar(urlApi + "/produtos/tamanhos/")
             animais = listar(urlApi + "/produtos/animais/")
+        
 
             return render_template('produtos_lista.html', produtos=produtos, tamanhos=tamanhos, marcas=marcas, animais=animais, produto=produto, user=session['login'])
     except Exception:
@@ -139,25 +142,56 @@ def produtos(id = None):
 def buscar_produto(id):
     return redirect(url_for('produtos', editar=id))
 
-
 @app.route('/pedidos/', methods=["GET", 'POST'])
 @app.route('/pedidos/edit/<id>', methods=["POST"])
 @app.route('/pedidos/delete/<id>', methods=["GET"])
 def pedidos(id = None):
-    if(id == None and request.method == "POST"):
-        msg = "Cadastrar um pedido"
-        return render_template('pedidos.html', msg=msg, user=session['login'])
-    elif(id != None and request.method == "GET"):
-        msg = "Deletar um pedido"
-        # @redirect("/pedidos")
-        return render_template('pedidos.html', msg=msg, user=session['login'])
-    elif(id != None):
-        msg = "Editar um pedido"
-        # @redirect("/pedidos")
-        return render_template('pedidos.html', msg=msg, user=session['login'])
-    else:
-        msg = "Pedidos"
-        return render_template('pedido.html', msg=msg, user=session['login'])
+    try:
+        if(id == None and request.method == "POST"):
+            products = []
+            dictForm = request.form.to_dict(flat=False)
+            # Iterate over all the items in dictionary and filter items which has even keys
+            for (key, value) in dictForm.items():
+                dict = {}
+                 # Check if key is even then add pair to new dictionary
+                if 'produto_id' in key:
+                    index = key.split('[')[-1].split(']')[0]
+                    dict["produto_id"] = int(value[0])
+                    dict["quantidade"] = int(dictForm.get('quantidade'+"["+index+"]")[0])
+                    products.append(dict)
+
+            body = {
+                "cliente_id": int(request.form["cliente_id"]),
+                "observacao": request.form["observacao"],
+                "usuario_id": session['login']['id'],
+                "itens": products
+                }
+            print(body)  
+            mensagem = cadastrar(urlApi + "/pedidos/", body)
+            print(mensagem)
+            return redirect(url_for("pedidos"))
+        elif(id != None and request.method == "GET"):
+            msg = "Deletar um pedido"
+            # @redirect("/pedidos")
+            return render_template('pedidos.html', msg=msg, user=session['login'])
+        elif(id != None):
+            msg = "Editar um pedido"
+             # @redirect("/pedidos")
+            return render_template('pedidos.html', msg=msg, user=session['login'])
+        else:
+            msg = "Pedidos"
+            pedidos = listar(urlApi + "/pedidos/")
+            pedido = None
+            if request.args.get("editar"):
+                pedido = [p for p in pedidos if int(p["id"]) == int(request.args.get("editar"))][0]
+            clientes = listar(urlApi + '/clientes/')
+            produtos = listar(urlApi + "/produtos/")
+
+            return render_template('pedidos.html', msg=msg, clientes=clientes, pedido=pedido, produtos=produtos, user=session['login'])
+    except Exception as e:
+        print(e)
+        flash('Não foi possível a conexão com o banco')
+        return redirect(url_for("login"))
 
 
 @app.route('/vendas', methods=["GET", 'POST'])
@@ -181,36 +215,35 @@ def vendas(id = None):
 
 @app.route('/usuarios/', methods=["GET", "POST"])
 def usuarios():
-    #try:
-    if request.method == "POST":
-        body = {
-            "nome": request.form["nome"],
-            "login": request.form["login"],
-            "senha": request.form["senha"],
-            "tipo": request.form["tipo"]
-        }
+    try:
+        if request.method == "POST":
+            body = {
+                "nome": request.form["nome"],
+                "login": request.form["login"],
+                "senha": request.form["senha"],
+                "tipo": request.form["tipo"]
+            }
 
-        notificacao = cadastrar(urlApi + "/usuarios/novo", body)
-        print(notificacao)
-        if 'erro' not in notificacao:
-            msg = "Cadastrado com sucesso"
-            flash(msg)
-            return redirect(url_for("usuarios"))
-        else:
-            flash(notificacao['erro'])
-            return redirect(url_for("usuarios"))
+            notificacao = cadastrar(urlApi + "/usuarios/novo", body)
+            print(notificacao)
+            if 'erro' not in notificacao:
+                msg = "Cadastrado com sucesso"
+                flash(msg)
+                return redirect(url_for("usuarios"))
+            else:
+                flash(notificacao['erro'])
+                return redirect(url_for("usuarios"))
 
-    elif request.method == 'GET':
-        usuarios = listar(urlApi + '/usuarios/')
-        if 'msg' in usuarios:
-            flash('Tempo encerrado, faça login novamente')
-            return redirect(url_for("login"))
-        msg = "Usuarios"
-        return render_template('lista_usuarios.html', msg=msg, usuarios=usuarios, user=session['login'])
-    '''
+        elif request.method == 'GET':
+            usuarios = listar(urlApi + '/usuarios/')
+            if 'msg' in usuarios:
+                flash('Tempo encerrado, faça login novamente')
+                return redirect(url_for("login"))
+            msg = "Usuarios"
+            return render_template('lista_usuarios.html', msg=msg, usuarios=usuarios, user=session['login'])
     except Exception:
         flash('Não foi possível a conexão com o banco')
-        return redirect(url_for("login"))'''
+        return redirect(url_for("login"))
 
 @app.route('/usuarios/new/', methods=["GET"])
 def cadastrar_usuario():
@@ -293,14 +326,21 @@ def remover_usuario(login):
     return redirect(url_for("usuarios"))
 
 
-@app.route('/clientes-pet/', methods=["GET"])
+@app.route('/clientes-pet/', methods=["GET", "POST"])
 def clientes():
     try:
         if request.method == 'GET':
             listaClientes = listar(urlApi + '/clientes/')
             print(listaClientes)
-            msg = "teste"
-            return render_template('cliente_pet.html', msg=msg, Listaclientes=listaClientes, user=session['login'])
+            search = ''
+            return render_template('cliente_pet.html', search=search , Listaclientes=listaClientes, user=session['login'])
+        elif request.method == 'POST':
+            listaClientes = listar(urlApi + '/clientes/')
+            print(listaClientes)
+            # search = "teste"
+            search = request.form["search"]
+            print("search="+search)
+            return render_template('cliente_pet.html', search=search, Listaclientes=listaClientes, user=session['login'])
     except Exception:
         flash('Não foi possível a conexão com o banco')
         return redirect(url_for("login"))
@@ -309,31 +349,65 @@ def clientes():
 def cadastroclientes():
     try:
         if request.method == "POST":
+            print("Teste="+request.form["nome"])
+            print(request.form["nome_pet"])
+            print(request.form["raca"])
+            print(request.form["especie"])
+            print(request.form["porte"])
+            print(request.form["genero"])
+            
+                      
             body = {
                 "nome": request.form["nome"],
                 "email": request.form["email"],
                 "cpf": request.form["cpf"],
-                "telefone": request.form["telefone"],
+                "telefones": [{"telefone": request.form["telefone"]}],
+                "endereco":{
                 "cep": request.form["cep"],
                 "rua": request.form["rua"],
                 "numero": request.form["numero"],
                 "bairro": request.form["bairro"],
                 "cidade": request.form["cidade"],
-                "tipo": 'SP'      
+                "uf": request.form["uf"]},          
+                "pets": [{
+                            "nome": request.form["nome_pet"],
+                            "raca": request.form["raca"],
+                            "porte": request.form["porte"],
+                            "genero": request.form["genero"],
+                            "animal_id":  request.form["especie"]
+                        }]     
                 }
 
+           
             notificacao = cadastrar(urlApi + "/clientes/", body)
             msg = "Cadastrado com sucesso"
             #return redirect(url_for("cadastroclientes"))
             return render_template('cadastro_cliente_pet.html',msg=notificacao, user=session['login'])
         elif request.method == 'GET':
             return render_template('cadastro_cliente_pet.html', user=session['login'])
+    except Exception as e:
+        #print(e)
+        flash('Não foi possível a conexão com o banco')
+        #return redirect(url_for("login"))
+
+# relatório de vendas
+@app.route('/relatorio/', methods=['GET', 'POST'])
+def relatorio():
+    try:
+        if request.method == 'POST':
+            periodo = request.form['periodo']
+            pedidos = listar(urlApi + '/relatorios/?data=' + periodo)
+
+            return render_template('relatorio.html', user=session['login'], data=pedidos)
+        else:
+            return render_template('relatorio.html', user=session['login'], data=None)
     except Exception:
         flash('Não foi possível a conexão com o banco')
         return redirect(url_for("login"))
 
 
 def listar(url):
+    print(session)
     return requests.get(url, headers={'authorization': f"Bearer {session['access_token']}"}).json()
 
 def deletar(url):

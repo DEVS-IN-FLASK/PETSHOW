@@ -1,7 +1,10 @@
+/* Cadastro Produtos */
 * {
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
     color: #323232;
+    margin: 0 auto;
+    padding: 0;
 }
 
 body {
