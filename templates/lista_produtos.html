@@ -45,9 +45,9 @@
                                                     {% for produto in produtos %}
                                                     <tr role="row">
                                                         <td><img src="{{produto.foto}}" style="width: 50px; height: 50px"></td>
-                                                        <td>{{produto.descricao}}</td>
-                                                        <td>{{produto.modelo}}</td>
                                                         <td>{{produto.nome}}</td>
+                                                        <td>{{produto.modelo}}</td>
+                                                        <td>{{produto.descricao}}</td>
                                                         <td>{{produto.preco_custo}}</td>
                                                         <td>{{produto.preco_venda}}</td>
                                                         <td>{{produto.quantidade}}</td>
@@ -59,10 +59,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-danger float-left">Cancelar</button>
-                                <button type="submit" id="btn-submit" class="btn btn-success float-right" value="Registrar">Selecionar</button>
-                            </div>
+
                                         
                 </div>
             </div><!-- /.container-fluid -->
