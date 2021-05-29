@@ -38,7 +38,8 @@
                                                         <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Browser: activate to sort column ascending">Descrição</th>
                                                         <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="Engine version: activate to sort column ascending">Custo</th>
                                                         <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">Venda</th>
-                                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">Quantidade</th>          
+                                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">Quantidade</th>
+                                                        <th class="sorting" tabindex="0" aria-controls="example1" rowspan="1" colspan="1" aria-label="CSS grade: activate to sort column ascending">Editar</th>            
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -51,6 +52,11 @@
                                                         <td>{{produto.preco_custo}}</td>
                                                         <td>{{produto.preco_venda}}</td>
                                                         <td>{{produto.quantidade}}</td>
+                                                        <td>
+                                                            <a class="btn btn-warning" href="{{ url_for('buscar_produto', id=produto.id) }}">
+                                                                Editar
+                                                            </a>
+                                                        </td>
                                                     </tr>
                                                 </tbody>
                                                 {% endfor %}

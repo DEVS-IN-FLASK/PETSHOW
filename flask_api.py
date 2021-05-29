@@ -99,7 +99,7 @@ def produtos(id = None):
             mensagem = deletar(urlApi + "/produtos/" + id + "/remover/")
 
             return redirect(url_for("produtos"))
-        elif(id != None):
+        elif(id != None ):
             body = {
                 "nome": request.form["nome"],
                 "descricao": request.form["descricao"],
