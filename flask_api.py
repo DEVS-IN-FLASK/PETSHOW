@@ -69,6 +69,7 @@ def logout():
 
 #faltando mensagens
 @app.route('/produtos', methods=["GET", 'POST'])
+@app.route('/produtos/edit/<id>', methods=["POST"])
 @app.route('/produtos/delete/<id>', methods=["GET"])
 def produtos(id = None):
     try:
@@ -98,27 +99,7 @@ def produtos(id = None):
             mensagem = deletar(urlApi + "/produtos/" + id + "/remover/")
 
             return redirect(url_for("produtos"))
-
-        else:
-            produtos = listar(urlApi + "/produtos/")
-
-            produto = None
-            if request.args.get("editar"):
-                produto = [p for p in produtos if int(p["id"]) == int(request.args.get("editar"))][0]
-
-            marcas = listar(urlApi + "/produtos/marcas/")
-            tamanhos = listar(urlApi + "/produtos/tamanhos/")
-            animais = listar(urlApi + "/produtos/animais/")
-        
-
-            return render_template('produtos.html', produtos=produtos, tamanhos=tamanhos, marcas=marcas, animais=animais, produto=produto, user=session['login'])
-    except Exception:
-            flash('Não foi possível a conexão com o banco')
-            return redirect(url_for("login"))
-
-@app.route('/produtos/edit/<id>', methods=["POST"])
-def editar_produto(id):
-        if(id != None):
+        elif(id != None):
             body = {
                 "nome": request.form["nome"],
                 "descricao": request.form["descricao"],
@@ -140,6 +121,22 @@ def editar_produto(id):
             print(mensagem)
 
             return redirect(url_for("produtos"))
+        else:
+            produtos = listar(urlApi + "/produtos/")
+
+            produto = None
+            if request.args.get("editar"):
+                produto = [p for p in produtos if int(p["id"]) == int(request.args.get("editar"))][0]
+
+            marcas = listar(urlApi + "/produtos/marcas/")
+            tamanhos = listar(urlApi + "/produtos/tamanhos/")
+            animais = listar(urlApi + "/produtos/animais/")
+        
+
+            return render_template('produtos.html', produtos=produtos, tamanhos=tamanhos, marcas=marcas, animais=animais, produto=produto, user=session['login'])
+    except Exception:
+            flash('Não foi possível a conexão com o banco')
+            return redirect(url_for("login"))
             
 @app.route('/produtos/lista/')
 def lista_produto(id=None):
