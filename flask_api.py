@@ -208,6 +208,18 @@ def pedidos(id = None):
         flash('Não foi possível a conexão com o banco')
         return redirect(url_for("login"))
 
+@app.route('/pedidos/lista')
+def lista_pedidos(id = None):
+    msg = "Pedidos"
+    pedidos = listar(urlApi + "/pedidos/")
+    pedido = None
+    if request.args.get("editar"):
+        pedido = [p for p in pedidos if int(p["id"]) == int(request.args.get("editar"))][0]
+        clientes = listar(urlApi + '/clientes/')
+        produtos = listar(urlApi + "/produtos/")
+
+    return render_template('lista_pedidos.html', msg=msg, clientes=clientes, pedido=pedido, produtos=produtos, user=session['login'])
+
 
 @app.route('/vendas', methods=["GET", 'POST'])
 @app.route('/vendas/edit/<id>', methods=["POST"])
