@@ -209,7 +209,7 @@ def pedidos(id = None):
         return redirect(url_for("login"))
 
 @app.route('/pedidos/lista')
-def lista_pedidos(id = None):
+def lista_pedidos(id):
     msg = "Pedidos"
     pedidos = listar(urlApi + "/pedidos/")
     pedido = None
