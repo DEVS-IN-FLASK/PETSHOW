@@ -94,7 +94,7 @@ def produtos(id = None):
             print(body)
             print(mensagem)
 
-            return redirect(url_for("produtos"))
+            return redirect(url_for("lista_produto"))
         elif(id != None and request.method == "GET"):
             mensagem = deletar(urlApi + "/produtos/" + id + "/remover/")
 
