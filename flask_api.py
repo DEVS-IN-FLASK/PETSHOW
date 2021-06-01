@@ -50,7 +50,7 @@ def login():
                 #session['login'] = login
                 user = listar(urlApi + f'/usuarios/{login}')
                 session['login'] = user
-                return redirect(url_for("produtos"))
+                return redirect(url_for("lista_produto"))
             else:
                 flash(resposta['erro'])
                 return redirect(url_for("login"))
