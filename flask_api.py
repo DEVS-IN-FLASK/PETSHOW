@@ -99,7 +99,7 @@ def produtos(id = None):
             mensagem = deletar(urlApi + "/produtos/" + id + "/remover/")
 
             return redirect(url_for("produtos"))
-        elif(id != None ):
+        elif(id != None):
             body = {
                 "nome": request.form["nome"],
                 "descricao": request.form["descricao"],
@@ -117,10 +117,9 @@ def produtos(id = None):
             }
 
             mensagem = editar(urlApi + "/produtos/" + id + "/alterar/", body)
-
             print(mensagem)
 
-            return redirect(url_for("produtos"))
+            return redirect(url_for("lista_produto"))
         else:
             produtos = listar(urlApi + "/produtos/")
 
@@ -456,4 +455,4 @@ def editar(url, body):
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5001))
     app.run(host='0.0.0.0', port=port, debug=True)
-    #app.run(host='localhost', port=5000, debug=True)
+    #app.run(host='localhost', port=port, debug=True)
