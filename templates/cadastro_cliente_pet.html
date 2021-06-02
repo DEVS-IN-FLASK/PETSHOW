@@ -48,27 +48,27 @@
                         <label for="nome">Nome Completo:</label>
                         <input type="text" class="form-control" id="nome" {% if not usuario %}name="nome" {% endif %}
                             placeholder="Digite o nome" value="{% if usuario %}{{ usuario.nome }}{% endif %}"
-                            {% if usuario %}{{'readonly'}}{% endif %}>
+                            {% if usuario %}{{'readonly'}}{% endif %} required>
                     </div>
                     <div class="mb-3">
                         <label for="email">E-mail:</label>
                         <input type="email" class="form-control" name="email" id="email" placeholder="Digite o e-mail"
                             value="{% if usuario %}{{ usuario.login }}{% endif %}"
-                            {% if usuario %}{{'readonly'}}{% endif %}>
+                            {% if usuario %}{{'readonly'}}{% endif %} required>
                     </div>
 
                     <div class="mb-3">
                         <label for="cpf">CPF:</label>
                         <input type="text" class="form-control" id="cpf" {% if not usuario %}name="cpf" {% endif %}
                             placeholder="Digite o CPF" value="{% if usuario %}{{ usuario.nome }}{% endif %}"
-                            {% if usuario %}{{'readonly'}}{% endif %}>
+                            {% if usuario %}{{'readonly'}}{% endif %} required>
                     </div>
                     <div class="mb-3">
                         <label for="telefone">Telefone:</label>
                         <input type="text" class="form-control" id="telefone" {% if not usuario %}name="telefone"
                             {% endif %} placeholder="Digite o telefone"
                             value="{% if usuario %}{{ usuario.nome }}{% endif %}"
-                            {% if usuario %}{{'readonly'}}{% endif %}>
+                            {% if usuario %}{{'readonly'}}{% endif %} required>
                     </div>
 
                     <br />
@@ -80,34 +80,34 @@
                         <label for="cep">CEP:</label>
                         <input type="text" class="form-control" id="cep" {% if not usuario %}name="cep" {% endif %}
                             placeholder="Digite o cep" value="{% if usuario %}{{ usuario.nome }}{% endif %}"
-                            {% if usuario %}{{'readonly'}}{% endif %}>
+                            {% if usuario %}{{'readonly'}}{% endif %} required>
                     </div>
                     <div class="mb-3">
                         <label for="rua">Rua:</label>
                         <input type="text" class="form-control" id="rua" {% if not usuario %}name="rua" {% endif %}
                             placeholder="Digite a rua" value="{% if usuario %}{{ usuario.nome }}{% endif %}"
-                            {% if usuario %}{{'readonly'}}{% endif %}>
+                            {% if usuario %}{{'readonly'}}{% endif %} required>
                     </div>
                     <div class="mb-3">
                         <label for="numero">Número:</label>
                         <input type="number" class="form-control" id="numero" {% if not usuario %}name="numero"
                             {% endif %} placeholder="Digite o número"
                             value="{% if usuario %}{{ usuario.nome }}{% endif %}"
-                            {% if usuario %}{{'readonly'}}{% endif %}>
+                            {% if usuario %}{{'readonly'}}{% endif %} required>
                     </div>
                     <div class="mb-3">
                         <label for="bairro">Bairro:</label>
                         <input type="text" class="form-control" id="bairro" {% if not usuario %}name="bairro"
                             {% endif %} placeholder="Digite o Bairro"
                             value="{% if usuario %}{{ usuario.nome }}{% endif %}"
-                            {% if usuario %}{{'readonly'}}{% endif %}>
+                            {% if usuario %}{{'readonly'}}{% endif %} required>
                     </div>
                     <div class="mb-3">
                         <label for="cidade">Cidade:</label>
                         <input type="text" class="form-control" id="cidade" {% if not usuario %}name="cidade"
                             {% endif %} placeholder="Digite a Cidade"
                             value="{% if usuario %}{{ usuario.nome }}{% endif %}"
-                            {% if usuario %}{{'readonly'}}{% endif %}>
+                            {% if usuario %}{{'readonly'}}{% endif %} required>
                     </div>
 
 
@@ -204,10 +204,37 @@
                         </label>
                     </div>
 
-                    <!-- <p style="background: rgb(77, 74, 74); color: white; border-radius: 10px; text-align: center; padding: 2px; width: 85px; cursor: pointer; margin: 20px 0"
-                        onclick="adicionarPet()">Salvar pet</p> -->
+                    <p style="background: rgb(77, 74, 74); color: white; border-radius: 10px; text-align: center; padding: 2px; width: 85px; cursor: pointer; margin: 20px 0"
+                        onclick="adicionarPet()">Salvar pet</p>
 
-                    <div id="pets"></div>
+                    <div id="pets">
+
+                        <div>
+                            <div className="mb-1">
+                                <label htmlFor=""><strong>Pets do cliente</strong></label>
+                            </div>
+                            <table className="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Nome</th>
+                                        <th scope="col">Espécie</th>
+                                        <th scope="col">Porte</th>
+                                        <th scope="col">Raça</th>
+                                        <th scope="col">Gênero</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                                                     
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+
+
+
 
                     <button type="submit" class="btn btn-primary" id="salvar"
                         style="display: block; margin: 20px auto;">Salvar</button>
@@ -220,9 +247,10 @@
 
 
 
-<!-- <script type="text/babel">
+<script type="text/babel">
+    let counter = 0;
     //const urlApi = "https://cors-anywhere.herokuapp.com/http://petshow-api.herokuapp.com";
-    const urlApi = "https://cors-anywhere.herokuapp.com";
+    const urlApi = "http://petshow-api.herokuapp.com";
     let clientes = [];
 
     let pets = [];
@@ -315,7 +343,7 @@
         telefone.value = "";
     }
 
-    function adicionarPet() {
+    function adicionarPet(e) {
         let pet = {
             nome: nomePet.value,
             animal_id: Number(document.querySelector('input[name="especie"]:checked').value),
@@ -325,81 +353,105 @@
         }
 
         pets.push(pet);
+        const tbodyEl = document.querySelector("tbody");
+        const tableEl = document.querySelector("table");
+        tbodyEl.innerHTML = "";
+       // e.preventDefault();
+                pets.map((pet, index) => {
+                    tbodyEl.innerHTML += `
+                            
+                                    <tr name="lista_pet[${index}]" >                                         
+                                                        <td>${pet.nome} <input type='hidden' name="nome_pet[${index}]" value=${pet.nome} /></td>
+                                                        <td>${pet.animal_id === 1 ? "Cachorro" : "Gato"}   <input type='hidden' name="animal_id[${index}]" value=${pet.animal_id} /> </td>
+                                                        <td>${pet.porte}  <input type='hidden' name="porte[${index}]" value=${pet.porte} /></td>
+                                                        <td>${pet.raca} <input type='hidden' name="raca[${index}]" value=${pet.raca} /></td>
+                                                        <td>${pet.genero}   <input type='hidden' name="genero[${index}]" value=${pet.genero} /></td>
+                                        </tr>
+                                            
+                                            
+                                                
+                        `;
+                 })
+                 counter = +1;
 
-        ReactDOM.render(
-            <div>
-                <div className="mb-1">
-                    <label htmlFor=""><strong>Pets do cliente</strong></label>
-                </div>
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Nome</th>
-                            <th scope="col">Espécie</th>
-                            <th scope="col">Porte</th>
-                            <th scope="col">Raça</th>
-                            <th scope="col">Gênero</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            pets.map((pet, index) => {
-                                return (
-                                    <tr key={index}>
-                                        <td>{pet.nome}</td>
-                                        <td>{pet.animal_id === 1 ? "Cachorro" : "Gato"}</td>
-                                        <td>{pet.porte}</td>
-                                        <td>{pet.raca}</td>
-                                        <td>{pet.genero}</td>
-                                    </tr>
-                                );
-                            })
-                        }
-                    </tbody>
-                </table>
-            </div>,
-            document.getElementById("pets")
-        );
+        // ReactDOM.render(
+        //     <div>
+        //         <div className="mb-1">
+        //             <label htmlFor=""><strong>Pets do cliente</strong></label>
+        //         </div>
+        //         <table className="table">
+        //             <thead>
+        //                 <tr>
+        //                     <th scope="col">Nome</th>
+        //                     <th scope="col">Espécie</th>
+        //                     <th scope="col">Porte</th>
+        //                     <th scope="col">Raça</th>
+        //                     <th scope="col">Gênero</th>
+        //                 </tr>
+        //             </thead>
+        //             <tbody>
+        //                 {
+        //                     pets.map((pet, index) => {
+        //                         return (
+        //                             <tr key={index}  >
+
+                                       
+        //                                 <td>{pet.nome} <input type='hidden' name="nome_pet[]" value={pet.nome} /></td>
+        //                                 <td>{pet.animal_id === 1 ? "Cachorro" : "Gato"}</td>
+        //                                 <td>{pet.porte}</td>
+        //                                 <td>{pet.raca}</td>
+        //                                 <td>{pet.genero}</td>
+        //                             </tr>
+        //                         );
+        //                     })
+        //                 }
+        //                 <input type='hidden' name='pets' value={pets} />
+        //             </tbody>
+        //         </table>
+        //     </div>,
+        //     document.getElementById("pets")
+            
+        // );
 
         limparCamposPet();
     }
 
-    document.getElementById("salvar").onclick = async (event) => {
-        event.preventDefault();
+    // document.getElementById("salvar").onclick = async (event) => {
+    //     event.preventDefault();
 
-        let body = {
-            nome: nome.value,
-            email: email.value,
-            cpf: cpf.value,
-            endereco: {
-                rua: rua.value,
-                numero: numero.value,
-                bairro: bairro.value,
-                cep: cep.value,
-                cidade: cidade.value,
-                uf: uf.value
-            },
-            telefones: [
-                {
-                    telefone: telefone.value
-                }
-            ],
-            pets: pets
-        }
+    //     let body = {
+    //         nome: nome.value,
+    //         email: email.value,
+    //         cpf: cpf.value,
+    //         endereco: {
+    //             rua: rua.value,
+    //             numero: numero.value,
+    //             bairro: bairro.value,
+    //             cep: cep.value,
+    //             cidade: cidade.value,
+    //             uf: ""
+    //         },
+    //         telefones: [
+    //             {
+    //                 telefone: telefone.value
+    //             }
+    //         ],
+    //         pets: pets
+    //     }
 
-        const response = await fetch(`${urlApi}/clientes`, {
-            method: "POST",
-            headers: {
-                "content-type": "application/json"
-            },
-            body: JSON.stringify(body)
-        });
-        const data = await response.json();
+    //     const response = await fetch(`${urlApi}/clientes`, {
+    //         method: "POST",
+    //         headers: {
+    //             "content-type": "application/json"
+    //         },
+    //         body: JSON.stringify(body)
+    //     });
+    //     const data = await response.json();
 
-        listar();
-    }
+    //     listar();
+    // }
 
-    window.onload = listar();
-</script> -->
+    // window.onload = listar();
+</script>
 
 {% include 'partials/footer.html' %}
