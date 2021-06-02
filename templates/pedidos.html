@@ -36,7 +36,7 @@
                 <div class="form-group">
                     <fieldset>
                         <button type="button" id="adiciona-produto" class="btn btn-primary float-right mb-3" value="Registrar">Adicionar</button>
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped" id="tabela_produtos">
                             <thead>
                                 <tr>
                                     <th scope="col" style="width: 70%;">Produto</th>
@@ -54,7 +54,6 @@
                     <label for="observacao">Observação</label>
                     <input type="text" name="observacao" id="observacao" value="{{pedido.observacao}}" class="form-control"/>
                 </div>
-                
             </div>
         </div>
         <div class="card-footer">

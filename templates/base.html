@@ -52,25 +52,49 @@
     const tbodyEl = document.querySelector("tbody");
     const tableEl = document.querySelector("table");
     let counter = 0;
+    let conta = {}
+    let total = 0.0
     function adicionaLinhaProduto(e) {
       e.preventDefault();
+      
       tbodyEl.innerHTML += `
             <tr>
                 <td>
-                  <select name="produto_id[${counter}]" class="form-control">
+                  <select  onchange="addListenerQuantidade(this)" id="${counter}" name="produto_id[${counter}]" class="form-control">
                     {% for produto in produtos %}
                         <option value="{{produto.id}}">{{produto.nome}} - {{produto.preco_venda}}</option>
                     {% endfor %}
                   </select>
                 </td>
                 <td>
-                  <input type="number" name="quantidade[${counter}]" class="form-control"/>
+                  <input type="number" id="quantidade${counter}" name="quantidade[${counter}]" class="form-control" oninput="calcTotal(this)"/>
                 </td>
                 <td>
                   <button class="btn btn-danger deleteBtn">X</button>
                 </td>
             </tr>
         `;
+    }
+
+    function calcTotal(element) {
+      let produtos = {{ produtos|safe }}
+      let produto = produtos.find(product => parseInt(product.id) === parseInt(element.id));
+      conta[String(produto.id)] = {produto_id: produto.id, preco: parseFloat(produto.preco_venda), quantidade: element.value}
+      let total = Object.values(conta).map(item => (item.quantidade * item.preco))
+      alert(total.reduce((a, b) => a + b, 0))
+    }
+
+    function addListenerQuantidade(element) {
+      document.getElementById("quantidade"+element.id).id = element.value
+      board = []
+
+          var table = document.getElementById('tabela_produtos');
+    for (var r = 1, n = table.rows.length; r < n; r++) {
+        for (var c = 0, m = table.rows[r].cells.length; c < m; c++) {
+            board.push(table.rows[r].cells[c].innerHTML);
+        }
+    }
+    console.log(board)
     }
 
     function onDeleteRow(e) {
