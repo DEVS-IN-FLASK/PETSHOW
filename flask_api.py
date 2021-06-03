@@ -375,12 +375,47 @@ def clientes():
 def cadastroclientes():
     try:
         if request.method == "POST":
-            print("Teste="+request.form["nome"])
-            print(request.form["nome_pet"])
-            print(request.form["raca"])
-            print(request.form["especie"])
-            print(request.form["porte"])
-            print(request.form["genero"])
+
+            pets = []       
+            for key in request.form: 
+                dict = {}                
+                if key.startswith('nome_pet'):           
+                    dict["nome"] = request.form[key]
+                if key.startswith('raca'):           
+                     dict["raca"] = request.form[key]             
+                if key.startswith('porte'):           
+                    dict["porte"]  = request.form[key]
+                if key.startswith('genero'):           
+                     dict["genero"] = request.form[key]
+                if key.startswith('animal_id'):           
+                     dict["animal_id"] = request.form[key]
+                
+                pets.append(dict)
+
+            print(pets)
+
+            # pets = []
+            # dictForm = request.form.to_dict(flat=False)
+            # # Iterate over all the items in dictionary and filter items which has even keys
+            # for (key, value) in dictForm.items():
+            #     dict = {}
+            #      # Check if key is even then add pair to new dictionary
+            #     if 'nome_pet' in key:
+                   
+            #         for (key, value) in dictForm.items(): 
+            #             index = key.split('[')[-1].split(']')[0]
+                        
+            #             dict["nome_pet"] = value[0]
+            #             dict["animal_id"] = int(dictForm.get('animal_id'+"["+index+"]")[0])
+            #             pets.append(dict)
+                    
+   
+
+
+   
+            # print(request.form["especie"])
+            # print(request.form["porte"])
+            # print(request.form["genero"])
             
                       
             body = {
@@ -394,14 +429,15 @@ def cadastroclientes():
                 "numero": request.form["numero"],
                 "bairro": request.form["bairro"],
                 "cidade": request.form["cidade"],
-                "uf": request.form["uf"]},          
-                "pets": [{
-                            "nome": request.form["nome_pet"],
-                            "raca": request.form["raca"],
-                            "porte": request.form["porte"],
-                            "genero": request.form["genero"],
-                            "animal_id":  request.form["especie"]
-                        }]     
+                "uf": request.form["uf"]},  
+                "pets":pets        
+                # "pets": [{
+                #             "nome": request.form["nome_pet"],
+                #             "raca": request.form["raca"],
+                #             "porte": request.form["porte"],
+                #             "genero": request.form["genero"],
+                #             "animal_id":  request.form["especie"]
+                #         }]     
                 }
 
            
@@ -454,5 +490,5 @@ def editar(url, body):
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5001))
-    app.run(host='0.0.0.0', port=port, debug=True)
-    #app.run(host='localhost', port=port, debug=True)
+    #app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(host='localhost', port=5000, debug=True)
