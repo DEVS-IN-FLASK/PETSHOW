@@ -297,20 +297,26 @@ def remover_usuario(login):
 def clientes():
     try:
         if request.method == 'GET':
-            listaClientes = listar(urlApi + '/clientes/')
-            print(listaClientes)
+            listaClientes = listar(urlApi + '/clientes/')       
             search = ''
             return render_template('cliente_pet.html', search=search , Listaclientes=listaClientes, user=session['login'])
         elif request.method == 'POST':
             listaClientes = listar(urlApi + '/clientes/')
-            print(listaClientes)
-            # search = "teste"
             search = request.form["search"]
             print("search="+search)
             return render_template('cliente_pet.html', search=search, Listaclientes=listaClientes, user=session['login'])
     except Exception:
         flash('Não foi possível a conexão com o banco')
         return redirect(url_for("login"))
+
+
+
+@app.route('/cadastro-clientes-pet/', methods=["GET", "POST"])
+def alterarcliente():
+   
+            listaClientes = listar(urlApi + '/clientes/')
+            return render_template('cadastro_cliente_pet.html',msg="teeste", Listaclientes=listaClientes, user=session['login'])
+
 
 @app.route('/cadastro-clientes-pet/', methods=["GET", "POST"])
 def cadastroclientes():
@@ -395,7 +401,7 @@ def cadastroclientes():
 
 
 def listar(url):
-    print(session)
+    #print(session)
     return requests.get(url, headers={'authorization': f"Bearer {session['access_token']}"}).json()
 
 def deletar(url):

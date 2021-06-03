@@ -44,6 +44,11 @@
                         <label for="nome"><strong>Dados Cliente</strong></label>
                     </div>
 
+
+                    <!-- {% for clientes in Listaclientes.clientes %} 
+                         {{ clientes.cliente.nome }}
+                    {% endfor %} -->
+                    
                     <div class="mb-3">
                         <label for="nome">Nome Completo:</label>
                         <input type="text" class="form-control" id="nome" {% if not usuario %}name="nome" {% endif %}
