@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+
 {% with title='Pedidos'%}
 {% include 'partials/header.html' %}
 {% endwith %}
@@ -6,10 +6,12 @@
 
 
 {% with tipo='Pedido' %}
-{% with rota='/pedidos/lista' %}
-{% with rota_new='/pedidos' %}
+{% with rota='/pedidos' %}
+{% with rota_new='/pedidos/new/' %}
 {% with user='User' %}
+{% with pedidos=pedidos %}
 {% include 'partials/sidebar.html'%}
+{% endwith %}
 {% endwith %}
 {% endwith %}
 {% endwith %}
@@ -17,7 +19,6 @@
 
 <!--link rel="stylesheet" href="../static/css/main.css"-->
 
-{% block main %}
 
 <div id="main-container">
  <!-- Tela Listar Usuários começa aqui -->
@@ -41,44 +42,38 @@
                                     <th>Nome</th>
                                     <th>CPF</th>
                                     <th>Total</th>
-                                    <th>Status do Pedido</th>
+                                    <th>Status</th>
+                                    <th></th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for pedido in pedidos %}
                                 <tr>
-<!--                                    {% if pedido.numero == 'ativo'%}  -->
-                                    <td>{{ pedido.numero }}</td>
-                                    <td>{{ cliente.nome }}</td>
-                                    <td>{{ cliente.cpf }}</td>
-                                    <td>{{ pedido.total }}</td>
-                                    <td>{{ pedido.tipo }}</td>
-<!--                                    <td>
-                                        {% if status.ativo == 'verde' %}
-                                        <div class="form-group">
-                                            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                                <input type="checkbox" class="custom-control-input" id="customSwitch3">
-                                                <label class="custom-control-label" for="customSwitch3">ativo {{status.ativo}} or inativo {{status.inativo}}</label>
-                                            </div>
-                                        </div>
-
-                                        {% elif status.inativo == 'vermelho' %}
-                                        <div class="form-group">
-                                            <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
-                                                <input type="checkbox" class="custom-control-input" id="customSwitch3">
-                                                <label class="custom-control-label" for="customSwitch3">ativo {{status.ativo}} or inativo {{status.inativo}}</label>
-                                            </div>
-                                        </div>
-                                    <td>{{ pedido.data }}</td>    
-                                        {% endif %}
+                                    <td>{{ pedido.pedido.id }}</td>
+                                    <td>{{ pedido.cliente.nome }}</td>
+                                    <td>{{ pedido.cliente.cpf }}</td>
+                                    {% set total = [0] %}
+                                    {% for item in pedido.itens %}
+                                    {% if total.append(total.pop() + item.total) %}{% endif %}
+                                    {% endfor %}
+                                    <td>{{ "R$ %.2f"|format(total[0]) }}</td>
+                                    {% if pedido.pedido.situacao_id == 1 %}
+                                    <td>{{ 'Recebido' }}</td>
+                                    {% elif pedido.pedido.situacao_id == 2 %}
+                                    <td>{{ 'Concluido' }}</td>
+                                    {% elif pedido.pedido.situacao_id == 3 %}
+                                    <td>{{ 'Cancelado' }}</td>
+                                    {% endif %}
+                                    <td>
+                                        <a class="btn btn-warning" href="/pedidos/{{ pedido.pedido.id }}">
+                                            Visualizar
+                                    </a>
                                     </td>
-                                    
                                 </tr>
-                                {% endif %} -->
-                                </tr>
+                                {% endfor %}
                             </tbody>
-                            {% endfor %}
+                            
                         </table>
                     </div>
                 </div>
@@ -86,5 +81,6 @@
             </div>
                 <!-- /.row -->
 </div>
-{% endblock main %}
+
 {% include 'partials/footer.html' %}
+

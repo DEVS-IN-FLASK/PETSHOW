@@ -15,7 +15,7 @@
 
 <div class="card card-success">
     <div class="card-header">
-        <h3 class="card-title">Novo Produto</h3>
+        <h3 class="card-title">{% if produto.id %}{{ 'Alterar Produto' }}{% else %}{{ 'Novo Produto' }}{% endif %}</h3>
     </div>
     <form {% if not produto.id %} action="/produtos" {% elif produto.id !=None %} action="/produtos/edit/{{produto.id}}" {% endif %} method="POST" id="register-form">
         <input type="hidden" value="{{produto.id}}">
@@ -61,7 +61,7 @@
                     <div class="row">
                         <div class="col-3">
                             <div class="form-group">
-                                <input class="form-control" placeholder="Qtd" type="number" name="quantidade" id="quantidade" value="{{produto.quantidade}}">
+                                <input class="form-control" placeholder="Qtd" type="number" pattern="[0-9]+" name="quantidade" min="1" step="1" id="quantidade" value="{{produto.quantidade}}">
                             </div>
                         </div>
                         <div class="col-9">
@@ -132,6 +132,25 @@
             </div>                                          
         </div>
     </form>
-</div>    
+</div>
+<script>
+    document.querySelector("#quantidade").addEventListener("keypress", function(e) {
+        e.preventDefault();
+    });
+    {% if produto.id %}
+    document.querySelector("#nome").addEventListener("keypress", function(e) {
+        e.preventDefault();
+    });
+    document.querySelector("#modelo").addEventListener("keypress", function(e) {
+        e.preventDefault();
+    });
+    document.querySelector("#cod_barras").addEventListener("keypress", function(e) {
+        e.preventDefault();
+    });
+    document.querySelector("#descricao").addEventListener("keypress", function(e) {
+        e.preventDefault();
+    });
+    {% endif %}
+</script>   
 {% endblock main %}
 {% include 'partials/footer.html' %}

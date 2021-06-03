@@ -1,0 +1,119 @@
+
+{% with title='Pedidos'%} 
+{% include 'partials/header.html' %} 
+{% endwith %} 
+{% with tipo='Pedido' %}
+{% with rota='/pedidos' %}
+{% with rota_new='/pedidos/new/' %} 
+{% with user=user %}
+{% with pedido=pedido %}
+{% with produtos=produtos %}
+{% include 'partials/sidebar.html'%}
+{% endwith %} 
+{% endwith %} 
+{% endwith %} 
+{% endwith %} 
+{% endwith %} 
+{% endwith %}
+
+<div class="card card-success">
+    <div class="card-header">
+        <h3 class="card-title">{{'Detalhe Pedido'}}</h3>
+    </div>
+        <div class="card-body">
+            <div class="col-12">
+                <h5 style="text-align: center;" class="text-muted">
+                    <strong>
+                        Situação do Pedido  {{ pedido.pedido.id }}:
+                        {% if pedido.pedido.situacao_id == 1 %}{{' Recebido'}}
+                        {% elif pedido.pedido.situacao_id == 2 %}{{' Concluído'}}
+                        {% elif pedido.pedido.situacao_id == 3 %}{{' Cancelado'}}
+                        {% endif %}
+                    </strong>
+                </h5>
+
+                <div class="form-group">
+                    <h5>Dados do Cliente:</h5>
+                    <ul>
+                        <li>Nome: {{ pedido.cliente.nome }}</li>
+                        <li>Id: {{ pedido.cliente.id }}</li>
+                        <li>CPF: {{ pedido.cliente.cpf }}</li>
+                        <li>E-mail: {{ pedido.cliente.email }}</li>
+                        <li>Endereço: {{ pedido.cliente.endereco.rua }},
+                                {{ pedido.cliente.endereco.numero }},
+                                {{ pedido.cliente.endereco.cidade }}-{{ pedido.cliente.endereco.uf }},
+                                CEP: {{ pedido.cliente.endereco.cep }}
+                        </li>
+                    </ul>
+                </div>
+                <div class="form-group">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col" style="width: 5%">Id</th>
+                                    <th scope="col" style="width: 70%;">Produto</th>
+                                    <th scope="col" style="width: 5%;">Quantidade</th>
+                                    <th scope="col" style="width: 15%;">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody id="produtos">
+                                {% for item in pedido.itens %}
+                                <tr>
+                                    <td>{{ item.produto_id }}</td>
+                                    <td>
+                                        {% for produto in produtos %}
+                                        {% if produto.id == item.produto_id %}
+                                        {{ produto.descricao }} - {{ "R$ %.2f"|format(produto.preco_venda) }}
+                                        {% endif %}
+                                        {% endfor %}
+                                    </td>
+                                    <td>{{ item.quantidade }}</td>
+                                    <td>{{ "R$ %.2f"|format(item.total) }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th>Total:</th>
+                                    {% set total = [0] %}
+                                    {% for item in pedido.itens %}
+                                    {% if total.append(total.pop() + item.total) %}{% endif %}
+                                    {% endfor %}
+                                    <th id="total">{{ "R$ %.2f"|format(total[0]) }}</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                </div>
+                <form action="/pedidos/{{ pedido.pedido.id }}" method="POST">
+                <div class="form-group">
+                    <label for="observacao">Observação</label>
+                    <input type="text" id="observacao" name="observacao" value="{{pedido.pedido.observacao}}" class="form-control"
+                    {% if pedido.pedido.situacao_id == 3 %}{{ 'readonly' }}{% endif %}
+                    />
+                </div>
+                {% if pedido.pedido.situacao_id != 3 %}
+                <div class="form-group">
+                    <label for="situacao">Situação</label>
+                    <select id="situacao_id" name="situacao_id" class="form-control" {% if pedido.pedido.situacao_id == 3 %}{{ 'readonly' }}{% endif %}>
+                            <option value="1" {% if pedido.pedido.situacao_id == 1 %}{{'selected'}}{% endif %}>Recebido</option>
+                            <option value="2" {% if pedido.pedido.situacao_id == 2 %}{{'selected'}}{% endif %}>Concluído</option>
+                            <option value="3" {% if pedido.pedido.situacao_id == 3 %}{{'selected'}}{% endif %}>Cancelado</option>
+                    </select>
+                </div>
+                        {% if pedido.pedido.situacao_id != 3 %}
+                        <button class="btn btn-primary">Alterar</button>
+                        {% endif %}
+                {% endif %}
+            </form>
+                
+            </div>
+        </div>
+        
+</div>
+
+
+{% include 'partials/footer.html' %}
+
