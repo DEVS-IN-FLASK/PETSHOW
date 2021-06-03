@@ -67,10 +67,8 @@ def logout():
     return redirect(url_for('login'))
 
 
-#faltando mensagens
 @app.route('/produtos', methods=["GET", 'POST'])
 @app.route('/produtos/edit/<id>', methods=["POST"])
-@app.route('/produtos/delete/<id>', methods=["GET"])
 def produtos(id = None):
     try:
         if(id == None and request.method == "POST"):
@@ -91,15 +89,14 @@ def produtos(id = None):
             }
 
             mensagem = cadastrar(urlApi + "/produtos/", body)
-            print(body)
-            print(mensagem)
 
-            return redirect(url_for("lista_produto"))
-        elif(id != None and request.method == "GET"):
-            mensagem = deletar(urlApi + "/produtos/" + id + "/remover/")
-
-            return redirect(url_for("produtos"))
-        elif(id != None):
+            if 'sucesso' in mensagem:
+                flash(mensagem['sucesso'])
+                return redirect(url_for("lista_produto"))
+            else:
+                flash('Ocorreu um problema')
+                return redirect(url_for("lista_produto"))
+        elif(id != None and request.method == 'POST'):
             body = {
                 "nome": request.form["nome"],
                 "descricao": request.form["descricao"],
@@ -115,11 +112,14 @@ def produtos(id = None):
                 "animal_id": int(request.form["animal_id"]),
                 "usuario_id": session['login']['id']
             }
-
             mensagem = editar(urlApi + "/produtos/" + id + "/alterar/", body)
-            print(mensagem)
 
-            return redirect(url_for("lista_produto"))
+            if 'sucesso' in mensagem:
+                flash(mensagem['sucesso'])
+                return redirect(url_for("lista_produto"))
+            else:
+                flash("Ocorreu um erro")
+                return redirect(url_for("lista_produto"))
         else:
             produtos = listar(urlApi + "/produtos/")
 
@@ -130,7 +130,6 @@ def produtos(id = None):
             marcas = listar(urlApi + "/produtos/marcas/")
             tamanhos = listar(urlApi + "/produtos/tamanhos/")
             animais = listar(urlApi + "/produtos/animais/")
-        
 
             return render_template('produtos.html', produtos=produtos, tamanhos=tamanhos, marcas=marcas, animais=animais, produto=produto, user=session['login'])
     except Exception:
@@ -157,87 +156,64 @@ def buscar_produto(id):
     return redirect(url_for('produtos', editar=id))
 
 @app.route('/pedidos/', methods=["GET", 'POST'])
-@app.route('/pedidos/edit/<id>', methods=["POST"])
-@app.route('/pedidos/delete/<id>', methods=["GET"])
+@app.route('/pedidos/<id>', methods=['GET','POST'])
 def pedidos(id = None):
     try:
         if(id == None and request.method == "POST"):
-            products = []
-            dictForm = request.form.to_dict(flat=False)
-            # Iterate over all the items in dictionary and filter items which has even keys
-            for (key, value) in dictForm.items():
-                dict = {}
-                 # Check if key is even then add pair to new dictionary
-                if 'produto_id' in key:
-                    index = key.split('[')[-1].split(']')[0]
-                    dict["produto_id"] = int(value[0])
-                    dict["quantidade"] = int(dictForm.get('quantidade'+"["+index+"]")[0])
-                    products.append(dict)
-
+            itens_form = int(request.form['itens'])
+            itens = []
+            for i in range(itens_form):
+                item = {
+                    'produto_id': int(request.form['produto_id['+str(i)+']']),
+                    'quantidade': int(request.form['quantidade['+str(i)+']'])
+                }
+                itens.append(item)
             body = {
                 "cliente_id": int(request.form["cliente_id"]),
                 "observacao": request.form["observacao"],
                 "usuario_id": session['login']['id'],
-                "itens": products
+                "itens": itens
                 }
-            print(body)  
             mensagem = cadastrar(urlApi + "/pedidos/", body)
-            print(mensagem)
             return redirect(url_for("pedidos"))
         elif(id != None and request.method == "GET"):
-            msg = "Deletar um pedido"
-            # @redirect("/pedidos")
-            return render_template('pedidos.html', msg=msg, user=session['login'])
-        elif(id != None):
-            msg = "Editar um pedido"
-             # @redirect("/pedidos")
-            return render_template('pedidos.html', msg=msg, user=session['login'])
-        else:
-            msg = "Pedidos"
-            pedidos = listar(urlApi + "/pedidos/")
-            pedido = None
-            if request.args.get("editar"):
-                pedido = [p for p in pedidos if int(p["id"]) == int(request.args.get("editar"))][0]
-            clientes = listar(urlApi + '/clientes/')
+            msg = "Visualizar Pedido"
+            print(id)
+            pedidos = listar(urlApi + "/pedidos/")["pedidos"]
             produtos = listar(urlApi + "/produtos/")
+            pedido = None
+            
+            for x in pedidos:
+                if int(id) == x['pedido']['id']:
+                    pedido = x
 
-            return render_template('pedidos.html', msg=msg, clientes=clientes, pedido=pedido, produtos=produtos, user=session['login'])
+            return render_template('visualizacao_pedido.html', msg=msg, user=session['login'], pedido=pedido, produtos=produtos)
+        elif(id != None and request.method == "POST"):
+            msg = "Alterar Pedido"
+            body = {'situacao_id': int(request.form['situacao_id']), 'observacao': request.form['observacao']}
+            resposta = alterar_todo(urlApi + '/pedidos/' + id + '/situacao/', body)
+
+            if 'sucesso' in resposta:
+                flash(resposta['sucesso'])
+                return redirect(url_for('pedidos'))
+            else:
+                flash('Ocorreu um erro')
+                return redirect(url_for('pedidos'))
+        else:
+            # listagem
+            msg = "Pedidos"
+            pedidos = listar(urlApi + "/pedidos/")["pedidos"]
+            return render_template('lista_pedidos.html', msg=msg, pedidos=pedidos, user=session['login'])    
     except Exception as e:
-        print(e)
         flash('Não foi possível a conexão com o banco')
         return redirect(url_for("login"))
 
-@app.route('/pedidos/lista')
-def lista_pedidos(id):
-    msg = "Pedidos"
-    pedidos = listar(urlApi + "/pedidos/")
-    pedido = None
-    if request.args.get("editar"):
-        pedido = [p for p in pedidos if int(p["id"]) == int(request.args.get("editar"))][0]
-        clientes = listar(urlApi + '/clientes/')
-        produtos = listar(urlApi + "/produtos/")
+@app.route('/pedidos/new/')
+def cadastrar_pedido():
+    clientes = listar(urlApi + "/clientes/")
+    produtos = listar(urlApi + "/produtos/")
+    return render_template('cadastro_pedido.html', user=session['login'], pedido=[], clientes=clientes, produtos=produtos)
 
-    return render_template('lista_pedidos.html', msg=msg, clientes=clientes, pedido=pedido, produtos=produtos, user=session['login'])
-
-
-@app.route('/vendas', methods=["GET", 'POST'])
-@app.route('/vendas/edit/<id>', methods=["POST"])
-@app.route('/vendas/delete/<id>', methods=["GET"])
-def vendas(id = None):
-    if(id == None and request.method == "POST"):
-        msg = "Cadastrar uma venda"
-        return render_template('vendas.html', msg=msg)
-    elif(id != None and request.method == "GET"):
-        msg = "Deletar uma venda"
-        # @redirect("/vendas")
-        return render_template('vendas.html', msg=msg)
-    elif(id != None):
-        msg = "Editar uma venda"
-        # @redirect("/vendas")
-        return render_template('vendas.html', msg=msg)
-    else:
-        msg = "Vendas"
-        return render_template('vendas.html', msg=msg)
 
 @app.route('/usuarios/', methods=["GET", "POST"])
 def usuarios():
@@ -330,7 +306,7 @@ def alterar_tipo(login):
                 "tipo": request.form["tipo"]
             }
             notificacao = alterar_parte(urlApi + "/usuarios/alterartipo", body)
-            print(notificacao)
+
             if 'erro' not in notificacao:
                 msg = "Alterado com sucesso"
                 flash(msg)
@@ -348,7 +324,6 @@ def alterar_tipo(login):
 def remover_usuario(login):
     req = requests.delete(urlApi + '/usuarios/' + login + '/remover/')
     msg = req.json()
-    print(msg)
     return redirect(url_for("usuarios"))
 
 
@@ -375,47 +350,12 @@ def clientes():
 def cadastroclientes():
     try:
         if request.method == "POST":
-
-            pets = []       
-            for key in request.form: 
-                dict = {}                
-                if key.startswith('nome_pet'):           
-                    dict["nome"] = request.form[key]
-                if key.startswith('raca'):           
-                     dict["raca"] = request.form[key]             
-                if key.startswith('porte'):           
-                    dict["porte"]  = request.form[key]
-                if key.startswith('genero'):           
-                     dict["genero"] = request.form[key]
-                if key.startswith('animal_id'):           
-                     dict["animal_id"] = request.form[key]
-                
-                pets.append(dict)
-
-            print(pets)
-
-            # pets = []
-            # dictForm = request.form.to_dict(flat=False)
-            # # Iterate over all the items in dictionary and filter items which has even keys
-            # for (key, value) in dictForm.items():
-            #     dict = {}
-            #      # Check if key is even then add pair to new dictionary
-            #     if 'nome_pet' in key:
-                   
-            #         for (key, value) in dictForm.items(): 
-            #             index = key.split('[')[-1].split(']')[0]
-                        
-            #             dict["nome_pet"] = value[0]
-            #             dict["animal_id"] = int(dictForm.get('animal_id'+"["+index+"]")[0])
-            #             pets.append(dict)
-                    
-   
-
-
-   
-            # print(request.form["especie"])
-            # print(request.form["porte"])
-            # print(request.form["genero"])
+            print("Teste="+request.form["nome"])
+            print(request.form["nome_pet"])
+            print(request.form["raca"])
+            print(request.form["especie"])
+            print(request.form["porte"])
+            print(request.form["genero"])
             
                       
             body = {
@@ -429,15 +369,14 @@ def cadastroclientes():
                 "numero": request.form["numero"],
                 "bairro": request.form["bairro"],
                 "cidade": request.form["cidade"],
-                "uf": request.form["uf"]},  
-                "pets":pets        
-                # "pets": [{
-                #             "nome": request.form["nome_pet"],
-                #             "raca": request.form["raca"],
-                #             "porte": request.form["porte"],
-                #             "genero": request.form["genero"],
-                #             "animal_id":  request.form["especie"]
-                #         }]     
+                "uf": request.form["uf"]},          
+                "pets": [{
+                            "nome": request.form["nome_pet"],
+                            "raca": request.form["raca"],
+                            "porte": request.form["porte"],
+                            "genero": request.form["genero"],
+                            "animal_id":  request.form["especie"]
+                        }]     
                 }
 
            
@@ -469,7 +408,6 @@ def relatorio():
 
 
 def listar(url):
-    print(session)
     return requests.get(url, headers={'authorization': f"Bearer {session['access_token']}"}).json()
 
 def deletar(url):

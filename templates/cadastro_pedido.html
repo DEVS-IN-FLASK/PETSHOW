@@ -1,0 +1,167 @@
+
+{% with title='Pedidos'%} 
+{% include 'partials/header.html' %} 
+{% endwith %} 
+{% with tipo='Pedido' %}
+{% with rota='/pedidos' %}
+{% with rota_new='/pedidos/new/' %} 
+{% with user=user %}
+{% with pedido=pedido %}
+{% include 'partials/sidebar.html'%} 
+{% endwith %} 
+{% endwith %} 
+{% endwith %} 
+{% endwith %} 
+{% endwith %}
+
+<div class="card card-success">
+    <div class="card-header">
+        <h3 class="card-title">{% if not pedido.id %}{{'Novo Pedido'}}{% endif %}</h3>
+    </div>
+        <div class="card-body">
+            <div class="col-12">
+                <h5 style="text-align: center;" class="text-muted"><strong>Fazer um Pedido</strong></h5>
+                <div class="form-group">
+                    <label for="nome">Cliente</label>
+                    <select id="cliente_id" class="form-control">
+                        {% for cliente in clientes.clientes %}
+                            {% if cliente.cliente.id == pedido.cliente_id %}
+                                <option value="{{cliente.cliente.id}}" selected> {{cliente.cliente.nome}} (CPF: {{cliente.cliente.cpf}}) </option>
+                            {% endif %}
+                            {% if cliente.cliente.id != pedido.cliente_id %}
+                                <option value="{{cliente.cliente.id}}"> {{cliente.cliente.nome}} (CPF: {{cliente.cliente.cpf}}) </option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-inline">
+                        <label for="produto">Produto</label>
+                        <select id="produto_id" class="form-control">
+                            {% for produto in produtos %}
+                                <option value="{{produto.id}}">{{ produto.nome }}
+                                                                {% if produto.marca_id == 1 %}- {{ 'Petcao' }}
+                                                                {% elif produto.marca_id == 2 %}- {{ 'Petgato' }}
+                                                                {% else %}- {{ 'Petlove' }}
+                                                                {% endif %}
+                                                                - {{ "R$ %.2f"|format(produto.preco_venda) }}</option>
+                            {% endfor %}
+                        </select>
+                        <select id="preco_id" hidden>
+                            {% for produto in produtos %}
+                            <option value="{{ produto.id }}">{{ produto.preco_venda }}</option>
+                            {% endfor %}
+                        </select>
+                        <input type="number" pattern="[0-9]+" class="form-control" min="1" value="1" step="1" id="quantidade">
+                    </div>
+                <div class="form-group">
+
+                        <button type="button" onclick="(adicionaProduto())" id="adiciona-produto" class="btn btn-primary float-right mb-3" value="Registrar">Adicionar</button>
+                        <span id="counter" hidden>0</span>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col" style="width: 5%">Id</th>
+                                    <th scope="col" style="width: 70%;">Produto</th>
+                                    <th scope="col" style="width: 5%;">Quantidade</th>
+                                    <th scope="col" style="width: 5%;">Subtotal</th>
+                                    <th scope="col" style="width: 5%;">Remover</th>
+                                </tr>
+                            </thead>
+                            <tbody id="produtos">
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th>Total:</th>
+                                    <th id="total">{{ "R$ %.2f"|format(0) }}</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                </div>
+                <div class="form-group">
+                    <label for="observacao">Observação</label>
+                    <input type="text" id="observacao" value="{{pedido.observacao}}" class="form-control"/>
+                </div>
+                
+            </div>
+        </div>
+        <div class="card-footer">
+            <button onclick="enviar()" class="btn btn-primary">Salvar</button>
+        </div>
+</div>
+
+<script>
+    document.querySelector("#quantidade").addEventListener("keypress", function(e) {
+        e.preventDefault();
+    });
+    function adicionaProduto() {
+        var produtos = document.querySelector("#produtos");
+        var produtoId = document.querySelector("#produto_id").value;
+        var valorEscolhido = document.querySelector("#produto_id").options.selectedIndex;
+        var produtoEscolhido = document.querySelector("#produto_id").options[valorEscolhido].text;
+        var quantidade = document.querySelector("#quantidade").value;
+        var precoEscolhido = document.querySelector("#preco_id").options[valorEscolhido].text;
+        produtos.innerHTML += `
+                                <tr id="linha-produto">
+                                    <td>${produtoId}</td>
+                                    <td>${produtoEscolhido}</td>
+                                    <td>${quantidade}</td>
+                                    <td class="subtotal">R$ ${quantidade * precoEscolhido}</td>
+                                    <td><input type="button" class="btn btn-danger deleteBtn" onclick="deletaProduto(this)" value="X"></td>
+                                </tr>
+                                `;
+        document.querySelector("#quantidade").value = "1";
+        document.querySelector("#produto_id").options[0].selected = true;
+        atualizaContador(1);
+        calculaTotal();
+    }
+    function deletaProduto(e) {
+        e.closest("tr").remove();
+        atualizaContador(-1);
+        calculaTotal();
+    }
+    function atualizaContador(valor) {
+        var contador = document.querySelector("#counter").textContent;
+        contador = parseInt(contador) + valor;
+        document.querySelector("#counter").textContent = contador;
+    }
+    function calculaTotal() {
+        var subtotal = document.querySelectorAll(".subtotal");
+        var total = 0;
+        subtotal.forEach(x => {
+            total = total + parseInt(x.textContent.replace("R$ ",""))
+        });
+        document.querySelector("#total").textContent = "R$ " + total;
+    }
+    function enviar() {
+        var request = new XMLHttpRequest();
+        request.open('POST', "{{ url_for('pedidos') }}");
+        var formData = new FormData();
+        formData.append('cliente_id',document.querySelector("#cliente_id").value);
+        formData.append('observacao',document.querySelector("#observacao").value);
+        
+        var itens = [];
+        
+        var produtos = document.querySelectorAll("#linha-produto");
+        var i = 0;
+        produtos.forEach(x => {
+            formData.append('produto_id[' + i +']',parseInt(x.children[0].textContent));
+            formData.append('quantidade[' + i +']',parseInt(x.children[2].textContent));
+            i = i + 1;
+        });
+        formData.append('itens',i);
+        request.send(formData);
+        if (request.status == 200 || request.status == 0) {
+            window.location.href = "{{ url_for('pedidos') }}";
+        }
+    }
+
+</script>
+
+
+{% include 'partials/footer.html' %}
+
