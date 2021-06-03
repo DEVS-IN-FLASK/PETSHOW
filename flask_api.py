@@ -10,6 +10,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField
 from wtforms.validators import InputRequired, Email, Length
 from flask_cors import CORS
+from datetime import datetime
 
 
 
@@ -178,7 +179,6 @@ def pedidos(id = None):
             return redirect(url_for("pedidos"))
         elif(id != None and request.method == "GET"):
             msg = "Visualizar Pedido"
-            print(id)
             pedidos = listar(urlApi + "/pedidos/")["pedidos"]
             produtos = listar(urlApi + "/produtos/")
             pedido = None
@@ -186,13 +186,15 @@ def pedidos(id = None):
             for x in pedidos:
                 if int(id) == x['pedido']['id']:
                     pedido = x
-
-            return render_template('visualizacao_pedido.html', msg=msg, user=session['login'], pedido=pedido, produtos=produtos)
+                    
+            x = pedido['pedido']['data']
+            x = datetime.strptime(x, "%a, %d %b %Y %H:%M:%S %Z")
+            data = f'{x.day}/{x.month}/{x.year}'
+            return render_template('visualizacao_pedido.html', msg=msg, user=session['login'], pedido=pedido, produtos=produtos, data=data)
         elif(id != None and request.method == "POST"):
             msg = "Alterar Pedido"
             body = {'situacao_id': int(request.form['situacao_id']), 'observacao': request.form['observacao']}
             resposta = alterar_todo(urlApi + '/pedidos/' + id + '/situacao/', body)
-
             if 'sucesso' in resposta:
                 flash(resposta['sucesso'])
                 return redirect(url_for('pedidos'))

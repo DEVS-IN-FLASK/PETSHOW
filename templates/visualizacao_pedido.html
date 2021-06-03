@@ -8,7 +8,9 @@
 {% with user=user %}
 {% with pedido=pedido %}
 {% with produtos=produtos %}
+{% with data=data %}
 {% include 'partials/sidebar.html'%}
+{% endwith %} 
 {% endwith %} 
 {% endwith %} 
 {% endwith %} 
@@ -31,6 +33,11 @@
                         {% endif %}
                     </strong>
                 </h5>
+                <h6 style="text-align: center;" class="text-muted">
+                        <strong>
+                            Data:  {{ data }}
+                        </strong>
+                    </h6>
 
                 <div class="form-group">
                     <h5>Dados do Cliente:</h5>
@@ -103,9 +110,9 @@
                             <option value="3" {% if pedido.pedido.situacao_id == 3 %}{{'selected'}}{% endif %}>Cancelado</option>
                     </select>
                 </div>
-                        {% if pedido.pedido.situacao_id != 3 %}
-                        <button class="btn btn-primary">Alterar</button>
-                        {% endif %}
+                    {% if pedido.pedido.situacao_id != 3 %}
+                    <button class="btn btn-primary">Alterar</button>
+                    {% endif %}
                 {% endif %}
             </form>
                 
