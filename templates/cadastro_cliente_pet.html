@@ -79,7 +79,7 @@
                             <div class="mb-3">
                                 <label for="cep">CEP:</label>
                                 <input type="text" class="form-control" id="cep" name="cep" 
-                                    placeholder="Digite o cep" value="{{clientes.cliente.endereco.cep}}" required>
+                                    placeholder="Digite o cep" value="{{clientes.cliente.endereco.cep}}" required onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                             </div>
                             <div class="mb-3">
                                 <label for="rua">Rua:</label>
