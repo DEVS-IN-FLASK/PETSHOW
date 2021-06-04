@@ -62,13 +62,13 @@
                             <div class="mb-3">
                                 <label for="cpf">CPF:</label>
                                 <input type="text" class="form-control" id="cpf" {% if not usuario %}name="cpf" {% endif %}
-                                    placeholder="Digite o CPF" value="{{clientes.cliente.cpf}}" required>
+                                    placeholder="Digite o CPF" value="{{clientes.cliente.cpf}}" required onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                             </div>
                             <div class="mb-3">
                                 <label for="telefone">Telefone:</label>
                                 <input type="text" class="form-control" id="telefone" name="telefone"
                                     placeholder="Digite o telefone"
-                                    value="{{clientes.cliente.telefones.telefone}}" required>
+                                    value="{{clientes.cliente.telefones.telefone}}" required onkeypress="return event.charCode >= 48 && event.charCode <= 57">
                             </div>
 
                             <br />
