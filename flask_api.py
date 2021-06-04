@@ -3,6 +3,7 @@ import requests
 from flask import Flask, request, jsonify, session, g, redirect, url_for, \
      abort, render_template, flash, Response
 from flask_restful import Resource, Api
+from requests.sessions import Request, get_auth_from_url
 from sqlalchemy import create_engine
 from json import dumps, loads
 from flask_bootstrap import Bootstrap
@@ -26,9 +27,9 @@ CORS(app)
 
 
 class LoginForm(FlaskForm):
-    username = StringField('Login', validators=[InputRequired(), Length(min=4, max=60)])
-    password = PasswordField('Senha', validators=[InputRequired(), Length(min=4, max=60)])
-    #remember = BooleanField('Me mantenha conectado')
+    username = StringField('Login', validators=[InputRequired(), Length(min=4, max=15)])
+    password = PasswordField('Senha', validators=[InputRequired(), Length(min=4, max=15)])
+    remember = BooleanField('Me mantenha conectado')
 
 
 #faltando teste e mensagens
@@ -333,14 +334,11 @@ def remover_usuario(login):
 def clientes():
     try:
         if request.method == 'GET':
-            listaClientes = listar(urlApi + '/clientes/')
-            print(listaClientes)
+            listaClientes = listar(urlApi + '/clientes/')       
             search = ''
             return render_template('cliente_pet.html', search=search , Listaclientes=listaClientes, user=session['login'])
         elif request.method == 'POST':
             listaClientes = listar(urlApi + '/clientes/')
-            print(listaClientes)
-            # search = "teste"
             search = request.form["search"]
             print("search="+search)
             return render_template('cliente_pet.html', search=search, Listaclientes=listaClientes, user=session['login'])
@@ -348,50 +346,144 @@ def clientes():
         flash('Não foi possível a conexão com o banco')
         return redirect(url_for("login"))
 
-@app.route('/cadastro-clientes-pet/', methods=["GET", "POST"])
-def cadastroclientes():
-    try:
-        if request.method == "POST":
-            print("Teste="+request.form["nome"])
-            print(request.form["nome_pet"])
-            print(request.form["raca"])
-            print(request.form["especie"])
-            print(request.form["porte"])
-            print(request.form["genero"])
-            
-                      
-            body = {
-                "nome": request.form["nome"],
-                "email": request.form["email"],
-                "cpf": request.form["cpf"],
-                "telefones": [{"telefone": request.form["telefone"]}],
-                "endereco":{
-                "cep": request.form["cep"],
-                "rua": request.form["rua"],
-                "numero": request.form["numero"],
-                "bairro": request.form["bairro"],
-                "cidade": request.form["cidade"],
-                "uf": request.form["uf"]},          
-                "pets": [{
-                            "nome": request.form["nome_pet"],
-                            "raca": request.form["raca"],
-                            "porte": request.form["porte"],
-                            "genero": request.form["genero"],
-                            "animal_id":  request.form["especie"]
-                        }]     
-                }
 
-           
-            notificacao = cadastrar(urlApi + "/clientes/", body)
-            msg = "Cadastrado com sucesso"
-            #return redirect(url_for("cadastroclientes"))
-            return render_template('cadastro_cliente_pet.html',msg=notificacao, user=session['login'])
-        elif request.method == 'GET':
-            return render_template('cadastro_cliente_pet.html', user=session['login'])
+
+@app.route('/cadastro-clientes-pet/', methods=["GET","POST"])
+def alterarcliente():
+    try:
+       
+        if request.method == "GET":
+            id=0
+            URL = request.url
+            x = URL.split("/")
+            if(x[4]!= '' ):            
+                id = int(x[4].replace("?id=",""))
+            listaClientes = listar(urlApi + '/clientes/')
+            return render_template('cadastro_cliente_pet.html',msg="", id=id, Listaclientes=listaClientes, user=session['login'])
+        elif request.method == 'POST': 
+ 
+                print("nome_pet="+request.form["nome_pet"])  
+                print("raca="+request.form["raca"])  
+                print("porte="+request.form["porte"])  
+                print("genero="+request.form["genero"])  
+                print("especie="+request.form["especie"])                      
+                body = {
+                    "nome": request.form["nome"],
+                    "email": request.form["email"],
+                    "cpf": request.form["cpf"],
+                    "telefones": [{"telefone": request.form["telefone"]}],
+                    "endereco":{
+                    "cep": request.form["cep"],
+                    "rua": request.form["rua"],
+                    "numero": request.form["numero"],
+                    "bairro": request.form["bairro"],
+                    "cidade": request.form["cidade"],
+                    "uf": request.form["uf"]},  
+                    # "pets":{}
+                    "pets": [{
+                             "nome": request.form["nome_pet"],
+                             "raca": request.form["raca"],
+                             "porte": request.form["porte"],
+                             "genero": request.form["genero"],
+                             "animal_id":  request.form["especie"]
+                         }] 
+                    }
+        
+                
+                notificacao = cadastrar(urlApi + "/clientes/", body)
+                
+                if 'erro' not in notificacao:
+                    msg = "Cliente cadastrado com sucesso"
+                else:
+                     msg = "Não foi possível cadastrar o cliente"
+    
+                #return redirect(url_for("cadastroclientes"))
+                return render_template('cadastro_cliente_pet.html', id = 0, msg=msg, user=session['login'])
     except Exception as e:
-        #print(e)
+        print(e)
         flash('Não foi possível a conexão com o banco')
         #return redirect(url_for("login"))
+
+# @app.route('/cadastro-clientes-pet/', methods=["GET", "POST"])
+# def cadastroclientes():
+#     try:
+#         if request.method == "POST":
+
+#             pets = []       
+#             for key in request.form: 
+#                 dict = {}                
+#                 if key.startswith('nome_pet'):           
+#                     dict["nome"] = request.form[key]
+#                 if key.startswith('raca'):           
+#                      dict["raca"] = request.form[key]             
+#                 if key.startswith('porte'):           
+#                     dict["porte"]  = request.form[key]
+#                 if key.startswith('genero'):           
+#                      dict["genero"] = request.form[key]
+#                 if key.startswith('animal_id'):           
+#                      dict["animal_id"] = request.form[key]
+                
+#                 pets.append(dict)
+
+#             print(pets)
+
+#             # pets = []
+#             # dictForm = request.form.to_dict(flat=False)
+#             # # Iterate over all the items in dictionary and filter items which has even keys
+#             # for (key, value) in dictForm.items():
+#             #     dict = {}
+#             #      # Check if key is even then add pair to new dictionary
+#             #     if 'nome_pet' in key:
+                   
+#             #         for (key, value) in dictForm.items(): 
+#             #             index = key.split('[')[-1].split(']')[0]
+                        
+#             #             dict["nome_pet"] = value[0]
+#             #             dict["animal_id"] = int(dictForm.get('animal_id'+"["+index+"]")[0])
+#             #             pets.append(dict)
+                    
+   
+
+
+   
+#             # print(request.form["especie"])
+#             # print(request.form["porte"])
+#             # print(request.form["genero"])
+            
+                      
+#             body = {
+#                 "nome": request.form["nome"],
+#                 "email": request.form["email"],
+#                 "cpf": request.form["cpf"],
+#                 "telefones": [{"telefone": request.form["telefone"]}],
+#                 "endereco":{
+#                 "cep": request.form["cep"],
+#                 "rua": request.form["rua"],
+#                 "numero": request.form["numero"],
+#                 "bairro": request.form["bairro"],
+#                 "cidade": request.form["cidade"],
+#                 "uf": request.form["uf"]},  
+#                 "pets":pets        
+#                 # "pets": [{
+#                 #             "nome": request.form["nome_pet"],
+#                 #             "raca": request.form["raca"],
+#                 #             "porte": request.form["porte"],
+#                 #             "genero": request.form["genero"],
+#                 #             "animal_id":  request.form["especie"]
+#                 #         }]     
+#                 }
+
+           
+#             notificacao = cadastrar(urlApi + "/clientes/", body)
+#             msg = "Cadastrado com sucesso"
+#             #return redirect(url_for("cadastroclientes"))
+#             return render_template('cadastro_cliente_pet.html',msg=notificacao, user=session['login'])
+#         elif request.method == 'GET':
+#             return render_template('cadastro_cliente_pet.html', user=session['login'])
+#     except Exception as e:
+#         #print(e)
+#         flash('Não foi possível a conexão com o banco')
+#         #return redirect(url_for("login"))
 
 # relatório de vendas
 @app.route('/relatorio/', methods=['GET', 'POST'])
@@ -410,6 +502,8 @@ def relatorio():
 
 
 def listar(url):
+    #print adicionado com atualizações em clientes
+    print(session)
     return requests.get(url, headers={'authorization': f"Bearer {session['access_token']}"}).json()
 
 def deletar(url):
@@ -430,5 +524,5 @@ def editar(url, body):
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5001))
-    app.run(host='0.0.0.0', port=port, debug=True)
-    #app.run(host='localhost', port=5000, debug=True)
+    #app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(host='localhost', port=5000, debug=True)

@@ -43,133 +43,147 @@
             
     </div>
     </form>
-<!-- 
+
     <div class="col-md-12 text-right"> 
-        <a class="btn btn-primary"   href="{{ url_for('cadastroclientes') }}"> Cadastrar Novo Cliente</a>
-    </div><br><br> -->
+        <a class="btn btn-primary"   href="{{ url_for('alterarcliente',id='9') }}"> Cadastrar Novo Cliente</a>
+    </div><br><br>
 
                 <!-- Table row -->
                 <div class="row">
                     <div class="col-12 table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Nome</th>
-                                    <th>Email</th>
-                                    <th>CPF</th>
-                                    <th>Telefone</th>
-                                    <th>CEP</th>
-                                    <th>Rua</th>
-                                    <th>Número</th>
-                                    <th>Bairro</th>
-                                    <th>Cidade</th>
-                                    <th>UF</th>
-                                    <th>Nome do Pet</th>
-                                    <th>Espécie</th>
-                                    <th>Porte</th>
-                                    <th>Raça</th>
-                                    <th>Gênero</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% if search != ''%}
-                                    {% for clientes in Listaclientes.clientes %} 
-                                        {% if clientes.cliente.cpf == search %} 
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <th>Email</th>
+                                        <th>CPF</th>
+                                        <th>Telefone</th>
+                                        <th>CEP</th>
+                                        <th>Rua</th>
+                                        <th>Número</th>
+                                        <th>Bairro</th>
+                                        <th>Cidade</th>
+                                        <th>UF</th>
+                                        <th>Nome do Pet</th>
+                                        <th>Espécie</th>
+                                        <th>Porte</th>
+                                        <th>Raça</th>
+                                        <th>Gênero</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if search != ''%}
+                                        {% for clientes in Listaclientes.clientes %} 
+                                            {% if clientes.cliente.cpf == search %} 
 
-                               
-                                            <tr>
-                                            <td>{{ clientes.cliente.nome }}</td>
-                                            <td>{{ clientes.cliente.email }}</td>
-                                            <td>{{ clientes.cliente.cpf }}</td>
-                                            <td>{{ clientes.cliente.telefone }}</td>
-                                            <td>{{ clientes.cliente.endereco.cep }}</td>
-                                            <td>{{ clientes.cliente.endereco.rua }}</td>
-                                            <td>{{ clientes.cliente.endereco.numero }}</td>
-                                            <td>{{ clientes.cliente.endereco.bairro }}</td>
-                                            <td>{{ clientes.cliente.endereco.cidade }}</td>
-                                            <td>{{ clientes.cliente.endereco.uf }}</td>
+                                
+                                                <tr>
+                                                <td>{{ clientes.cliente.nome }}</td>
+                                                <td>{{ clientes.cliente.email }}</td>
+                                                <td>{{ clientes.cliente.cpf }}</td>
+                                                <td>{{ clientes.cliente.telefone }}</td>
+                                                <td>{{ clientes.cliente.endereco.cep }}</td>
+                                                <td>{{ clientes.cliente.endereco.rua }}</td>
+                                                <td>{{ clientes.cliente.endereco.numero }}</td>
+                                                <td>{{ clientes.cliente.endereco.bairro }}</td>
+                                                <td>{{ clientes.cliente.endereco.cidade }}</td>
+                                                <td>{{ clientes.cliente.endereco.uf }}</td>
 
-                                            {% if clientes.cliente.pets[0] != null %}
-                                            <td>{{ clientes.cliente.pets[0].nome }}</td>
-
-                                            {% if clientes.cliente.pets[0].animal_id == 1 %}
-                                            <td>Cachorro</td>{% else %}<td>Gato</td>
-                                          {% endif %}  
-
-                                            {% if clientes.cliente.pets[0].porte == "Gigante" %}
-                                            <td>Muito Grande</td>{% else %}<td>{{ clientes.cliente.pets[0].porte }}</td>
-                                          {% endif %} 
-
-                                          
-                                          <td>{{ clientes.cliente.pets[0].raca }}</td>
-
-                                          {% if clientes.cliente.pets[0].genero == "m" %}
-                                          <td>Macho</td>{% else %}<td>Fêmea</td>
-                                          {% endif %}
-
-                                           {% else %}
-
-                                           <td></td>
-                                           <td></td>
-                                           <td></td>
-                                           <td></td>
-                                           <td></td>
-
-                                          {% endif %} 
-                                            
-                                            </tr>
-
-                                        {% endif %} 
-                                    {% endfor %}
-                                {% elif search == ''%}
-
-                                    {% for clientes in Listaclientes.clientes %} 
-                                                                
-                                         <tr>
-                                              <td>{{ clientes.cliente.nome }}</td>
-                                              <td>{{ clientes.cliente.email }}</td>
-                                              <td>{{ clientes.cliente.cpf }}</td>
-                                              <td>{{ clientes.cliente.telefone }}</td>
-                                              <td>{{ clientes.cliente.endereco.cep }}</td>
-                                              <td>{{ clientes.cliente.endereco.rua }}</td>
-                                              <td>{{ clientes.cliente.endereco.numero }}</td>
-                                              <td>{{ clientes.cliente.endereco.bairro }}</td>
-                                              <td>{{ clientes.cliente.endereco.cidade }}</td>
-                                              <td>{{ clientes.cliente.endereco.uf }}</td>
-
-                                              {% if clientes.cliente.pets[0] != null %}
+                                                {% if clientes.cliente.pets[0] != null %}
                                                 <td>{{ clientes.cliente.pets[0].nome }}</td>
 
                                                 {% if clientes.cliente.pets[0].animal_id == 1 %}
                                                 <td>Cachorro</td>{% else %}<td>Gato</td>
-                                              {% endif %}  
+                                            {% endif %}  
 
-                                              {% if clientes.cliente.pets[0].porte == "Gigante" %}
-                                            <td>Muito Grande</td>{% else %}<td>{{ clientes.cliente.pets[0].porte }}</td>
-                                          {% endif %} 
-                                              <td>{{ clientes.cliente.pets[0].raca }}</td>
-
-                                              {% if clientes.cliente.pets[0].genero == "m" %}
-                                              <td>Macho</td>{% else %}<td>Fêmea</td>
-                                              {% endif %}
-
-                                               {% else %}
-
-                                               <td></td>
-                                               <td></td>
-                                               <td></td>
-                                               <td></td>
-                                               <td></td>
-
-                                              {% endif %}   
-                                                
-                                         </tr>
+                                                {% if clientes.cliente.pets[0].porte == "Gigante" %}
+                                                <td>Muito Grande</td>{% else %}<td>{{ clientes.cliente.pets[0].porte }}</td>
+                                            {% endif %} 
 
                                             
-                                    {% endfor %}  
-                                {% endif %}
-                            </tbody>
-                        </table>
+                                            <td>{{ clientes.cliente.pets[0].raca }}</td>
+
+                                            {% if clientes.cliente.pets[0].genero == "m" %}
+                                            <td>Macho</td>{% else %}<td>Fêmea</td>
+                                            {% endif %}
+
+                                            {% else %}
+
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+
+                                            {% endif %} 
+                                                
+                                            <td>
+                                                <a class="btn btn-warning" href="{{ url_for('alterarcliente',id=clientes.cliente.id) }}">
+                                                    Editar
+                                                </a>
+                                            </td>
+
+                                            </tr>
+
+                                            {% endif %} 
+                                        {% endfor %}
+                                    {% elif search == ''%}
+
+                                        {% for clientes in Listaclientes.clientes %} 
+                                                                    
+                                            <tr>
+                                                <td>{{ clientes.cliente.nome }}</td>
+                                                <td>{{ clientes.cliente.email }}</td>
+                                                <td>{{ clientes.cliente.cpf }}</td>
+                                                <td>{{ clientes.cliente.telefones.telefone }}</td>
+                                                <td>{{ clientes.cliente.endereco.cep }}</td>
+                                                <td>{{ clientes.cliente.endereco.rua }}</td>
+                                                <td>{{ clientes.cliente.endereco.numero }}</td>
+                                                <td>{{ clientes.cliente.endereco.bairro }}</td>
+                                                <td>{{ clientes.cliente.endereco.cidade }}</td>
+                                                <td>{{ clientes.cliente.endereco.uf }}</td>
+
+                                                {% if clientes.cliente.pets[0] != null %}
+                                                    <td>{{ clientes.cliente.pets[0].nome }}</td>
+
+                                                    {% if clientes.cliente.pets[0].animal_id == 1 %}
+                                                    <td>Cachorro</td>{% else %}<td>Gato</td>
+                                                {% endif %}  
+
+                                                {% if clientes.cliente.pets[0].porte == "Gigante" %}
+                                                <td>Muito Grande</td>{% else %}<td>{{ clientes.cliente.pets[0].porte }}</td>
+                                            {% endif %} 
+                                                <td>{{ clientes.cliente.pets[0].raca }}</td>
+
+                                                {% if clientes.cliente.pets[0].genero == "m" %}
+                                                <td>Macho</td>{% else %}<td>Fêmea</td>
+                                                {% endif %}
+
+                                                {% else %}
+
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+
+                                                {% endif %}   
+
+
+                                                <td>
+                                                    <a class="btn btn-warning" href="{{ url_for('alterarcliente',id=clientes.cliente.id) }}">
+                                                        Editar
+                                                    </a>
+                                                </td>
+                                                    
+                                            </tr>
+
+                                                
+                                        {% endfor %}  
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        <!-- </form> -->
                     </div>
                     <!-- /.col -->
                 </div>
