@@ -47,13 +47,12 @@
     </form>
 
     <div class="col-md-12 text-right"> 
-        <a class="btn btn-primary"   href="{{ url_for('cadastroclientes') }}"> Cadastrar Novo Cliente</a>
+        <a class="btn btn-primary"   href="{{ url_for('alterarcliente',id='9') }}"> Cadastrar Novo Cliente</a>
     </div><br><br>
 
                 <!-- Table row -->
                 <div class="row">
                     <div class="col-12 table-responsive">
-                        <!-- <form method="POST" action="{{ url_for('alterarcliente') }}"> -->
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
@@ -120,7 +119,13 @@
 
                                             {% endif %} 
                                                 
-                                                </tr>
+                                            <td>
+                                                <a class="btn btn-warning" href="{{ url_for('alterarcliente',id=clientes.cliente.id) }}">
+                                                    Editar
+                                                </a>
+                                            </td>
+
+                                            </tr>
 
                                             {% endif %} 
                                         {% endfor %}
@@ -132,7 +137,7 @@
                                                 <td>{{ clientes.cliente.nome }}</td>
                                                 <td>{{ clientes.cliente.email }}</td>
                                                 <td>{{ clientes.cliente.cpf }}</td>
-                                                <td>{{ clientes.cliente.telefone }}</td>
+                                                <td>{{ clientes.cliente.telefones.telefone }}</td>
                                                 <td>{{ clientes.cliente.endereco.cep }}</td>
                                                 <td>{{ clientes.cliente.endereco.rua }}</td>
                                                 <td>{{ clientes.cliente.endereco.numero }}</td>
@@ -165,11 +170,14 @@
                                                 <td></td>
 
                                                 {% endif %}   
+
+
+                                                <td>
+                                                    <a class="btn btn-warning" href="{{ url_for('alterarcliente',id=clientes.cliente.id) }}">
+                                                        Editar
+                                                    </a>
+                                                </td>
                                                     
-                                                <td> <a class="btn btn-primary" href="{{ url_for('alterarcliente',login=clientes.cliente.cpf) }}">
-                                                                                                Editar
-                                                                                            </a> </td>
-                                                <td><button type="submit" class="btn btn-primary" >Editar</button></td>
                                             </tr>
 
                                                 
