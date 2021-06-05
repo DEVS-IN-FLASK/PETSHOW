@@ -25,11 +25,13 @@
                     <div class="row">
                         <div class="col-9">
                             <div class="form-group">
+                                <label for="nome" class="text-muted">Nome</label>
                                 <input class="form-control" placeholder="Nome do Produto" type="text" name="nome" id="nome" value="{{produto.nome}}">
                             </div>
                         </div>
                         <div class="col-3">
                             <div class="form-group">
+                                <label for="modelo" class="text-muted">Modelo</label>
                                 <input class="form-control" placeholder="Modelo" type="text" name="modelo" id="modelo" value="{{produto.modelo}}">
                             </div>
                         </div>
@@ -37,42 +39,49 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="form-group">
-                                <input class="form-control" placeholder="URL da Foto do Produto" type="text" name="foto" id="foto" value="{{produto.foto}}">
+                                <label for="foto" class="text-muted">Foto</label>
+                                <input class="form-control" placeholder="URL da Foto do Produto" type="url" name="foto" id="foto" value="{{produto.foto}}">
                             </div>
                         </div>                                      
                     </div>
                     <div class="row">
                         <div class="col-5">
                             <div class="form-group">
-                                <input class="form-control" placeholder="Preço de Custo" type="number" name="preco_custo" id="preco_custo" value="{{produto.preco_custo}}">
+                                <label for="preco_custo" class="text-muted">Preço de Custo</label>
+                                <input class="form-control" placeholder="Preço de Custo" type="number" min="1" name="preco_custo" id="preco_custo" value="{{produto.preco_custo}}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" required>
                             </div>
                         </div>
                         <div class="col-2">
                             <div class="form-group">
-                                <input class="form-control" placeholder="%" type="number" name="porcentagem" id="porcentagem" value="{{produto.porcentagem}}">
+                                <label for="porcentagem" class="text-muted">Porcentagem</label>
+                                <input class="form-control" placeholder="%" type="number" min="1" name="porcentagem" id="porcentagem" value="{{produto.porcentagem}}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" required>
                             </div>
                         </div>
                         <div class="col-5">
                             <div class="form-group">
-                                <input class="form-control" placeholder="Preço de Venda" type="number" name="preco_venda" id="preco_venda" value="{{produto.preco_venda}}">
+                                <label for="preco_venda" class="text-muted">Preço de Venda</label>
+                                <input class="form-control" placeholder="Preço de Venda" type="number" min="1" name="preco_venda" id="preco_venda" value="{{produto.preco_venda}}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" required>
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-3">
                             <div class="form-group">
-                                <input class="form-control" placeholder="Qtd" type="number" pattern="[0-9]+" name="quantidade" min="1" step="1" id="quantidade" value="{{produto.quantidade}}">
+                                <label for="quantidade" class="text-muted">Quantidade</label>
+                                <input class="form-control" placeholder="Qtd" type="number" pattern="[0-9]+" name="quantidade" min="1" step="1" id="quantidade" value="{{produto.quantidade}}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" required>
                             </div>
                         </div>
                         <div class="col-9">
                             <div class="form-group">
-                                <input class="form-control" placeholder="Cód Barras" type="number" name="cod_barras" id="cod_barras" value="{{produto.cod_barras}}">
+                                <label for="cod_barras" class="text-muted">Código de Barras</label>
+                                <input class="form-control" placeholder="Cód Barras" type="text" name="cod_barras" min="1" id="cod_barras" value="{{produto.cod_barras}}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" required>
                             </div>
                         </div>
                     </div>
                     <div class="row">                        
                         <div class="col-12">
                             <div class="form-group">
+                                <label for="descricao" class="text-muted">Descrição</label>
                                 <input class="form-control" placeholder="Descrição" type="text" name="descricao" id="descricao" value="{{produto.descricao}}">
                             </div>
                         </div>
