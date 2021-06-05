@@ -157,7 +157,7 @@
         request.send(formData);
         if (request.status == 200 || request.status == 0) {
             
-            window.location.href = "{{ url_for('/pedidos') }}";
+            window.location.href = "{{ url_for('pedidos') }}";
         }
     }
 
