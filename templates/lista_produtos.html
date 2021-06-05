@@ -64,8 +64,8 @@
                                                         <td>{{produto.modelo}}</td>
                                                         <td>{{produto.nome}}</td>
                                                         <td>{{produto.descricao}}</td>
-                                                        <td>{{ "R$ %.2f"|format(produto.preco_custo) }}</td>
-                                                        <td>{{ "R$ %.2f"|format(produto.preco_venda) }}</td>
+                                                        <td>{{produto.preco_custo}}</td>
+                                                        <td>{{produto.preco_venda}}</td>
                                                         <td>{{produto.quantidade}}</td>
                                                         <td>
                                                             <a class="btn btn-warning" href="{{ url_for('buscar_produto', id=produto.id) }}">
