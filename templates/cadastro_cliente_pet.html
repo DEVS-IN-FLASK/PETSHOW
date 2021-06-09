@@ -144,18 +144,11 @@
 <!--                            <div class="mb-1">
                                 <label for=""><strong>Dados PET</strong></label>
                             </div>-->
-                            <div class="form-group">
-                                <label for="nome">PET</label>
-                                <select id="cliente_id" class="form-control">
-                                    {% for pet in pets.pets %}
-                                        {% if pets.pets.id == pet.cliente_id %}
-                                            <option value="{{cliente.cliente.id}}" selected> {{cliente.cliente.nome}} (CPF: {{cliente.cliente.cpf}}) </option>
-                                        {% endif %}
-                                        {% if cliente.cliente.id != pedido.cliente_id %}
-                                            <option value="{{cliente.cliente.id}}"> {{cliente.cliente.nome}} (CPF: {{cliente.cliente.cpf}}) </option>
-                                        {% endif %}
-                                    {% endfor %}
-                                </select>
+                            <div class="mb-3">
+                                <label for="PET">PET:</label>
+                                <input type="text" class="form-control" id="cidade" name="cidade"
+                                    placeholder="Digite a Cidade"
+                                    value="{{clientes.cliente.endereco.cidade}}" required>
                             </div>
 
 <!--                            <div class="mb-3">
