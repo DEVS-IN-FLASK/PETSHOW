@@ -141,11 +141,24 @@
                             </div>
 
                             <br />
-                            <div class="mb-1">
+<!--                            <div class="mb-1">
                                 <label for=""><strong>Dados PET</strong></label>
+                            </div>-->
+                            <div class="form-group">
+                                <label for="nome">PET</label>
+                                <select id="cliente_id" class="form-control">
+                                    {% for pet in pets.pets %}
+                                        {% if pets.pets.id == pet.cliente_id %}
+                                            <option value="{{cliente.cliente.id}}" selected> {{cliente.cliente.nome}} (CPF: {{cliente.cliente.cpf}}) </option>
+                                        {% endif %}
+                                        {% if cliente.cliente.id != pedido.cliente_id %}
+                                            <option value="{{cliente.cliente.id}}"> {{cliente.cliente.nome}} (CPF: {{cliente.cliente.cpf}}) </option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
                             </div>
 
-                            <div class="mb-3">
+<!--                            <div class="mb-3">
                                 <label for='nome_pet'>Nome:</label>
                                 <input type='text' class="form-control" id="nome_pet" placeholder="Digite o nome do PET"
                                     value="{{clientes.cliente.nome_pet}}" required>
@@ -194,7 +207,7 @@
                                 <label for='male'>
                                     <input type='radio' name='genero'  value="m">Macho
                                 </label>
-                            </div>
+                            </div> -->
 
                             <!-- <p style="background: rgb(77, 74, 74); color: white; border-radius: 10px; text-align: center; padding: 2px; width: 85px; cursor: pointer; margin: 20px 0"
                                 onclick="adicionarPet()">Salvar pet</p> -->
