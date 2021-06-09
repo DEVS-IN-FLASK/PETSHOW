@@ -245,7 +245,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="telefone">Telefone:</label>
-                        <input type="text" class="form-control" id="telefone" name="telefone" placeholder="Informe o Telefone" value="" onkeypress="return event.charCode >= 48 && event.charCode <= 57" required>
+                        <input type="text" class="form-control" id="telefone" name="telefone" placeholder="Informe o Telefone" value="" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="11" required>
                     </div>
 
                     <br />
@@ -265,7 +265,7 @@
                     <div class="mb-3">
                         <label for="numero">Número:</label>
                         <input type="number" class="form-control" id="numero" name="numero"
-                            placeholder="Digite o número" value="" required>
+                            placeholder="Digite o número" value="" required maxlength="10">
                     </div>
                     <div class="mb-3">
                         <label for="bairro">Bairro:</label>

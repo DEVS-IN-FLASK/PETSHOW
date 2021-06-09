@@ -349,7 +349,7 @@ def clientes():
 
 
 @app.route('/cadastro-clientes-pet/', methods=["GET","POST"])
-def alterarcliente():
+def alterarcliente(id = None):
     try:
        
         if request.method == "GET":
@@ -360,7 +360,7 @@ def alterarcliente():
                 id = int(x[4].replace("?id=",""))
             listaClientes = listar(urlApi + '/clientes/')
             return render_template('cadastro_cliente_pet.html',msg="", id=id, Listaclientes=listaClientes, user=session['login'])
-        elif request.method == 'POST': 
+        elif(id == None and request.method == 'POST'): 
  
                 print("nome_pet="+request.form["nome_pet"])  
                 print("raca="+request.form["raca"])  
@@ -391,11 +391,51 @@ def alterarcliente():
         
                 
                 notificacao = cadastrar(urlApi + "/clientes/", body)
-                
                 if 'erro' not in notificacao:
                     msg = "Cliente cadastrado com sucesso"
                 else:
                      msg = "Não foi possível cadastrar o cliente"
+                
+                return render_template('cadastro_cliente_pet.html', id = 0, msg=msg, user=session['login'])
+
+        elif(id != None and request.method == 'POST'): 
+ 
+                print("nome_pet="+request.form["nome_pet"])  
+                print("raca="+request.form["raca"])  
+                print("porte="+request.form["porte"])  
+                print("genero="+request.form["genero"])  
+                print("especie="+request.form["especie"])                      
+                body = {
+                    "nome": request.form["nome"],
+                    "email": request.form["email"],
+                    "cpf": request.form["cpf"],
+                    "endereco":{
+                    "cep": request.form["cep"],
+                    "rua": request.form["rua"],
+                    "numero": request.form["numero"],
+                    "bairro": request.form["bairro"],
+                    "cidade": request.form["cidade"],
+                    "uf": request.form["uf"]},
+                    "telefones": [{
+                    "id": "1",
+                    "telefone": request.form["telefone"]}],  
+                    # "pets":{}
+                    "pets": [{
+                             "id":"1",
+                             "nome": request.form["nome_pet"],
+                             "raca": request.form["raca"],
+                             "porte": request.form["porte"],
+                             "genero": request.form["genero"],
+                             "animal_id": request.form["especie"]
+                         }] 
+                    }
+
+                notificacao = alterar_todo(urlApi + "/clientes/" + id + "/alterar/", body)
+
+                if 'erro' not in notificacao:
+                    msg = "Cliente alterado com sucesso"
+                else:
+                     msg = "Não foi possível alterar o cliente"
     
                 #return redirect(url_for("cadastroclientes"))
                 return render_template('cadastro_cliente_pet.html', id = 0, msg=msg, user=session['login'])
@@ -523,6 +563,6 @@ def editar(url, body):
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5001))
-    app.run(host='0.0.0.0', port=port, debug=True)
-    #app.run(host='localhost', port=5000, debug=True)
+    #port = int(os.environ.get("PORT", 5001))
+    #app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(host='localhost', port=5000, debug=True)
