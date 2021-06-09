@@ -396,7 +396,7 @@
 <script type="text/babel">
     let counter = 0;
     //const urlApi = "https://cors-anywhere.herokuapp.com/http://petshow-api.herokuapp.com";
-    const urlApi = "http://petshow-api.herokuapp.com";
+    const urlApi = "https://petshow-api.herokuapp.com";
     let clientes = [];
 
     let pets = [];
@@ -520,84 +520,11 @@
                  })
                  counter = +1;
 
-        // ReactDOM.render(
-        //     <div>
-        //         <div className="mb-1">
-        //             <label htmlFor=""><strong>Pets do cliente</strong></label>
-        //         </div>
-        //         <table className="table">
-        //             <thead>
-        //                 <tr>
-        //                     <th scope="col">Nome</th>
-        //                     <th scope="col">Espécie</th>
-        //                     <th scope="col">Porte</th>
-        //                     <th scope="col">Raça</th>
-        //                     <th scope="col">Gênero</th>
-        //                 </tr>
-        //             </thead>
-        //             <tbody>
-        //                 {
-        //                     pets.map((pet, index) => {
-        //                         return (
-        //                             <tr key={index}  >
-
-                                       
-        //                                 <td>{pet.nome} <input type='hidden' name="nome_pet[]" value={pet.nome} /></td>
-        //                                 <td>{pet.animal_id === 1 ? "Cachorro" : "Gato"}</td>
-        //                                 <td>{pet.porte}</td>
-        //                                 <td>{pet.raca}</td>
-        //                                 <td>{pet.genero}</td>
-        //                             </tr>
-        //                         );
-        //                     })
-        //                 }
-        //                 <input type='hidden' name='pets' value={pets} />
-        //             </tbody>
-        //         </table>
-        //     </div>,
-        //     document.getElementById("pets")
-            
-        // );
 
         limparCamposPet();
     }
 
-    // document.getElementById("salvar").onclick = async (event) => {
-    //     event.preventDefault();
 
-    //     let body = {
-    //         nome: nome.value,
-    //         email: email.value,
-    //         cpf: cpf.value,
-    //         endereco: {
-    //             rua: rua.value,
-    //             numero: numero.value,
-    //             bairro: bairro.value,
-    //             cep: cep.value,
-    //             cidade: cidade.value,
-    //             uf: ""
-    //         },
-    //         telefones: [
-    //             {
-    //                 telefone: telefone.value
-    //             }
-    //         ],
-    //         pets: pets
-    //     }
-
-    //     const response = await fetch(`${urlApi}/clientes`, {
-    //         method: "POST",
-    //         headers: {
-    //             "content-type": "application/json"
-    //         },
-    //         body: JSON.stringify(body)
-    //     });
-    //     const data = await response.json();
-
-    //     listar();
-    // }
-
-    // window.onload = listar();
 </script>
 
 {% include 'partials/footer.html' %}
