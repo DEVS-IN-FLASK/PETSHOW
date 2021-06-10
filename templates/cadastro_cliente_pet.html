@@ -141,22 +141,16 @@
                             </div>
 
                             <br />
-<!--                            <div class="mb-1">
+                            <div class="mb-1">
                                 <label for=""><strong>Dados PET</strong></label>
-                            </div>-->
+                            </div>
+        
                             <div class="mb-3">
-                                <label for="PET">PET:</label>
-                                <input type="text" class="form-control" id="cidade" name="cidade"
-                                    placeholder="Digite a Cidade"
-                                    value="{{clientes.cliente.endereco.cidade}}" required>
-                            </div>
-
-<!--                            <div class="mb-3">
                                 <label for='nome_pet'>Nome:</label>
-                                <input type='text' class="form-control" id="nome_pet" placeholder="Digite o nome do PET"
-                                    value="{{clientes.cliente.nome_pet}}" required>
+                                <input type='text' class="form-control" id="nome_pet" name="nome_pet" placeholder="Digite o nome do PET"
+                                value="" required>
                             </div>
-
+        
                             <div class="mb-3">
                                 <label>Espécie:</label>
                                 <label for='dog'>
@@ -166,7 +160,7 @@
                                     <input type='radio' name='especie' value="2">Gato
                                 </label>
                             </div>
-
+        
                             <div class="mb-3">
                                 <label>Porte:</label>
                                 <label for='mini'>
@@ -185,13 +179,13 @@
                                     <input type='radio' name='porte'  value="Gigante">Muito Grande
                                 </label>
                             </div>
-
+        
                             <div class="mb-3">
                                 <label for='raça'>Raça:</label>
                                 <input type='text' class="form-control" id="raca" name="raca" 
                                     placeholder="Digite a raça" value="" required>
                             </div>
-
+        
                             <div class="mb-3">
                                 <label>Gênero:</label>
                                 <label for='female'>
@@ -200,35 +194,7 @@
                                 <label for='male'>
                                     <input type='radio' name='genero'  value="m">Macho
                                 </label>
-                            </div> -->
-
-                            <!-- <p style="background: rgb(77, 74, 74); color: white; border-radius: 10px; text-align: center; padding: 2px; width: 85px; cursor: pointer; margin: 20px 0"
-                                onclick="adicionarPet()">Salvar pet</p> -->
-
-                            <!-- <div id="pets">
-
-                                <div>
-                                    <div className="mb-1">
-                                        <label htmlFor=""><strong>Pets do cliente</strong></label>
-                                    </div>
-                                    <table className="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col">Nome</th>
-                                                <th scope="col">Espécie</th>
-                                                <th scope="col">Porte</th>
-                                                <th scope="col">Raça</th>
-                                                <th scope="col">Gênero</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            
-                                                                            
-                                        </tbody>
-                                    </table>
-                                </div>
-
-                            </div> -->
+                            </div>
 
                         {% endif %}
                         {% endfor %} 
