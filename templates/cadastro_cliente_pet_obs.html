@@ -1,53 +1,26 @@
+{% extends 'base.html' %}
 {% with title='Clientes e Pets'%}
-{% include 'partials/header.html' %}
-<script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"
-    integrity="sha512-pBSlhNUvB+td6sjW1zmR6L7c7kVWR4octUPl4tfHmzO63424nxta8aLmficEcAAswQmRqTiToi63AazDurj/Sg=="
-    crossorigin="anonymous"></script>
+    {% include 'partials/header.html' %}
 {% endwith %}
-
 {% with tipo='Cliente' %}
-{% with rota='/clientes-pet' %}
-{% with rota_new='/cadastro-clientes-pet' %}
-{% with user='User' %}
-
-
-{% include 'partials/sidebar.html'%}
+{% with rota='/clientes-pet/' %}
+{% with rota_new='/cadastro-clientes-pet/' %}
+{% with user=user %}
+{% include 'partials/header.html' %}
 {% endwith %}
 {% endwith %}
 {% endwith %}
 {% endwith %}
+{% block main %}
 
-<div > <label for="nome" style="padding-left: 49px;">{{msg}}</label></div>
-<!-- Tela Novo Cliente e Pet começa aqui -->
-<div class="container">
-    <div class="col-md-6">
-        {% if usuario %}
-        {% if tipo %}
-        {% if tipo == 'senha' %}
-        <form method="POST" action="{{ url_for('alterar_senha', login=usuario.login) }}">
-            {% elif tipo == 'tipo' %}
-            <form method="POST" action="{{ url_for('alterar_tipo', login=usuario.login) }}">
-                {% endif %}
-                {% endif %}
-                {% else %}
-
-                <form method="POST" action="{{ url_for('alterarcliente') }}">
-                    {% endif %}
-
-
-    
-                    <div class="mb-1">
-                        <label for="nome"><strong>Dados Cliente:</strong></label>
-                    </div>
-
-                    
-                    {% if id > 0 %}      
-                    
-                        {% for clientes in Listaclientes.clientes %}                      
-                        {% if clientes.cliente.id == id %} 
-
+<div class="card card-success">
+    <div class="card-header">
+        <h3 class="card-title">{% if cliente.id %}{{ 'Alterar Cliente' }}{% else %}{{ 'Novo Cliente' }}{% endif %}</h3>
+    </div>
+    <form {% if not produto.id %} action="/clientes-pet/" {% elif produto.id !=None %} action="/cadastro-clientes-pet/" {% endif %} method="POST" id="register-form">
+        <input type="hidden" value="{{cliente.id}}">
+            <div class="card-body">
+                        {% for clientes in Listaclientes.clientes %}
                             <div class="mb-3">
                                 <label for="nome">Nome Completo:</label>
                                  <input type="text" class="form-control" id="nome" name="nome" 
@@ -68,7 +41,7 @@
                                 <label for="telefone">Telefone:</label>
                                 <input type="text" class="form-control" id="telefone" name="telefone"
                                     placeholder="(00) 00000-0000"
-                                    value="{{clientes.cliente.telefones.telefone}}" required>
+                                    value="{{clientes.cliente.telefone}}" required>
                             </div>
 
                             <br/>
@@ -194,164 +167,15 @@
                                 <label for='male'>
                                     <input type='radio' name='genero'  value="m">Macho
                                 </label>
-                            </div>
-
-                        {% endif %}
+                            </div>                
                         {% endfor %} 
-                    {% elif id == 0 %}
-                    <div class="mb-3">
-                        <label for="nome">Nome Completo:</label>
-                         <input type="text" class="form-control" id="nome" name="nome" 
-                            placeholder="Digite o nome" value="" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="email">E-mail:</label>
-                        <input type="email" class="form-control" name="email" id="email" placeholder="Digite o e-mail"
-                        value="" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="cpf">CPF:</label>
-                        <input type="text" class="form-control" id="cpf" {% if not usuario %}name="cpf" {% endif %}
-                            placeholder="Digite o CPF" value="" required  onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="11">
-                    </div>
-                    <div class="mb-3">
-                        <label for="telefone">Telefone:</label>
-                        <input type="text" class="form-control" id="telefone" name="telefone" placeholder="Informe o Telefone" value="" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="11" required>
-                    </div>
-
-                    <br />
-                    <div class="mb-1">
-                        <label for=""><strong>Endereço</strong></label>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="cep">CEP:</label>
-                        <input type="text" class="form-control" id="cep" name="cep" placeholder="Digite o cep" value="" required  onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="8">
-                    </div>
-                    <div class="mb-3">
-                        <label for="rua">Rua:</label>
-                        <input type="text" class="form-control" id="rua" name="rua"
-                            placeholder="Digite a rua" value="" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="numero">Número:</label>
-                        <input type="number" class="form-control" id="numero" name="numero"
-                            placeholder="Digite o número" value="" required maxlength="10">
-                    </div>
-                    <div class="mb-3">
-                        <label for="bairro">Bairro:</label>
-                        <input type="text" class="form-control" id="bairro" name="bairro"
-                            placeholder="Digite o Bairro"
-                            value="" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="cidade">Cidade:</label>
-                        <input type="text" class="form-control" id="cidade" name="cidade"
-                            placeholder="Digite a Cidade"
-                            value="" required>
-                    </div>
 
 
-                    <div class="mb-3">
-                        <label for='UF'>UF:</label>
-                        <select name="uf" required>
-                            <option selected disabled value="" >Selecione</option>
-                            <option value="AC">AC</option>
-                            <option value="AL">AL</option>
-                            <option value="AP">AP</option>
-                            <option value="AM">AM</option>
-                            <option value="BA">BA</option>
-                            <option value="CE">CE</option>
-                            <option value="DF">DF</option>
-                            <option value="ES">ES</option>
-                            <option value="GO">GO</option>
-                            <option value="MA">MA</option>
-                            <option value="MT">MT</option>
-                            <option value="MS">MS</option>
-                            <option value="MG">MG</option>
-                            <option value="PA">PA</option>
-                            <option value="PB">PB</option>
-                            <option value="PR">PR</option>
-                            <option value="PE">PE</option>
-                            <option value="PI">PI</option>
-                            <option value="RJ">RJ</option>
-                            <option value="RN">RN</option>
-                            <option value="RS">RS</option>
-                            <option value="RO">RO</option>
-                            <option value="RR">RR</option>
-                            <option value="SC">SC</option>
-                            <option value="SP">SP</option>
-                            <option value="SE">SE</option>
-                            <option value="TO">TO</option>
-                        </select>
-                    </div>
-
-                    <br />
-                    <div class="mb-1">
-                        <label for=""><strong>Dados PET</strong></label>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for='nome_pet'>Nome:</label>
-                        <input type='text' class="form-control" id="nome_pet" name="nome_pet" placeholder="Digite o nome do PET"
-                        value="" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label>Espécie:</label>
-                        <label for='dog'>
-                            <input type='radio' name='especie' value="1" required>Cachorro
-                        </label>
-                        <label for='cat'>
-                            <input type='radio' name='especie' value="2">Gato
-                        </label>
-                    </div>
-
-                    <div class="mb-3">
-                        <label>Porte:</label>
-                        <label for='mini'>
-                            <input type='radio' name='porte'  value="Miniatura" required>Miniatura
-                        </label>
-                        <label for='small'>
-                            <input type='radio' name='porte'  value="Pequeno">Pequeno
-                        </label>
-                        <label for='medium'>
-                            <input type='radio' name='porte'  value="Médio">Médio
-                        </label>
-                        <label for='large'>
-                            <input type='radio' name='porte'  value="Grande">Grande
-                        </label>
-                        <label for='huge'>
-                            <input type='radio' name='porte'  value="Gigante">Muito Grande
-                        </label>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for='raça'>Raça:</label>
-                        <input type='text' class="form-control" id="raca" name="raca" 
-                            placeholder="Digite a raça" value="" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label>Gênero:</label>
-                        <label for='female'>
-                            <input type='radio' name='genero'  value="f" required>Fêmea
-                        </label>
-                        <label for='male'>
-                            <input type='radio' name='genero'  value="m">Macho
-                        </label>
-                    </div>
-                    {%endif%}
-                    
-                   
-
-
-                    <button type="submit" class="btn btn-primary" id="salvar"
-                        style="display: block; margin: 20px auto;">Salvar</button>
+                        <button type="submit" class="btn btn-primary" id="salvar"
+                            style="display: block; margin: 20px auto;">Salvar</button>
                                 </div>
 
-                </form>
+    </form>
     </div>
     <div id="clientes-pet" style="margin-top: 100px; text-align: center; width: 90%"></div>
 </div>
