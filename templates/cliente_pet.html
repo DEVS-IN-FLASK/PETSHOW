@@ -135,7 +135,9 @@
                                                 <td>{{ clientes.cliente.nome }}</td>
                                                 <td>{{ clientes.cliente.email }}</td>
                                                 <td>{{ clientes.cliente.cpf }}</td>
-                                                <td>{{ clientes.cliente.telefones.telefone }}</td>
+                                                {% if clientes.cliente.telefones[0] != null %}
+                                                    <td>{{ clientes.cliente.telefones[0].telefone }}</td>
+                                                {% endif %}
                                                 <td>{{ clientes.cliente.endereco.cep }}</td>
                                                 <td>{{ clientes.cliente.endereco.rua }}</td>
                                                 <td>{{ clientes.cliente.endereco.numero }}</td>

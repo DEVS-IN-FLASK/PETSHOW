@@ -68,7 +68,9 @@
                                 <label for="telefone">Telefone:</label>
                                 <input type="text" class="form-control" id="telefone" name="telefone"
                                     placeholder="(00) 00000-0000"
-                                    value="{{clientes.cliente.telefones.telefone}}" required>
+                                    value="{% if clientes.cliente.telefones[0] != null %}
+                                    {{ clientes.cliente.telefones[0].telefone }}
+                                {% endif %}" required>
                             </div>
 
                             <br/>
@@ -148,17 +150,28 @@
                             <div class="mb-3">
                                 <label for='nome_pet'>Nome:</label>
                                 <input type='text' class="form-control" id="nome_pet" name="nome_pet" placeholder="Digite o nome do PET"
-                                value="{{clientes.cliente.pets.nome}}" required>
+                                value="{% if clientes.cliente.pets[0] != null %}
+                                {{ clientes.cliente.pets[0].nome }}
+                            {% endif %}" required>
                             </div>
         
                             <div class="mb-3">
                                 <label>Espécie:</label>
-                                <label for='dog'>
-                                    <input type='radio' name='especie' value="1" required>Cachorro
-                                </label>
-                                <label for='cat'>
-                                    <input type='radio' name='especie' value="2">Gato
-                                </label>
+                                    <label for='dog'>
+                                        {% if clientes.cliente.pets[0].animal_id == 1 %}
+                                        <input type='radio' name='especie' value="1" checked required>Cachorro
+                                        {% else %}
+                                        <input type='radio' name='especie' value="1" required>Cachorro
+                                        {%endif%}
+                                    </label>
+        
+                                    <label for='cat'>
+                                        {% if clientes.cliente.pets[0].animal_id == 2 %}
+                                        <input type='radio' name='especie' value="2" checked required>Gato
+                                        {% else %}
+                                        <input type='radio' name='especie' value="2" required>Gato
+                                        {%endif%}
+                                    </label>
                             </div>
         
                             <div class="mb-3">
@@ -183,7 +196,7 @@
                             <div class="mb-3">
                                 <label for='raça'>Raça:</label>
                                 <input type='text' class="form-control" id="raca" name="raca" 
-                                    placeholder="Digite a raça" value="" required>
+                                    placeholder="Digite a raça" value="{{ clientes.cliente.pets[0].raca }}" required>
                             </div>
         
                             <div class="mb-3">
