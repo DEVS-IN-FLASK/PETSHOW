@@ -152,7 +152,7 @@
                             <div class="mb-3">
                                 <label for='nome_pet'>Nome:</label>
                                 <input type='text' class="form-control" id="nome_pet" name="nome_pet" placeholder="Digite o nome do PET"
-                                value="{{clientes.cliente.pets.nome}}" required>
+                                value="{{clientes.cliente.pets[0].nome}}" required>
                             </div>
         
                             <div class="mb-3">
@@ -187,7 +187,7 @@
                             <div class="mb-3">
                                 <label for='raça'>Raça:</label>
                                 <input type='text' class="form-control" id="raca" name="raca" 
-                                    placeholder="Digite a raça" value="" required>
+                                    placeholder="Digite a raça" value="{{clientes.cliente.pets[0].raca}}"" required>
                             </div>
         
                             <div class="mb-3">
