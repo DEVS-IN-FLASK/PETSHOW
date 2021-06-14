@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+'{% extends 'base.html' %}
 {% with title='Clientes e Pets'%}
 {% include 'partials/header.html' %}
 <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
@@ -54,6 +54,7 @@
                             <table class="table table-striped">
                                 <thead>
                                     <tr>
+                                        <th>ID</th>
                                         <th>Nome</th>
                                         <th>Email</th>
                                         <th>CPF</th>
@@ -132,6 +133,7 @@
                                         {% for clientes in Listaclientes.clientes %} 
                                                                     
                                             <tr>
+                                                <td>{{ clientes.cliente.id }}</td>
                                                 <td>{{ clientes.cliente.nome }}</td>
                                                 <td>{{ clientes.cliente.email }}</td>
                                                 <td>{{ clientes.cliente.cpf }}</td>

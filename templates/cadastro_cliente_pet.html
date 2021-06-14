@@ -47,7 +47,9 @@
                     
                         {% for clientes in Listaclientes.clientes %}                      
                         {% if clientes.cliente.id == id %} 
-
+                            <div class="mb-3">
+                                <label for="id">ID: {{clientes.cliente.id }}</label>
+                            </div>
                             <div class="mb-3">
                                 <label for="nome">Nome Completo:</label>
                                  <input type="text" class="form-control" id="nome" name="nome" 
@@ -68,8 +70,7 @@
                                 <label for="telefone">Telefone:</label>
                                 <input type="text" class="form-control" id="telefone" name="telefone"
                                     placeholder="(00) 00000-0000"
-                                    value="{% if clientes.cliente.telefones[0] != null %}
-                                    {{ clientes.cliente.telefones[0].telefone }}
+                                    value="{% if clientes.cliente.telefones[0] != null %}{{ clientes.cliente.telefones[0].telefone }}
                                 {% endif %}" required>
                             </div>
 
@@ -111,7 +112,7 @@
                             <div class="mb-3">
                                 <label for='UF'>UF:</label>
                                 <select name="uf" required>
-                                    <option selected value="{{clientes.cliente.endereco.uf}}">{{clientes.cliente.endereco.uf}}</option>
+                                    <option selected disabled value="{{clientes.cliente.endereco.uf}}">{{clientes.cliente.endereco.uf}}</option>
                                     <option value="AC">AC</option>
                                     <option value="AL">AL</option>
                                     <option value="AP">AP</option>
@@ -370,7 +371,7 @@
 
 
                     <button type="submit" class="btn btn-primary" id="salvar"
-                        style="display: block; margin: 20px auto;">Salvar</button>
+                        style="display: block; margin: 20px auto;" >ENVIAR</button>
                                 </div>
 
                 </form>

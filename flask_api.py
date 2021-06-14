@@ -417,11 +417,10 @@ def alterarcliente(id = None):
                     "cidade": request.form["cidade"],
                     "uf": request.form["uf"]},
                     "telefones": [{
-                    "id": "1",
                     "telefone": request.form["telefone"]}],  
                     # "pets":{}
                     "pets": [{
-                             "id":"1",
+                             "id": 1,
                              "nome": request.form["nome_pet"],
                              "raca": request.form["raca"],
                              "porte": request.form["porte"],
