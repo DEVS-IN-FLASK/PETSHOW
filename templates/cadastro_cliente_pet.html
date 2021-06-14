@@ -48,7 +48,7 @@
                         {% for clientes in Listaclientes.clientes %}                      
                         {% if clientes.cliente.id == id %} 
                             <div class="mb-3">
-                                <label for="id">ID: {{clientes.cliente.id }}</label>
+                                <label for="cliente_id">ID CLIENTE: {{clientes.cliente.id }}</label>
                             </div>
                             <div class="mb-3">
                                 <label for="nome">Nome Completo:</label>
@@ -67,6 +67,11 @@
                                     placeholder="Digite o CPF" value="{{clientes.cliente.cpf}}" required>
                             </div>
                             <div class="mb-3">
+                                <label for="telefone_id">Telefone:</label>
+                                <input type="text" class="form-control" id="telefone_id" name="telefone_id"
+                                    value="{{ clientes.cliente.telefones[0].id }}">
+                            </div>
+                            <div class="mb-3">
                                 <label for="telefone">Telefone:</label>
                                 <input type="text" class="form-control" id="telefone" name="telefone"
                                     placeholder="(00) 00000-0000"
@@ -77,6 +82,12 @@
                             <br/>
                             <div class="mb-1">
                                 <label for=""><strong>Endereço</strong></label>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="endereco_id">ID END:</label>
+                                <input type="number" class="form-control" id="endereco_id" name="endereco_id" 
+                                    placeholder="Id Endereço" value="{{clientes.cliente.endereco.id}}" >
                             </div>
 
                             <div class="mb-3">
@@ -147,7 +158,11 @@
                             <div class="mb-1">
                                 <label for=""><strong>Dados PET</strong></label>
                             </div>
-        
+                            <div class="mb-3">
+                                <label for='pet_id'>PET ID:</label>
+                                <input type='text' class="form-control" id="pet_id" name="pet_id" 
+                                value="{{clientes.cliente.pets.id}}">
+                            </div>
                             <div class="mb-3">
                                 <label for='nome_pet'>Nome:</label>
                                 <input type='text' class="form-control" id="nome_pet" name="nome_pet" placeholder="Digite o nome do PET"

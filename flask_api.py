@@ -406,28 +406,35 @@ def alterarcliente(id = None):
                 print("genero="+request.form["genero"])  
                 print("especie="+request.form["especie"])                      
                 body = {
-                    "nome": request.form["nome"],
-                    "email": request.form["email"],
-                    "cpf": request.form["cpf"],
-                    "endereco":{
-                    "cep": request.form["cep"],
-                    "rua": request.form["rua"],
-                    "numero": request.form["numero"],
-                    "bairro": request.form["bairro"],
-                    "cidade": request.form["cidade"],
-                    "uf": request.form["uf"]},
-                    "telefones": [{
-                    "telefone": request.form["telefone"]}],  
-                    # "pets":{}
-                    "pets": [{
-                             "id": 1,
-                             "nome": request.form["nome_pet"],
-                             "raca": request.form["raca"],
-                             "porte": request.form["porte"],
-                             "genero": request.form["genero"],
-                             "animal_id": request.form["especie"]
-                         }] 
-                    }
+                        "clientes":[{"cliente":{    
+                                                "id":request.form["cliente_id"],
+                                                "nome": request.form["nome"],
+                                                "email": request.form["email"],
+                                                "cpf": request.form["cpf"],
+                                                "endereco":{
+                                                            "id": request.form["id"],
+                                                            "cep": request.form["cep"],
+                                                            "rua": request.form["rua"],
+                                                            "numero": request.form["numero"],
+                                                            "bairro": request.form["bairro"],
+                                                            "cidade": request.form["cidade"],
+                                                            "uf": request.form["uf"]
+                                                            },
+                                                "telefones": [{
+                                                            "id": request.form["id"],
+                                                            "cliente_id": request.form["cliente_id"],
+                                                            "telefone": request.form["telefone"]
+                                                            }],  
+                                                "pets": [{
+                                                        "id": request.form["pet_id"],
+                                                        "nome": request.form["nome_pet"],
+                                                        "raca": request.form["raca"],
+                                                        "porte": request.form["porte"],
+                                                        "genero": request.form["genero"],
+                                                        "animal_id": request.form["especie"]
+                                                        }], 
+                                                }
+                        }]}
 
                 notificacao = alterar_todo(urlApi + "/clientes/" + id + "/alterar/", body)
 
