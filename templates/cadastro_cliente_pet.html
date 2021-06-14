@@ -48,6 +48,10 @@
                         {% for clientes in Listaclientes.clientes %}                      
                         {% if clientes.cliente.id == id %} 
 
+                            
+                            <input type="hidden" name="idcliente" id="idcliente" value="{{clientes.cliente.id}}">
+
+
                             <div class="mb-3">
                                 <label for="nome">Nome Completo:</label>
                                  <input type="text" class="form-control" id="nome" name="nome" 
@@ -195,6 +199,10 @@
                                     <input type='radio' name='genero'  value="m">Macho
                                 </label>
                             </div>
+                        
+                            <button type="submit" class="btn btn-primary" id="salvar"
+                            style="display: block; margin: 20px auto;">Alterar</button>
+                                    </div>
 
                         {% endif %}
                         {% endfor %} 
@@ -342,14 +350,17 @@
                             <input type='radio' name='genero'  value="m">Macho
                         </label>
                     </div>
+
+                    <button type="submit" class="btn btn-primary" id="salvar"
+                    style="display: block; margin: 20px auto;">Salvar</button>
+                            </div> 
+
                     {%endif%}
                     
                    
 
 
-                    <button type="submit" class="btn btn-primary" id="salvar"
-                        style="display: block; margin: 20px auto;">Salvar</button>
-                                </div>
+                  
 
                 </form>
     </div>
