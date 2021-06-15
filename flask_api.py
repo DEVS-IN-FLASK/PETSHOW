@@ -18,7 +18,7 @@ from datetime import datetime
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'devsinflaskpetshowapp'
 app.config.from_object(__name__)
-urlApi = "http://petshow-api.herokuapp.com"
+urlApi = "https://petshow-api.herokuapp.com"
 #"http://petshow-api.herokuapp.com"
 #urlApi = "http://localhost:5000"
 #"http://localhost:8080"
@@ -572,6 +572,6 @@ def editar(url, body):
 
 
 if __name__ == '__main__':
-    #port = int(os.environ.get("PORT", 5001))
-    #app.run(host='0.0.0.0', port=port, debug=True)
-    app.run(host='localhost', port=5000, debug=True)
+    port = int(os.environ.get("PORT", 5001))
+    app.run(host='0.0.0.0', port=port, debug=True)
+    #app.run(host='localhost', port=5000, debug=True)
