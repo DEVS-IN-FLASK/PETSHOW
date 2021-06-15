@@ -406,36 +406,31 @@ def alterarcliente(id = None):
                 print("genero="+request.form["genero"])  
                 print("especie="+request.form["especie"])                      
                 body = {
-                        "clientes":[{"cliente":{    
-                                                "id":request.form["cliente_id"],
-                                                "nome": request.form["nome"],
-                                                "email": request.form["email"],
-                                                "cpf": request.form["cpf"],
-                                                "endereco":{
-                                                            "id": request.form["id"],
-                                                            "cep": request.form["cep"],
-                                                            "rua": request.form["rua"],
-                                                            "numero": request.form["numero"],
-                                                            "bairro": request.form["bairro"],
-                                                            "cidade": request.form["cidade"],
-                                                            "uf": request.form["uf"]
+                        "nome": request.form["nome"],
+                        "email": request.form["email"],
+                        "cpf": request.form["cpf"],
+                        "endereco":{
+                                    "id": request.form["endereco_id"],
+                                    "cep": request.form["cep"],
+                                    "rua": request.form["rua"],
+                                    "numero": request.form["numero"],
+                                    "bairro": request.form["bairro"],
+                                    "cidade": request.form["cidade"],
+                                    "uf": request.form["uf"]
                                                             },
-                                                "telefones": [{
-                                                            "id": request.form["id"],
-                                                            "cliente_id": request.form["cliente_id"],
-                                                            "telefone": request.form["telefone"]
-                                                            }],  
-                                                "pets": [{
-                                                        "id": request.form["pet_id"],
-                                                        "nome": request.form["nome_pet"],
-                                                        "raca": request.form["raca"],
-                                                        "porte": request.form["porte"],
-                                                        "genero": request.form["genero"],
-                                                        "animal_id": request.form["especie"]
-                                                        }], 
-                                                }
-                        }]}
-
+                        "telefones": [{
+                                    "id": request.form["telefone_id"],
+                                    "telefone": request.form["telefone"]
+                                    }],  
+                        "pets": [{
+                                "id": request.form["pet_id"],
+                                "nome": request.form["nome"],
+                                "raca": request.form["raca"],
+                                "porte": request.form["porte"],
+                                "genero": request.form["genero"],
+                                "animal_id": request.form["especie"]
+                                }], 
+                        }
                 notificacao = alterar_todo(urlApi + "/clientes/" + id + "/alterar/", body)
 
                 if 'erro' not in notificacao:
@@ -443,8 +438,7 @@ def alterarcliente(id = None):
                 else:
                      msg = "Não foi possível alterar o cliente"
     
-                #return redirect(url_for("cadastroclientes"))
-                return render_template('cadastro_cliente_pet.html', id = 0, msg=msg, user=session['login'])
+                return render_template('cadastro_cliente_pet.html',msg="", id=id, Listaclientes=listaClientes, user=session['login'])
     except Exception as e:
         print(e)
         flash('Não foi possível a conexão com o banco')

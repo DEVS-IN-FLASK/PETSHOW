@@ -22,7 +22,7 @@
 <div > <label for="nome" style="padding-left: 49px;">{{msg}}</label></div>
 <!-- Tela Novo Cliente e Pet começa aqui -->
 <div class="container">
-    <div class="col-md-6">
+<!--    <div class="col-md-6">
         {% if usuario %}
         {% if tipo %}
         {% if tipo == 'senha' %}
@@ -32,7 +32,7 @@
                 {% endif %}
                 {% endif %}
                 {% else %}
-
+            -->
                 <form method="POST" action="{{ url_for('alterarcliente') }}">
                     {% endif %}
 
@@ -47,9 +47,6 @@
                     
                         {% for clientes in Listaclientes.clientes %}                      
                         {% if clientes.cliente.id == id %} 
-                            <div class="mb-3">
-                                <label for="cliente_id">ID CLIENTE: {{clientes.cliente.id }}</label>
-                            </div>
                             <div class="mb-3">
                                 <label for="nome">Nome Completo:</label>
                                  <input type="text" class="form-control" id="nome" name="nome" 
@@ -67,8 +64,7 @@
                                     placeholder="Digite o CPF" value="{{clientes.cliente.cpf}}" required>
                             </div>
                             <div class="mb-3">
-                                <label for="telefone_id">Telefone:</label>
-                                <input type="text" class="form-control" id="telefone_id" name="telefone_id"
+                                <input type="hidden" class="form-control" id="telefone_id" name="telefone_id"
                                     value="{{ clientes.cliente.telefones[0].id }}">
                             </div>
                             <div class="mb-3">
@@ -82,12 +78,6 @@
                             <br/>
                             <div class="mb-1">
                                 <label for=""><strong>Endereço</strong></label>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label for="endereco_id">ID END:</label>
-                                <input type="number" class="form-control" id="endereco_id" name="endereco_id" 
-                                    placeholder="Id Endereço" value="{{clientes.cliente.endereco.id}}" >
                             </div>
 
                             <div class="mb-3">
@@ -159,13 +149,12 @@
                                 <label for=""><strong>Dados PET</strong></label>
                             </div>
                             <div class="mb-3">
-                                <label for='pet_id'>PET ID:</label>
-                                <input type='text' class="form-control" id="pet_id" name="pet_id" 
-                                value="{{clientes.cliente.pets.id}}">
+                                <input type='hidden' class="form-control" id="pet_id" name="pet_id" 
+                                value="{{clientes.cliente.pets[0].id}}">
                             </div>
                             <div class="mb-3">
-                                <label for='nome_pet'>Nome:</label>
-                                <input type='text' class="form-control" id="nome_pet" name="nome_pet" placeholder="Digite o nome do PET"
+                                <label for='nome'>Nome:</label>
+                                <input type='text' class="form-control" id="nome" name="nome" placeholder="Digite o nome do PET"
                                 value="{% if clientes.cliente.pets[0] != null %} {{ clientes.cliente.pets[0].nome }}
                                         {% endif %}" required>
                             </div>
