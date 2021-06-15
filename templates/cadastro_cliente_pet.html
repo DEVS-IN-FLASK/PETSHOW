@@ -72,7 +72,7 @@
                                 <label for="telefone">Telefone:</label>
                                 <input type="text" class="form-control" id="telefone" name="telefone"
                                     placeholder="(00) 00000-0000"
-                                    value="{{clientes.cliente.telefones.telefone}}" required>
+                                    value="{{clientes.cliente.telefones[0].telefone}}" required>
                             </div>
 
                             <br/>
@@ -113,7 +113,7 @@
                             <div class="mb-3">
                                 <label for='UF'>UF:</label>
                                 <select name="uf" required>
-                                    <option selected disabled value="{{clientes.cliente.endereco.uf}}">Selecione</option>
+                                    <option selected disabled value="{{clientes.cliente.endereco.uf}}">{{clientes.cliente.endereco.uf}}</option>
                                     <option value="AC">AC</option>
                                     <option value="AL">AL</option>
                                     <option value="AP">AP</option>
@@ -157,46 +157,73 @@
         
                             <div class="mb-3">
                                 <label>Espécie:</label>
-                                <label for='dog'>
-                                    <input type='radio' name='especie' value="1" required>Cachorro
-                                </label>
-                                <label for='cat'>
-                                    <input type='radio' name='especie' value="2">Gato
-                                </label>
+                                    <label for='dog'>
+                                        {% if clientes.cliente.pets[0].animal_id == 1 %}
+                                        <input type='radio' name='especie' value="1" checked required>Cachorro
+                                        {% else %}
+                                        <input type='radio' name='especie' value="1" required>Cachorro
+                                        {%endif%}
+                                    </label>
+        
+                                    <label for='cat'>
+                                        {% if clientes.cliente.pets[0].animal_id == 2 %}
+                                        <input type='radio' name='especie' value="2" checked required>Gato
+                                        {% else %}
+                                        <input type='radio' name='especie' value="2" required>Gato
+                                        {%endif%}
+                                    </label>
                             </div>
         
                             <div class="mb-3">
                                 <label>Porte:</label>
                                 <label for='mini'>
-                                    <input type='radio' name='porte'  value="Miniatura" required>Miniatura
+                                    <input type='radio' name='porte'  value="Miniatura" 
+                                    {% if clientes.cliente.pets[0].porte == "Miniatura" %}
+                                        checked {%endif%} required>Miniatura
                                 </label>
                                 <label for='small'>
-                                    <input type='radio' name='porte'  value="Pequeno">Pequeno
+                                    <input type='radio' name='porte'  value="Pequeno"
+                                    {% if clientes.cliente.pets[0].porte == "Pequeno" %}
+                                        checked {%endif%}>Pequeno
                                 </label>
                                 <label for='medium'>
-                                    <input type='radio' name='porte'  value="Médio">Médio
+                                    <input type='radio' name='porte'  value="Médio"
+                                    {% if clientes.cliente.pets[0].porte == "Médio" %}
+                                        checked {%endif%}>Médio
                                 </label>
                                 <label for='large'>
-                                    <input type='radio' name='porte'  value="Grande">Grande
+                                    <input type='radio' name='porte'  value="Grande"
+                                    {% if clientes.cliente.pets[0].porte == "Grande" %}
+                                        checked {%endif%}>Grande
                                 </label>
                                 <label for='huge'>
-                                    <input type='radio' name='porte'  value="Gigante">Muito Grande
+                                    <input type='radio' name='porte'  value="Gigante"
+                                    {% if clientes.cliente.pets[0].porte == "Gigante" %}
+                                        checked {%endif%}>Muito Grande
                                 </label>
                             </div>
         
                             <div class="mb-3">
-                                <label for='raça'>Raça:</label>
-                                <input type='text' class="form-control" id="raca" name="raca" 
-                                    placeholder="Digite a raça" value="{{clientes.cliente.pets[0].raca}}"" required>
+                                <label for='raca'>Raça:</label>
+                                <input type='text' class="form-control" id="raca" name="raca"
+                                    value="{{ clientes.cliente.pets[0].raca }}">
                             </div>
         
                             <div class="mb-3">
                                 <label>Gênero:</label>
-                                <label for='female'>
-                                    <input type='radio' name='genero'  value="f" required>Fêmea
+                                <label for='genero'>
+                                    {% if clientes.cliente.pets[0].genero == "f" %}
+                                    <input type='radio' name='genero'  value="f" checked>Fêmea
+                                    {%else%}
+                                    <input type='radio' name='genero'  value="f">Fêmea
+                                    {%endif%}
                                 </label>
-                                <label for='male'>
+                                <label for='genero'>
+                                    {% if clientes.cliente.pets[0].genero == "m" %}
+                                    <input type='radio' name='genero'  value="m" checked>Macho
+                                    {%else%}
                                     <input type='radio' name='genero'  value="m">Macho
+                                    {%endif%}
                                 </label>
                             </div>
                         
