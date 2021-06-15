@@ -19,9 +19,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'devsinflaskpetshowapp'
 app.config.from_object(__name__)
 urlApi = "https://petshow-api.herokuapp.com"
-#"http://petshow-api.herokuapp.com"
-#urlApi = "http://localhost:5000"
-#"http://localhost:8080"
+
 Bootstrap(app)
 CORS(app)
 
@@ -254,20 +252,7 @@ def usuarios():
 def cadastrar_usuario():
     msg = "Cadastrar um usuario"
     return render_template('cadastro_usuario.html', msg=msg, user=session['login'])
-'''
-@app.route('/usuarios/edit/<login>', methods=["GET", "POST"])
-def alterar_usuario(login):
-    if request.method == "POST":
-        msg = "Alterar um usuario"
-        return redirect(url_for("usuarios"))
-    else:
-        msg = "Editar um usuario"
-        usuarios = listar(urlApi + '/usuarios/')
-        for x in usuarios:
-            if x['login'] == login:
-                usuario = x
-        return render_template('cadastro_usuario.html', msg=msg, usuario=usuario, user=session['login'])
-'''
+
 @app.route('/usuarios/senha/<login>', methods=["GET", "POST"])
 def alterar_senha(login):
     try:
@@ -388,7 +373,6 @@ def alterarcliente(id = None):
                         "bairro": request.form["bairro"],
                         "cidade": request.form["cidade"],
                         "uf": request.form["uf"]},  
-                        # "pets":{}
                         "pets": [{
                                 "nome": request.form["nome_pet"],
                                 "raca": request.form["raca"],
@@ -427,7 +411,6 @@ def alterarcliente(id = None):
                         "cidade": request.form["cidade"],
                         "uf": request.form["uf"]},
                         "telefones": {},  
-                        # "pets":{}
                         "pets": [{
                                  "id":"1",
                                  "nome": request.form["nome_pet"],
@@ -453,86 +436,6 @@ def alterarcliente(id = None):
         flash('Não foi possível a conexão com o banco')
         #return redirect(url_for("login"))
 
-# @app.route('/cadastro-clientes-pet/', methods=["GET", "POST"])
-# def cadastroclientes():
-#     try:
-#         if request.method == "POST":
-
-#             pets = []       
-#             for key in request.form: 
-#                 dict = {}                
-#                 if key.startswith('nome_pet'):           
-#                     dict["nome"] = request.form[key]
-#                 if key.startswith('raca'):           
-#                      dict["raca"] = request.form[key]             
-#                 if key.startswith('porte'):           
-#                     dict["porte"]  = request.form[key]
-#                 if key.startswith('genero'):           
-#                      dict["genero"] = request.form[key]
-#                 if key.startswith('animal_id'):           
-#                      dict["animal_id"] = request.form[key]
-                
-#                 pets.append(dict)
-
-#             print(pets)
-
-#             # pets = []
-#             # dictForm = request.form.to_dict(flat=False)
-#             # # Iterate over all the items in dictionary and filter items which has even keys
-#             # for (key, value) in dictForm.items():
-#             #     dict = {}
-#             #      # Check if key is even then add pair to new dictionary
-#             #     if 'nome_pet' in key:
-                   
-#             #         for (key, value) in dictForm.items(): 
-#             #             index = key.split('[')[-1].split(']')[0]
-                        
-#             #             dict["nome_pet"] = value[0]
-#             #             dict["animal_id"] = int(dictForm.get('animal_id'+"["+index+"]")[0])
-#             #             pets.append(dict)
-                    
-   
-
-
-   
-#             # print(request.form["especie"])
-#             # print(request.form["porte"])
-#             # print(request.form["genero"])
-            
-                      
-#             body = {
-#                 "nome": request.form["nome"],
-#                 "email": request.form["email"],
-#                 "cpf": request.form["cpf"],
-#                 "telefones": [{"telefone": request.form["telefone"]}],
-#                 "endereco":{
-#                 "cep": request.form["cep"],
-#                 "rua": request.form["rua"],
-#                 "numero": request.form["numero"],
-#                 "bairro": request.form["bairro"],
-#                 "cidade": request.form["cidade"],
-#                 "uf": request.form["uf"]},  
-#                 "pets":pets        
-#                 # "pets": [{
-#                 #             "nome": request.form["nome_pet"],
-#                 #             "raca": request.form["raca"],
-#                 #             "porte": request.form["porte"],
-#                 #             "genero": request.form["genero"],
-#                 #             "animal_id":  request.form["especie"]
-#                 #         }]     
-#                 }
-
-           
-#             notificacao = cadastrar(urlApi + "/clientes/", body)
-#             msg = "Cadastrado com sucesso"
-#             #return redirect(url_for("cadastroclientes"))
-#             return render_template('cadastro_cliente_pet.html',msg=notificacao, user=session['login'])
-#         elif request.method == 'GET':
-#             return render_template('cadastro_cliente_pet.html', user=session['login'])
-#     except Exception as e:
-#         #print(e)
-#         flash('Não foi possível a conexão com o banco')
-#         #return redirect(url_for("login"))
 
 # relatório de vendas
 @app.route('/relatorio/', methods=['GET', 'POST'])
@@ -573,5 +476,5 @@ def editar(url, body):
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5001))
-    app.run(host='0.0.0.0', port=port, debug=False)
-    #app.run(host='localhost', port=5000, debug=True)
+    #app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(host='localhost', port=port, debug=True)
