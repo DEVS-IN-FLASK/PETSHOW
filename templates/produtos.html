@@ -74,7 +74,7 @@
                         <div class="col-9">
                             <div class="form-group">
                                 <label for="cod_barras" class="text-muted">Código de Barras</label>
-                                <input class="form-control" placeholder="Cód Barras" type="text" name="cod_barras" pattern="{13}" min="1" id="cod_barras" value="{{produto.cod_barras}}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="13"  required>
+                                <input class="form-control" placeholder="Cód Barras" type="text" name="cod_barras" min="1" id="cod_barras" value="{{produto.cod_barras}}" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="13" required>
                             </div>
                         </div>
                     </div>
@@ -139,14 +139,14 @@
                 <button type="submit" id="btn-submit" class="btn btn-success float-right" value="Registrar">Salvar</button>
                 </div>
             </div>                                          
-        </div>
+        
     </form>
 </div>
 <script>
     document.querySelector("#quantidade").addEventListener("keypress", function(e) {
         e.preventDefault();
     });
-    {% if produto.id %}
+    if (produto.id)
     document.querySelector("#nome").addEventListener("keypress", function(e) {
         e.preventDefault();
     });
@@ -159,7 +159,7 @@
     document.querySelector("#descricao").addEventListener("keypress", function(e) {
         e.preventDefault();
     });
-    {% endif %}
+    endif
 </script>   
 {% endblock main %}
 {% include 'partials/footer.html' %}
