@@ -61,7 +61,7 @@
                     <div class="row">
                         <div class="col-3">
                             <div class="form-group">
-                                <input class="form-control" placeholder="Qtd" type="number" pattern="[0-9]+" name="quantidade" min="1" step="1" id="quantidade" value="{{produto.quantidade}}">
+                                <input class="form-control" placeholder="Qtd" type="number" pattern="[0-9]" name="quantidade" min="1" step="1" id="quantidade" required value="{{produto.quantidade}}">
                             </div>
                         </div>
                         <div class="col-9">
@@ -134,9 +134,10 @@
     </form>
 </div>
 <script>
+    /*
     document.querySelector("#quantidade").addEventListener("keypress", function(e) {
         e.preventDefault();
-    });
+    });*/
     {% if produto.id %}
     document.querySelector("#nome").addEventListener("keypress", function(e) {
         e.preventDefault();
