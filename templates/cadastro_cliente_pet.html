@@ -66,6 +66,9 @@
                                 <input type="text" class="form-control" id="cpf" {% if not usuario %}name="cpf" {% endif %} placeholder="Digite o CPF" value="{{clientes.cliente.cpf}}" required>
                             </div>
                             <div class="mb-3">
+                                <input type="hidden" class="form-control" id="telefone_id" name="telefone_id" placeholder="(00) 00000-0000" value="{{clientes.cliente.telefones[0].id}}" required>
+                            </div>
+                            <div class="mb-3">
                                 <label for="telefone">Telefone:</label>
                                 <input type="text" class="form-control" id="telefone" name="telefone" placeholder="(00) 00000-0000" value="{{clientes.cliente.telefones[0].telefone}}" required>
                             </div>
@@ -93,7 +96,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="cidade">Cidade:</label>
-                                <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Digite a Cidade" value="{{clientes.cliente.endereco.cidade}}" required>
+                                <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Digite a Cidade" value="{{clientes.cliente.endereco.cidade}}" {{clientes.cliente.endereco.cidade}} required>
                             </div>
 
 

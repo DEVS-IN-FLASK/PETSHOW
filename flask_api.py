@@ -415,21 +415,21 @@ def alterarcliente(id = None):
                     print("genero="+request.form["genero"])  
                     print("especie="+request.form["especie"])                      
                     body = {
-                        "id": "1",
                         "nome": request.form["nome"],
                         "email": request.form["email"],
                         "cpf": request.form["cpf"],
                         "endereco":{
-                        "cep": request.form["cep"],
-                        "rua": request.form["rua"],
-                        "numero": request.form["numero"],
-                        "bairro": request.form["bairro"],
-                        "cidade": request.form["cidade"],
-                        "uf": request.form["uf"]},
-                        "telefones": {},  
-                        # "pets":{}
+                            "cep": request.form["cep"],
+                            "rua": request.form["rua"],
+                            "numero": request.form["numero"],
+                            "bairro": request.form["bairro"],
+                            "cidade": request.form["cidade"],
+                            "uf": request.form["uf"]},
+                        "telefones": [{
+                            "id":request.form["id"],
+                            "telefone":request.form["telefone"]}],  
                         "pets": [{
-                                 "id":"1",
+                                 "id":request.form["id"],
                                  "nome": request.form["nome_pet"],
                                  "raca": request.form["raca"],
                                  "porte": request.form["porte"],
@@ -572,6 +572,6 @@ def editar(url, body):
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 5001))
-    app.run(host='0.0.0.0', port=port, debug=True)
-    #app.run(host='localhost', port=5000, debug=True)
+    #port = int(os.environ.get("PORT", 5001))
+    #app.run(host='0.0.0.0', port=port, debug=True)
+    app.run(host='localhost', port=7000, debug=True)
