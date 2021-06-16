@@ -572,6 +572,6 @@ def editar(url, body):
 
 
 if __name__ == '__main__':
-    #port = int(os.environ.get("PORT", 5001))
-    #app.run(host='0.0.0.0', port=port, debug=True)
-    app.run(host='localhost', port=7000, debug=True)
+    port = int(os.environ.get("PORT", 5001))
+    app.run(host='0.0.0.0', port=port, debug=True)
+    #app.run(host='localhost', port=7000, debug=True)
