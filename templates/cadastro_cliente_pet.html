@@ -54,25 +54,20 @@
 
                             <div class="mb-3">
                                 <label for="nome">Nome Completo:</label>
-                                 <input type="text" class="form-control" id="nome" name="nome" 
-                                    placeholder="Digite o nome" value="{{clientes.cliente.nome}}" required>
+                                 <input type="text" class="form-control" id="nome" name="nome" placeholder="Digite o nome" value="{{clientes.cliente.nome}}" required>
                             </div>
                             <div class="mb-3">
                                 <label for="email">E-mail:</label>
-                                <input type="email" class="form-control" name="email" id="email" placeholder="Digite o e-mail"
-                                    value="{{clientes.cliente.email}}" required>
+                                <input type="email" class="form-control" name="email" id="email" placeholder="Digite o e-mail" value="{{clientes.cliente.email}}" required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="cpf">CPF:</label>
-                                <input type="text" class="form-control" id="cpf" {% if not usuario %}name="cpf" {% endif %}
-                                    placeholder="Digite o CPF" value="{{clientes.cliente.cpf}}" required>
+                                <input type="text" class="form-control" id="cpf" {% if not usuario %}name="cpf" {% endif %} placeholder="Digite o CPF" value="{{clientes.cliente.cpf}}" required>
                             </div>
                             <div class="mb-3">
                                 <label for="telefone">Telefone:</label>
-                                <input type="text" class="form-control" id="telefone" name="telefone"
-                                    placeholder="(00) 00000-0000"
-                                    value="{{clientes.cliente.telefones.telefone}}" required>
+                                <input type="text" class="form-control" id="telefone" name="telefone" placeholder="(00) 00000-0000" value="{{clientes.cliente.telefones[0].telefone}}" required>
                             </div>
 
                             <br/>
@@ -82,38 +77,30 @@
 
                             <div class="mb-3">
                                 <label for="cep">CEP:</label>
-                                <input type="text" class="form-control" id="cep" name="cep" 
-                                    placeholder="Digite o cep" value="{{clientes.cliente.endereco.cep}}" required>
+                                <input type="text" class="form-control" id="cep" name="cep" placeholder="Digite o cep" value="{{clientes.cliente.endereco.cep}}" required>
                             </div>
                             <div class="mb-3">
                                 <label for="rua">Rua:</label>
-                                <input type="text" class="form-control" id="rua" name="rua"
-                                    placeholder="Digite a rua" value="{{clientes.cliente.endereco.rua}}" required>
+                                <input type="text" class="form-control" id="rua" name="rua" placeholder="Digite a rua" value="{{clientes.cliente.endereco.rua}}" required>
                             </div>
                             <div class="mb-3">
                                 <label for="numero">Número:</label>
-                                <input type="number" class="form-control" id="numero" name="numero"
-                                    placeholder="Digite o número"
-                                    value="{{clientes.cliente.endereco.numero}}" required>
+                                <input type="number" class="form-control" id="numero" name="numero" placeholder="Digite o número" value="{{clientes.cliente.endereco.numero}}" required>
                             </div>
                             <div class="mb-3">
                                 <label for="bairro">Bairro:</label>
-                                <input type="text" class="form-control" id="bairro" name="bairro"
-                                    placeholder="Digite o Bairro"
-                                    value="{{clientes.cliente.endereco.bairro}}" required>
+                                <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Digite o Bairro" value="{{clientes.cliente.endereco.bairro}}" required>
                             </div>
                             <div class="mb-3">
                                 <label for="cidade">Cidade:</label>
-                                <input type="text" class="form-control" id="cidade" name="cidade"
-                                    placeholder="Digite a Cidade"
-                                    value="{{clientes.cliente.endereco.cidade}}" required>
+                                <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Digite a Cidade" value="{{clientes.cliente.endereco.cidade}}" required>
                             </div>
 
 
                             <div class="mb-3">
                                 <label for='UF'>UF:</label>
                                 <select name="uf" required>
-                                    <option selected disabled value="{{clientes.cliente.endereco.uf}}">Selecione</option>
+                                    <option selected disabled value="{{clientes.cliente.endereco.uf}}">{{clientes.cliente.endereco.uf}}</option>
                                     <option value="AC">AC</option>
                                     <option value="AL">AL</option>
                                     <option value="AP">AP</option>
@@ -151,58 +138,63 @@
         
                             <div class="mb-3">
                                 <label for='nome_pet'>Nome:</label>
-                                <input type='text' class="form-control" id="nome_pet" name="nome_pet" placeholder="Digite o nome do PET"
-                                value="{{clientes.cliente.pets[0].nome}}" required>
+                                <input type='text' class="form-control" id="nome_pet" name="nome_pet" placeholder="Digite o nome do PET" value="{{clientes.cliente.pets[0].nome}}" required>
                             </div>
         
                             <div class="mb-3">
                                 <label>Espécie:</label>
-                                <label for='dog'>
-                                    <input type='radio' name='especie' value="1" required>Cachorro
-                                </label>
-                                <label for='cat'>
-                                    <input type='radio' name='especie' value="2">Gato
-                                </label>
+                                    <label for='dog'>
+                                        {% if clientes.cliente.pets[0].animal_id == 1 %}
+                                        <input type='radio' name='especie' value="1" checked required>Cachorro
+                                        {% else %}
+                                        <input type='radio' name='especie' value="1" required>Cachorro
+                                        {%endif%}
+                                    </label>
+        
+                                    <label for='cat'>
+                                        {% if clientes.cliente.pets[0].animal_id == 2 %}
+                                        <input type='radio' name='especie' value="2" checked required>Gato
+                                        {% else %}
+                                        <input type='radio' name='especie' value="2" required>Gato
+                                        {%endif%}
+                                    </label>
                             </div>
         
                             <div class="mb-3">
                                 <label>Porte:</label>
                                 <label for='mini'>
-                                    <input type='radio' name='porte'  value="Miniatura" required>Miniatura
+                                    <input type='radio' name='porte'  value="Miniatura" {% if clientes.cliente.pets[0].porte == "Miniatura" %} checked {%endif%} required>Miniatura
                                 </label>
                                 <label for='small'>
-                                    <input type='radio' name='porte'  value="Pequeno">Pequeno
+                                    <input type='radio' name='porte'  value="Pequeno" {% if clientes.cliente.pets[0].porte == "Pequeno" %} checked {%endif%}>Pequeno
                                 </label>
                                 <label for='medium'>
-                                    <input type='radio' name='porte'  value="Médio">Médio
+                                    <input type='radio' name='porte'  value="Médio" {% if clientes.cliente.pets[0].porte == "Médio" %} checked {%endif%}>Médio
                                 </label>
                                 <label for='large'>
-                                    <input type='radio' name='porte'  value="Grande">Grande
+                                    <input type='radio' name='porte'  value="Grande" {% if clientes.cliente.pets[0].porte == "Grande" %} checked {%endif%}>Grande
                                 </label>
                                 <label for='huge'>
-                                    <input type='radio' name='porte'  value="Gigante">Muito Grande
+                                    <input type='radio' name='porte'  value="Gigante" {% if clientes.cliente.pets[0].porte == "Gigante" %} checked {%endif%}>Muito Grande
                                 </label>
                             </div>
-        
                             <div class="mb-3">
                                 <label for='raça'>Raça:</label>
-                                <input type='text' class="form-control" id="raca" name="raca" 
-                                    placeholder="Digite a raça" value="{{clientes.cliente.pets[0].raca}}"" required>
+                                <input type='text' class="form-control" id="raca" name="raca" placeholder="Digite a raça" value="{{ clientes.cliente.pets[0].raca }}" required>
                             </div>
         
                             <div class="mb-3">
                                 <label>Gênero:</label>
-                                <label for='female'>
-                                    <input type='radio' name='genero'  value="f" required>Fêmea
-                                </label>
-                                <label for='male'>
-                                    <input type='radio' name='genero'  value="m">Macho
-                                </label>
-                            </div>
-                        
+                                    <label for='female'>
+                                        <input type='radio' name='genero'  value="f" {% if clientes.cliente.pets[0].genero == "f" %} checked {%endif%} required>Fêmea
+                                    </label>
+                                    <label for='male'>
+                                        <input type='radio' name='genero'  value="m" {% if clientes.cliente.pets[0].genero == "m" %} checked {%endif%}>Macho
+                                    </label>
+                            </div>    
+                                                   
                             <button type="submit" class="btn btn-primary" id="salvar"
                             style="display: block; margin: 20px auto;">Alterar</button>
-                                    </div>
 
                         {% endif %}
                         {% endfor %} 
