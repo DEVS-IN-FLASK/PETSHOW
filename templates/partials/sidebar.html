@@ -40,39 +40,39 @@
             </ul>
         </nav>
         <!-- Main Sidebar Container -->
-        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <aside class="main-sidebar sidebar-dark-primary elevation-4" >
             <!-- Brand Logo -->
             <a href="/produtos" class="brand-link">
                 <img src="/static/img/logo.PNG" alt="Petshow Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">PetShow</span>
+                <span class="brand-text font-weight-light" style="color: white;text-shadow: rgba(93, 156, 151, 0.616) 0.1em 0.1em 0.2em">PetShow </span>
             </a>
             <!-- Sidebar -->
-            <div class="sidebar">
+            <div class="sidebar" style="background-color: rgb(165, 223, 223);">
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                    <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false" >
                         <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
                             {% if tipo != 'Relatório' %}     
-                            <li class="nav-item menu-open">
+                            <li class="nav-item menu-open" style="color: rgb(11, 81, 88);">
                             
-                            <a href="#" class="nav-link active">
-                                <i class="nav-icon fas fa-tachometer-alt"></i>
-                                <p>{{ tipo }}s
+                            <a href="#" class="nav-link active" style="color: rgb(11, 81, 88);">
+                                <i class="nav-icon fas fa-tachometer-alt"  ></i>
+                                <p style="color: rgb(11, 81, 88);">{{ tipo }}s
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
-                            <ul class="nav nav-treeview">
+                            <ul class="nav nav-treeview" >
                                 <li class="nav-item">
                                     <a href="{{ rota }}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Listar {{ tipo }}s</p>
+                                        <i class="far fa-circle nav-icon" style="color: rgb(11, 81, 88);text-shadow: rgba(93, 156, 151, 0.616) 0.1em 0.1em 0.2em"></i>
+                                        <p  style="color: rgb(11, 81, 88); text-shadow: rgba(93, 156, 151, 0.616) 0.1em 0.1em 0.2em">Listar {{ tipo }}</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="{{ rota_new }}" class="nav-link">
-                                        <i class="far fa-circle nav-icon"></i>
-                                        <p>Novo {{ tipo }}</p>
+                                        <i class="far fa-circle nav-icon" style="color: rgb(11, 81, 88);text-shadow: rgba(93, 156, 151, 0.616) 0.1em 0.1em 0.2em"></i>
+                                        <p style="color: rgb(11, 81, 88);text-shadow: rgba(93, 156, 151, 0.616) 0.1em 0.1em 0.2em;">Novo {{ tipo }}</p>
                                     </a>
                                 </li>
                             </ul>
