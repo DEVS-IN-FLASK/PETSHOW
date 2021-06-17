@@ -18,7 +18,7 @@ from datetime import datetime
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'devsinflaskpetshowapp'
 app.config.from_object(__name__)
-urlApi = "http://petshow-api.herokuapp.com"
+urlApi = "https://petshow-api.herokuapp.com"
 #"http://petshow-api.herokuapp.com"
 #urlApi = "http://localhost:5000"
 #"http://localhost:8080"
@@ -29,7 +29,7 @@ CORS(app)
 class LoginForm(FlaskForm):
     username = StringField('Login', validators=[InputRequired(), Length(min=4, max=15)])
     password = PasswordField('Senha', validators=[InputRequired(), Length(min=4, max=15)])
-    remember = BooleanField('Me mantenha conectado')
+#    remember = BooleanField('Me mantenha conectado')
 
 
 #faltando teste e mensagens
